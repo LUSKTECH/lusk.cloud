@@ -1,8 +1,8 @@
 # Lusk Cloud Landing Page
 
-[![CI](https://github.com/lusk-technologies/lusk-cloud-landing-page/actions/workflows/ci.yml/badge.svg)](https://github.com/lusk-technologies/lusk-cloud-landing-page/actions/workflows/ci.yml)
-[![Security](https://github.com/lusk-technologies/lusk-cloud-landing-page/actions/workflows/security.yml/badge.svg)](https://github.com/lusk-technologies/lusk-cloud-landing-page/actions/workflows/security.yml)
-[![codecov](https://codecov.io/gh/lusk-technologies/lusk-cloud-landing-page/branch/main/graph/badge.svg)](https://codecov.io/gh/lusk-technologies/lusk-cloud-landing-page)
+[![CI](https://github.com/LUSKTECH/lusk.cloud/actions/workflows/ci.yml/badge.svg)](https://github.com/LUSKTECH/lusk.cloud/actions/workflows/ci.yml)
+[![Security](https://github.com/LUSKTECH/lusk.cloud/actions/workflows/security.yml/badge.svg)](https://github.com/LUSKTECH/lusk.cloud/actions/workflows/security.yml)
+[![codecov](https://codecov.io/gh/LUSKTECH/lusk.cloud/branch/main/graph/badge.svg)](https://codecov.io/gh/LUSKTECH/lusk.cloud)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 A modern, sky/cloud-themed landing page for Lusk.cloud - a web management consultancy.
@@ -26,8 +26,8 @@ A modern, sky/cloud-themed landing page for Lusk.cloud - a web management consul
 
 ```bash
 # Clone the repository
-git clone https://github.com/lusk-technologies/lusk-cloud-landing-page.git
-cd lusk-cloud-landing-page
+git clone https://github.com/LUSKTECH/lusk.cloud.git
+cd lusk.cloud
 
 # Install dependencies
 cd lusk-cloud-landing-page
