@@ -8,6 +8,9 @@ build/
 # Test coverage
 coverage/
 
+# Kiro
+.kiro/
+
 # IDE
 .vscode/*
 !.vscode/settings.json

@@ -17,7 +17,7 @@ jobs:
       - name: Lint Markdown files
         uses: DavidAnson/markdownlint-cli2-action@v19
         with:
-          globs: '**/*.md !.kiro/**/*.md !node_modules/**/*.md !coverage/**/*.md'
+          globs: '**/*.md !node_modules/**/*.md !coverage/**/*.md'
           config: '.markdownlint.json'
 
   html-validate:
