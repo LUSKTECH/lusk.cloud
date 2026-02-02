@@ -45,7 +45,7 @@ function loadCssContent() {
       if (stat.isDirectory()) {
         readCssFiles(filePath);
       } else if (file.endsWith('.css')) {
-        cssContent += `${fs.readFileSync(filePath, 'utf8')  }\n`;
+        cssContent += `${fs.readFileSync(filePath, 'utf8')}\n`;
       }
     }
   }
@@ -266,66 +266,66 @@ function canRespondToKeyboard(element) {
 
   // Native elements respond to keyboard by default
   switch (element.tagName) {
-  case 'a':
-    // Links respond to Enter key
-    return {
-      canRespond: true,
-      reason: 'Links natively respond to Enter key',
-      expectedKeys: ['Enter'],
-    };
-
-  case 'button':
-    // Buttons respond to Enter and Space keys
-    return {
-      canRespond: true,
-      reason: 'Buttons natively respond to Enter and Space keys',
-      expectedKeys: ['Enter', 'Space'],
-    };
-
-  case 'input': {
-    // Input behavior depends on type
-    const inputType = attrs.type || 'text';
-    if (inputType === 'submit' || inputType === 'button' || inputType === 'reset') {
+    case 'a':
+      // Links respond to Enter key
       return {
         canRespond: true,
-        reason: 'Button-type inputs respond to Enter and Space keys',
+        reason: 'Links natively respond to Enter key',
+        expectedKeys: ['Enter'],
+      };
+
+    case 'button':
+      // Buttons respond to Enter and Space keys
+      return {
+        canRespond: true,
+        reason: 'Buttons natively respond to Enter and Space keys',
         expectedKeys: ['Enter', 'Space'],
       };
-    }
-    if (inputType === 'checkbox' || inputType === 'radio') {
+
+    case 'input': {
+      // Input behavior depends on type
+      const inputType = attrs.type || 'text';
+      if (inputType === 'submit' || inputType === 'button' || inputType === 'reset') {
+        return {
+          canRespond: true,
+          reason: 'Button-type inputs respond to Enter and Space keys',
+          expectedKeys: ['Enter', 'Space'],
+        };
+      }
+      if (inputType === 'checkbox' || inputType === 'radio') {
+        return {
+          canRespond: true,
+          reason: 'Checkbox/radio inputs respond to Space key',
+          expectedKeys: ['Space'],
+        };
+      }
       return {
         canRespond: true,
-        reason: 'Checkbox/radio inputs respond to Space key',
-        expectedKeys: ['Space'],
+        reason: 'Text inputs accept keyboard input',
+        expectedKeys: ['typing'],
       };
     }
-    return {
-      canRespond: true,
-      reason: 'Text inputs accept keyboard input',
-      expectedKeys: ['typing'],
-    };
-  }
 
-  case 'textarea':
-    return {
-      canRespond: true,
-      reason: 'Textareas accept keyboard input',
-      expectedKeys: ['typing'],
-    };
+    case 'textarea':
+      return {
+        canRespond: true,
+        reason: 'Textareas accept keyboard input',
+        expectedKeys: ['typing'],
+      };
 
-  case 'select':
-    return {
-      canRespond: true,
-      reason: 'Selects respond to arrow keys and Enter',
-      expectedKeys: ['Enter', 'ArrowUp', 'ArrowDown'],
-    };
+    case 'select':
+      return {
+        canRespond: true,
+        reason: 'Selects respond to arrow keys and Enter',
+        expectedKeys: ['Enter', 'ArrowUp', 'ArrowDown'],
+      };
 
-  default:
-    return {
-      canRespond: false,
-      reason: 'Non-native element may not respond to keyboard without JavaScript',
-      expectedKeys: [],
-    };
+    default:
+      return {
+        canRespond: false,
+        reason: 'Non-native element may not respond to keyboard without JavaScript',
+        expectedKeys: [],
+      };
   }
 }
 
@@ -410,21 +410,18 @@ describe('Property 9: Keyboard Accessibility', () => {
       const links = interactiveElements.filter(el => el.type === 'link');
 
       fc.assert(
-        fc.property(
-          fc.integer({ min: 0, max: Math.max(0, links.length - 1) }),
-          (index) => {
-            if (links.length === 0) {
-              return true;
-            }
+        fc.property(fc.integer({ min: 0, max: Math.max(0, links.length - 1) }), index => {
+          if (links.length === 0) {
+            return true;
+          }
 
-            const link = links[index];
-            const result = isFocusable(link);
+          const link = links[index];
+          const result = isFocusable(link);
 
-            // Property: All links must be focusable
-            return result.isFocusable;
-          },
-        ),
-        fcConfig,
+          // Property: All links must be focusable
+          return result.isFocusable;
+        }),
+        fcConfig
       );
     });
 
@@ -432,45 +429,39 @@ describe('Property 9: Keyboard Accessibility', () => {
       const buttons = interactiveElements.filter(el => el.type === 'button');
 
       fc.assert(
-        fc.property(
-          fc.integer({ min: 0, max: Math.max(0, buttons.length - 1) }),
-          (index) => {
-            if (buttons.length === 0) {
-              return true;
-            }
+        fc.property(fc.integer({ min: 0, max: Math.max(0, buttons.length - 1) }), index => {
+          if (buttons.length === 0) {
+            return true;
+          }
 
-            const button = buttons[index];
-            const result = isFocusable(button);
+          const button = buttons[index];
+          const result = isFocusable(button);
 
-            // Property: All buttons must be focusable
-            return result.isFocusable;
-          },
-        ),
-        fcConfig,
+          // Property: All buttons must be focusable
+          return result.isFocusable;
+        }),
+        fcConfig
       );
     });
 
     test('For any form input element, the element SHALL be focusable via keyboard', () => {
-      const inputs = interactiveElements.filter(el =>
-        el.type === 'input' || el.type === 'textarea' || el.type === 'select',
+      const inputs = interactiveElements.filter(
+        el => el.type === 'input' || el.type === 'textarea' || el.type === 'select'
       );
 
       fc.assert(
-        fc.property(
-          fc.integer({ min: 0, max: Math.max(0, inputs.length - 1) }),
-          (index) => {
-            if (inputs.length === 0) {
-              return true;
-            }
+        fc.property(fc.integer({ min: 0, max: Math.max(0, inputs.length - 1) }), index => {
+          if (inputs.length === 0) {
+            return true;
+          }
 
-            const input = inputs[index];
-            const result = isFocusable(input);
+          const input = inputs[index];
+          const result = isFocusable(input);
 
-            // Property: All form inputs must be focusable
-            return result.isFocusable;
-          },
-        ),
-        fcConfig,
+          // Property: All form inputs must be focusable
+          return result.isFocusable;
+        }),
+        fcConfig
       );
     });
   });
@@ -482,14 +473,14 @@ describe('Property 9: Keyboard Accessibility', () => {
    */
   describe('Tabindex validation', () => {
     test('For any interactive element with tabindex="-1", the element SHALL be intentionally hidden', () => {
-      const elementsWithNegativeTabindex = interactiveElements.filter(el =>
-        el.attributes.tabindex === '-1',
+      const elementsWithNegativeTabindex = interactiveElements.filter(
+        el => el.attributes.tabindex === '-1'
       );
 
       fc.assert(
         fc.property(
           fc.integer({ min: 0, max: Math.max(0, elementsWithNegativeTabindex.length - 1) }),
-          (index) => {
+          index => {
             if (elementsWithNegativeTabindex.length === 0) {
               return true;
             }
@@ -498,15 +489,15 @@ describe('Property 9: Keyboard Accessibility', () => {
 
             // Property: Elements with tabindex="-1" must be intentionally hidden
             return isIntentionallyHidden(element);
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
 
     test('All elements with tabindex="-1" SHALL have aria-hidden or hidden attribute', () => {
-      const elementsWithNegativeTabindex = interactiveElements.filter(el =>
-        el.attributes.tabindex === '-1',
+      const elementsWithNegativeTabindex = interactiveElements.filter(
+        el => el.attributes.tabindex === '-1'
       );
 
       elementsWithNegativeTabindex.forEach(element => {
@@ -526,7 +517,7 @@ describe('Property 9: Keyboard Accessibility', () => {
       fc.assert(
         fc.property(
           fc.integer({ min: 0, max: Math.max(0, interactiveElements.length - 1) }),
-          (index) => {
+          index => {
             if (interactiveElements.length === 0) {
               return true;
             }
@@ -536,15 +527,15 @@ describe('Property 9: Keyboard Accessibility', () => {
 
             // Property: All interactive elements must respond to keyboard
             return result.canRespond;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
 
     test('Links SHALL respond to Enter key activation', () => {
-      const links = interactiveElements.filter(el =>
-        el.type === 'link' && !isIntentionallyHidden(el),
+      const links = interactiveElements.filter(
+        el => el.type === 'link' && !isIntentionallyHidden(el)
       );
 
       links.forEach(link => {
@@ -555,8 +546,8 @@ describe('Property 9: Keyboard Accessibility', () => {
     });
 
     test('Buttons SHALL respond to Enter and Space key activation', () => {
-      const buttons = interactiveElements.filter(el =>
-        el.type === 'button' && !isIntentionallyHidden(el),
+      const buttons = interactiveElements.filter(
+        el => el.type === 'button' && !isIntentionallyHidden(el)
       );
 
       buttons.forEach(button => {
@@ -601,7 +592,7 @@ describe('Property 9: Keyboard Accessibility', () => {
       fc.assert(
         fc.property(
           fc.integer({ min: 0, max: Math.max(0, interactiveElements.length - 1) }),
-          (index) => {
+          index => {
             if (interactiveElements.length === 0) {
               return true;
             }
@@ -611,9 +602,9 @@ describe('Property 9: Keyboard Accessibility', () => {
 
             // Property: Every interactive element must be keyboard accessible
             return result.isValid;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
 
@@ -654,8 +645,8 @@ describe('Property 9: Keyboard Accessibility', () => {
     });
 
     test('Landing page SHALL contain form input elements', () => {
-      const inputs = interactiveElements.filter(el =>
-        el.type === 'input' || el.type === 'textarea',
+      const inputs = interactiveElements.filter(
+        el => el.type === 'input' || el.type === 'textarea'
       );
       expect(inputs.length).toBeGreaterThan(0);
     });
@@ -718,9 +709,9 @@ describe('Property 9: Keyboard Accessibility', () => {
 
             const result = isFocusable(element);
             return result.isFocusable === true;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
 
@@ -741,9 +732,9 @@ describe('Property 9: Keyboard Accessibility', () => {
             const result = isFocusable(element);
             // Non-native elements with negative tabindex should not be focusable
             return result.isFocusable === false;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
 
@@ -766,27 +757,24 @@ describe('Property 9: Keyboard Accessibility', () => {
             // Native elements with negative tabindex are removed from tab order
             // Our function correctly identifies them as not focusable via keyboard navigation
             return result.isFocusable === false;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
 
     test('For any element with aria-hidden="true", isIntentionallyHidden SHALL return true', () => {
       fc.assert(
-        fc.property(
-          fc.constantFrom('a', 'button', 'input', 'div'),
-          (tagName) => {
-            const element = {
-              type: tagName === 'a' ? 'link' : tagName,
-              tagName,
-              attributes: { 'aria-hidden': 'true' },
-            };
+        fc.property(fc.constantFrom('a', 'button', 'input', 'div'), tagName => {
+          const element = {
+            type: tagName === 'a' ? 'link' : tagName,
+            tagName,
+            attributes: { 'aria-hidden': 'true' },
+          };
 
-            return isIntentionallyHidden(element) === true;
-          },
-        ),
-        fcConfig,
+          return isIntentionallyHidden(element) === true;
+        }),
+        fcConfig
       );
     });
   });
@@ -798,10 +786,8 @@ describe('Property 9: Keyboard Accessibility', () => {
    */
   describe('Specific element validation', () => {
     test('Navigation links SHALL be keyboard accessible', () => {
-      const navLinks = interactiveElements.filter(el =>
-        el.type === 'link' &&
-        el.attributes.class &&
-        el.attributes.class.includes('nav'),
+      const navLinks = interactiveElements.filter(
+        el => el.type === 'link' && el.attributes.class && el.attributes.class.includes('nav')
       );
 
       navLinks.forEach(link => {
@@ -811,10 +797,8 @@ describe('Property 9: Keyboard Accessibility', () => {
     });
 
     test('CTA buttons SHALL be keyboard accessible', () => {
-      const ctaLinks = interactiveElements.filter(el =>
-        el.type === 'link' &&
-        el.attributes.class &&
-        el.attributes.class.includes('cta'),
+      const ctaLinks = interactiveElements.filter(
+        el => el.type === 'link' && el.attributes.class && el.attributes.class.includes('cta')
       );
 
       ctaLinks.forEach(link => {
@@ -824,9 +808,8 @@ describe('Property 9: Keyboard Accessibility', () => {
     });
 
     test('Form submit button SHALL be keyboard accessible', () => {
-      const submitButtons = interactiveElements.filter(el =>
-        el.type === 'button' &&
-        el.attributes.type === 'submit',
+      const submitButtons = interactiveElements.filter(
+        el => el.type === 'button' && el.attributes.type === 'submit'
       );
 
       submitButtons.forEach(button => {
@@ -836,9 +819,8 @@ describe('Property 9: Keyboard Accessibility', () => {
     });
 
     test('Contact form inputs SHALL be keyboard accessible', () => {
-      const formInputs = interactiveElements.filter(el =>
-        (el.type === 'input' || el.type === 'textarea') &&
-        el.attributes.name,
+      const formInputs = interactiveElements.filter(
+        el => (el.type === 'input' || el.type === 'textarea') && el.attributes.name
       );
 
       formInputs.forEach(input => {
@@ -848,10 +830,8 @@ describe('Property 9: Keyboard Accessibility', () => {
     });
 
     test('Social links SHALL be keyboard accessible', () => {
-      const socialLinks = interactiveElements.filter(el =>
-        el.type === 'link' &&
-        el.attributes.class &&
-        el.attributes.class.includes('social'),
+      const socialLinks = interactiveElements.filter(
+        el => el.type === 'link' && el.attributes.class && el.attributes.class.includes('social')
       );
 
       socialLinks.forEach(link => {

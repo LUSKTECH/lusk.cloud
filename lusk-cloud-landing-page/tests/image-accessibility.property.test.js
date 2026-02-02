@@ -146,21 +146,18 @@ describe('Property 8: Image Accessibility', () => {
   describe('Alt attribute presence', () => {
     test('All img elements SHALL have an alt attribute', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: 0, max: Math.max(0, imgElements.length - 1) }),
-          (index) => {
-            if (imgElements.length === 0) {
-              return true;
-            }
+        fc.property(fc.integer({ min: 0, max: Math.max(0, imgElements.length - 1) }), index => {
+          if (imgElements.length === 0) {
+            return true;
+          }
 
-            const img = imgElements[index];
-            const hasAlt = 'alt' in img.attributes;
+          const img = imgElements[index];
+          const hasAlt = 'alt' in img.attributes;
 
-            // Property: Every img element must have an alt attribute
-            return hasAlt;
-          },
-        ),
-        fcConfig,
+          // Property: Every img element must have an alt attribute
+          return hasAlt;
+        }),
+        fcConfig
       );
     });
 
@@ -180,53 +177,47 @@ describe('Property 8: Image Accessibility', () => {
   describe('Alt attribute content for non-decorative images', () => {
     test('For any non-decorative img element, alt attribute SHALL not be empty', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: 0, max: Math.max(0, imgElements.length - 1) }),
-          (index) => {
-            if (imgElements.length === 0) {
-              return true;
-            }
+        fc.property(fc.integer({ min: 0, max: Math.max(0, imgElements.length - 1) }), index => {
+          if (imgElements.length === 0) {
+            return true;
+          }
 
-            const img = imgElements[index];
+          const img = imgElements[index];
 
-            // Skip decorative images (aria-hidden="true")
-            if (isDecorativeImage(img)) {
-              return true;
-            }
+          // Skip decorative images (aria-hidden="true")
+          if (isDecorativeImage(img)) {
+            return true;
+          }
 
-            const altValue = img.attributes.alt;
+          const altValue = img.attributes.alt;
 
-            // Property: Non-decorative images must have non-empty alt
-            return isMeaningfulAlt(altValue);
-          },
-        ),
-        fcConfig,
+          // Property: Non-decorative images must have non-empty alt
+          return isMeaningfulAlt(altValue);
+        }),
+        fcConfig
       );
     });
 
     test('For any non-decorative img element, alt attribute SHALL not be whitespace-only', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: 0, max: Math.max(0, imgElements.length - 1) }),
-          (index) => {
-            if (imgElements.length === 0) {
-              return true;
-            }
+        fc.property(fc.integer({ min: 0, max: Math.max(0, imgElements.length - 1) }), index => {
+          if (imgElements.length === 0) {
+            return true;
+          }
 
-            const img = imgElements[index];
+          const img = imgElements[index];
 
-            // Skip decorative images
-            if (isDecorativeImage(img)) {
-              return true;
-            }
+          // Skip decorative images
+          if (isDecorativeImage(img)) {
+            return true;
+          }
 
-            const altValue = img.attributes.alt || '';
+          const altValue = img.attributes.alt || '';
 
-            // Property: Alt text must not be only whitespace
-            return altValue.trim().length > 0;
-          },
-        ),
-        fcConfig,
+          // Property: Alt text must not be only whitespace
+          return altValue.trim().length > 0;
+        }),
+        fcConfig
       );
     });
   });
@@ -239,21 +230,18 @@ describe('Property 8: Image Accessibility', () => {
   describe('Decorative image handling', () => {
     test('Decorative images (aria-hidden="true") with empty alt SHALL be acceptable', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: 0, max: Math.max(0, imgElements.length - 1) }),
-          (index) => {
-            if (imgElements.length === 0) {
-              return true;
-            }
+        fc.property(fc.integer({ min: 0, max: Math.max(0, imgElements.length - 1) }), index => {
+          if (imgElements.length === 0) {
+            return true;
+          }
 
-            const img = imgElements[index];
-            const result = validateImageAccessibility(img);
+          const img = imgElements[index];
+          const result = validateImageAccessibility(img);
 
-            // Property: All images must pass accessibility validation
-            return result.isValid;
-          },
-        ),
-        fcConfig,
+          // Property: All images must pass accessibility validation
+          return result.isValid;
+        }),
+        fcConfig
       );
     });
   });
@@ -266,21 +254,18 @@ describe('Property 8: Image Accessibility', () => {
   describe('Comprehensive image accessibility validation', () => {
     test('For any img element, accessibility validation SHALL pass', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: 0, max: Math.max(0, imgElements.length - 1) }),
-          (index) => {
-            if (imgElements.length === 0) {
-              return true;
-            }
+        fc.property(fc.integer({ min: 0, max: Math.max(0, imgElements.length - 1) }), index => {
+          if (imgElements.length === 0) {
+            return true;
+          }
 
-            const img = imgElements[index];
-            const result = validateImageAccessibility(img);
+          const img = imgElements[index];
+          const result = validateImageAccessibility(img);
 
-            // Property: Every image must be accessible
-            return result.isValid;
-          },
-        ),
-        fcConfig,
+          // Property: Every image must be accessible
+          return result.isValid;
+        }),
+        fcConfig
       );
     });
 
@@ -320,58 +305,49 @@ describe('Property 8: Image Accessibility', () => {
    */
   describe('Alt text validation properties', () => {
     /**
- * Helper to generate string from character set (fast-check v4 compatible)
- * @param {string} chars - Characters to use
- * @param {number} minLength - Minimum length
- * @param {number} maxLength - Maximum length
- * @returns {fc.Arbitrary<string>}
- */
+     * Helper to generate string from character set (fast-check v4 compatible)
+     * @param {string} chars - Characters to use
+     * @param {number} minLength - Minimum length
+     * @param {number} maxLength - Maximum length
+     * @returns {fc.Arbitrary<string>}
+     */
     function stringFromChars(chars, minLength, maxLength) {
-      return fc.array(fc.constantFrom(...chars.split('')), { minLength, maxLength })
+      return fc
+        .array(fc.constantFrom(...chars.split('')), { minLength, maxLength })
         .map(arr => arr.join(''));
     }
 
     /**
- * Generates valid alt text strings
- * @returns {fc.Arbitrary<string>}
- */
+     * Generates valid alt text strings
+     * @returns {fc.Arbitrary<string>}
+     */
     function validAltTextArbitrary() {
-      return fc.string({ minLength: 1, maxLength: 200 })
-        .filter(s => s.trim().length > 0);
+      return fc.string({ minLength: 1, maxLength: 200 }).filter(s => s.trim().length > 0);
     }
 
     /**
- * Generates invalid alt text strings (empty or whitespace-only)
- * @returns {fc.Arbitrary<string>}
- */
+     * Generates invalid alt text strings (empty or whitespace-only)
+     * @returns {fc.Arbitrary<string>}
+     */
     function invalidAltTextArbitrary() {
-      return fc.oneof(
-        fc.constant(''),
-        stringFromChars(' \t\n', 1, 10),
-      );
+      return fc.oneof(fc.constant(''), stringFromChars(' \t\n', 1, 10));
     }
 
     test('For any valid alt text, isMeaningfulAlt SHALL return true', () => {
       fc.assert(
-        fc.property(
-          validAltTextArbitrary(),
-          (altText) => {
-            return isMeaningfulAlt(altText) === true;
-          },
-        ),
-        fcConfig,
+        fc.property(validAltTextArbitrary(), altText => {
+          return isMeaningfulAlt(altText) === true;
+        }),
+        fcConfig
       );
     });
 
     test('For any invalid alt text (empty/whitespace), isMeaningfulAlt SHALL return false', () => {
       fc.assert(
-        fc.property(
-          invalidAltTextArbitrary(),
-          (altText) => {
-            return isMeaningfulAlt(altText) === false;
-          },
-        ),
-        fcConfig,
+        fc.property(invalidAltTextArbitrary(), altText => {
+          return isMeaningfulAlt(altText) === false;
+        }),
+        fcConfig
       );
     });
   });
@@ -383,8 +359,8 @@ describe('Property 8: Image Accessibility', () => {
    */
   describe('Specific image validation', () => {
     test('Logo images SHALL have descriptive alt text', () => {
-      const logoImages = imgElements.filter(img =>
-        img.attributes.src && img.attributes.src.includes('logo'),
+      const logoImages = imgElements.filter(
+        img => img.attributes.src && img.attributes.src.includes('logo')
       );
 
       logoImages.forEach(img => {
@@ -395,10 +371,8 @@ describe('Property 8: Image Accessibility', () => {
     });
 
     test('Content images SHALL have descriptive alt text', () => {
-      const contentImages = imgElements.filter(img =>
-        !isDecorativeImage(img) &&
-        img.attributes.src &&
-        !img.attributes.src.includes('logo'),
+      const contentImages = imgElements.filter(
+        img => !isDecorativeImage(img) && img.attributes.src && !img.attributes.src.includes('logo')
       );
 
       contentImages.forEach(img => {

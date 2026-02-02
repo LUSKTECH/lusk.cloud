@@ -17,11 +17,11 @@ describe('Animations Module', () => {
     observedElements = [];
 
     // Mock IntersectionObserver
-    mockIntersectionObserver = jest.fn((callback) => {
+    mockIntersectionObserver = jest.fn(callback => {
       observerCallback = callback;
       return {
-        observe: jest.fn((el) => observedElements.push(el)),
-        unobserve: jest.fn((el) => {
+        observe: jest.fn(el => observedElements.push(el)),
+        unobserve: jest.fn(el => {
           observedElements = observedElements.filter(e => e !== el);
         }),
         disconnect: jest.fn(() => {
@@ -39,7 +39,7 @@ describe('Animations Module', () => {
     global.IntersectionObserverEntry.prototype.intersectionRatio = 0;
 
     // Mock matchMedia
-    window.matchMedia = jest.fn().mockImplementation((query) => ({
+    window.matchMedia = jest.fn().mockImplementation(query => ({
       matches: false,
       media: query,
       onchange: null,
@@ -100,7 +100,7 @@ describe('Animations Module', () => {
     });
 
     test('should return true when user prefers reduced motion', () => {
-      window.matchMedia = jest.fn().mockImplementation((query) => ({
+      window.matchMedia = jest.fn().mockImplementation(query => ({
         matches: query === '(prefers-reduced-motion: reduce)',
         media: query,
       }));
@@ -133,7 +133,7 @@ describe('Animations Module', () => {
     test('should show elements without animation when reduced motion preferred', () => {
       document.body.innerHTML = '<div data-animate="fade-in" id="el1">Test</div>';
 
-      window.matchMedia = jest.fn().mockImplementation((query) => ({
+      window.matchMedia = jest.fn().mockImplementation(query => ({
         matches: query === '(prefers-reduced-motion: reduce)',
         media: query,
       }));
@@ -167,7 +167,7 @@ describe('Animations Module', () => {
 
       expect(mockIntersectionObserver).toHaveBeenCalledWith(
         expect.any(Function),
-        expect.objectContaining({ threshold: 0.5 }),
+        expect.objectContaining({ threshold: 0.5 })
       );
     });
   });
@@ -189,7 +189,8 @@ describe('Animations Module', () => {
     });
 
     test('should apply animation delay from data attribute', () => {
-      document.body.innerHTML = '<div data-animate="fade-in" data-animate-delay="500" id="el1">Test</div>';
+      document.body.innerHTML =
+        '<div data-animate="fade-in" data-animate-delay="500" id="el1">Test</div>';
       loadModule();
 
       const el1 = document.getElementById('el1');
@@ -220,7 +221,8 @@ describe('Animations Module', () => {
     });
 
     test('should not unobserve when data-animate-once is false', () => {
-      document.body.innerHTML = '<div data-animate="fade-in" data-animate-once="false" id="el1">Test</div>';
+      document.body.innerHTML =
+        '<div data-animate="fade-in" data-animate-once="false" id="el1">Test</div>';
       loadModule();
 
       const el1 = document.getElementById('el1');
@@ -236,7 +238,8 @@ describe('Animations Module', () => {
     });
 
     test('should remove is-visible class when element leaves viewport and animate-once is false', () => {
-      document.body.innerHTML = '<div data-animate="fade-in" data-animate-once="false" id="el1" class="is-visible">Test</div>';
+      document.body.innerHTML =
+        '<div data-animate="fade-in" data-animate-once="false" id="el1" class="is-visible">Test</div>';
       loadModule();
 
       const el1 = document.getElementById('el1');
@@ -396,7 +399,7 @@ describe('DOMContentLoaded initialization', () => {
     global.IntersectionObserverEntry.prototype.intersectionRatio = 0;
 
     // Mock matchMedia
-    window.matchMedia = jest.fn().mockImplementation((query) => ({
+    window.matchMedia = jest.fn().mockImplementation(query => ({
       matches: false,
       media: query,
     }));

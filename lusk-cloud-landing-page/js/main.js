@@ -4,12 +4,12 @@
  * A product of Lusk Technologies, Inc.
  */
 
-(function() {
+(function () {
   'use strict';
 
   /**
-     * Initialize all modules when DOM is ready
-     */
+   * Initialize all modules when DOM is ready
+   */
   function init() {
     // Set current year in footer
     setCurrentYear();
@@ -22,8 +22,8 @@
   }
 
   /**
-     * Set the current year in the footer copyright
-     */
+   * Set the current year in the footer copyright
+   */
   function setCurrentYear() {
     const yearElement = document.getElementById('current-year');
     if (yearElement) {
@@ -37,5 +37,4 @@
   } else {
     init();
   }
-
 })();

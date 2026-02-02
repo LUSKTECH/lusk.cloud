@@ -8,7 +8,7 @@
  * - 8.3: Keyboard navigation is supported
  */
 
-(function() {
+(function () {
   'use strict';
 
   // Configuration
@@ -28,9 +28,9 @@
   let isMenuOpen = false;
 
   /**
-     * Initialize navigation functionality
-     * Sets up scroll listener for sticky behavior and mobile menu toggle
-     */
+   * Initialize navigation functionality
+   * Sets up scroll listener for sticky behavior and mobile menu toggle
+   */
   function initNavigation() {
     const header = document.querySelector(SELECTORS.header);
     const navToggle = document.querySelector(SELECTORS.navToggle);
@@ -59,10 +59,10 @@
   }
 
   /**
-     * Initialize sticky navigation behavior
-     * Adds 'is-sticky' class to header when scrolled past threshold
-     * @param {HTMLElement} header - The site header element
-     */
+   * Initialize sticky navigation behavior
+   * Adds 'is-sticky' class to header when scrolled past threshold
+   * @param {HTMLElement} header - The site header element
+   */
   function initStickyNavigation(header) {
     let ticking = false;
 
@@ -93,23 +93,23 @@
   }
 
   /**
-     * Initialize mobile menu toggle functionality
-     * @param {HTMLElement} navToggle - The hamburger button element
-     * @param {HTMLElement} navMenu - The navigation menu element
-     */
+   * Initialize mobile menu toggle functionality
+   * @param {HTMLElement} navToggle - The hamburger button element
+   * @param {HTMLElement} navMenu - The navigation menu element
+   */
   function initMobileMenu(navToggle, navMenu) {
-    navToggle.addEventListener('click', function(event) {
+    navToggle.addEventListener('click', function (event) {
       event.preventDefault();
       toggleMobileMenu(navToggle, navMenu);
     });
   }
 
   /**
-     * Toggle mobile menu visibility
-     * Updates aria-expanded attribute for accessibility
-     * @param {HTMLElement} navToggle - The hamburger button element
-     * @param {HTMLElement} navMenu - The navigation menu element
-     */
+   * Toggle mobile menu visibility
+   * Updates aria-expanded attribute for accessibility
+   * @param {HTMLElement} navToggle - The hamburger button element
+   * @param {HTMLElement} navMenu - The navigation menu element
+   */
   function toggleMobileMenu(navToggle, navMenu) {
     isMenuOpen = !isMenuOpen;
 
@@ -136,10 +136,10 @@
   }
 
   /**
-     * Close mobile menu
-     * @param {HTMLElement} navToggle - The hamburger button element
-     * @param {HTMLElement} navMenu - The navigation menu element
-     */
+   * Close mobile menu
+   * @param {HTMLElement} navToggle - The hamburger button element
+   * @param {HTMLElement} navMenu - The navigation menu element
+   */
   function closeMobileMenu(navToggle, navMenu) {
     if (isMenuOpen) {
       isMenuOpen = false;
@@ -150,12 +150,12 @@
   }
 
   /**
-     * Initialize click handler for closing menu when clicking outside
-     * @param {HTMLElement} navToggle - The hamburger button element
-     * @param {HTMLElement} navMenu - The navigation menu element
-     */
+   * Initialize click handler for closing menu when clicking outside
+   * @param {HTMLElement} navToggle - The hamburger button element
+   * @param {HTMLElement} navMenu - The navigation menu element
+   */
   function initOutsideClickHandler(navToggle, navMenu) {
-    document.addEventListener('click', function(event) {
+    document.addEventListener('click', function (event) {
       if (!isMenuOpen) {
         return;
       }
@@ -170,27 +170,27 @@
   }
 
   /**
-     * Initialize click handler for nav links to close menu
-     * @param {NodeList} navLinks - The navigation link elements
-     * @param {HTMLElement} navToggle - The hamburger button element
-     * @param {HTMLElement} navMenu - The navigation menu element
-     */
+   * Initialize click handler for nav links to close menu
+   * @param {NodeList} navLinks - The navigation link elements
+   * @param {HTMLElement} navToggle - The hamburger button element
+   * @param {HTMLElement} navMenu - The navigation menu element
+   */
   function initNavLinkClickHandler(navLinks, navToggle, navMenu) {
-    navLinks.forEach(function(link) {
-      link.addEventListener('click', function() {
+    navLinks.forEach(function (link) {
+      link.addEventListener('click', function () {
         closeMobileMenu(navToggle, navMenu);
       });
     });
   }
 
   /**
-     * Initialize keyboard navigation support (Requirement 8.3)
-     * @param {HTMLElement} navToggle - The hamburger button element
-     * @param {HTMLElement} navMenu - The navigation menu element
-     */
+   * Initialize keyboard navigation support (Requirement 8.3)
+   * @param {HTMLElement} navToggle - The hamburger button element
+   * @param {HTMLElement} navMenu - The navigation menu element
+   */
   function initKeyboardNavigation(navToggle, navMenu) {
     // Close menu on Escape key
-    document.addEventListener('keydown', function(event) {
+    document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape' && isMenuOpen) {
         closeMobileMenu(navToggle, navMenu);
         navToggle.focus();
@@ -198,7 +198,7 @@
     });
 
     // Handle Enter and Space on toggle button
-    navToggle.addEventListener('keydown', function(event) {
+    navToggle.addEventListener('keydown', function (event) {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
         toggleMobileMenu(navToggle, navMenu);
@@ -206,13 +206,13 @@
     });
 
     // Trap focus within menu when open
-    navMenu.addEventListener('keydown', function(event) {
+    navMenu.addEventListener('keydown', function (event) {
       if (!isMenuOpen || event.key !== 'Tab') {
         return;
       }
 
       const focusableElements = navMenu.querySelectorAll(
-        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
       );
       const firstElement = focusableElements[0];
       const lastElement = focusableElements[focusableElements.length - 1];
@@ -258,5 +258,4 @@
   } else {
     initNavigation();
   }
-
 })();

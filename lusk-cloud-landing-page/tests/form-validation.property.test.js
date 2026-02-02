@@ -84,7 +84,8 @@ function loadFormValidator() {
  * @returns {fc.Arbitrary<string>}
  */
 function stringFromChars(chars, minLength, maxLength) {
-  return fc.array(fc.constantFrom(...chars.split('')), { minLength, maxLength })
+  return fc
+    .array(fc.constantFrom(...chars.split('')), { minLength, maxLength })
     .map(arr => arr.join(''));
 }
 
@@ -93,8 +94,7 @@ function stringFromChars(chars, minLength, maxLength) {
  * @returns {fc.Arbitrary<string>}
  */
 function validNameArbitrary() {
-  return fc.string({ minLength: 2, maxLength: 100 })
-    .filter(s => s.trim().length >= 2);
+  return fc.string({ minLength: 2, maxLength: 100 }).filter(s => s.trim().length >= 2);
 }
 
 /**
@@ -110,7 +110,7 @@ function invalidNameArbitrary() {
     // Too short (1 character after trim) - generate single non-whitespace char
     stringFromChars('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 1, 1),
     // Too long (101+ non-whitespace characters)
-    stringFromChars('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 101, 120),
+    stringFromChars('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 101, 120)
   );
 }
 
@@ -120,15 +120,18 @@ function invalidNameArbitrary() {
  */
 function validEmailArbitrary() {
   // Generate valid email components
-  const localPart = stringFromChars('abcdefghijklmnopqrstuvwxyz0123456789._+-', 1, 30)
-    .filter(s => s.length > 0 && !s.includes(' '));
+  const localPart = stringFromChars('abcdefghijklmnopqrstuvwxyz0123456789._+-', 1, 30).filter(
+    s => s.length > 0 && !s.includes(' ')
+  );
 
-  const domainPart = stringFromChars('abcdefghijklmnopqrstuvwxyz0123456789-', 1, 20)
-    .filter(s => s.length > 0 && !s.startsWith('-') && !s.endsWith('-'));
+  const domainPart = stringFromChars('abcdefghijklmnopqrstuvwxyz0123456789-', 1, 20).filter(
+    s => s.length > 0 && !s.startsWith('-') && !s.endsWith('-')
+  );
 
   const tld = fc.constantFrom('com', 'org', 'net', 'io', 'co', 'edu', 'gov');
 
-  return fc.tuple(localPart, domainPart, tld)
+  return fc
+    .tuple(localPart, domainPart, tld)
     .map(([local, domain, tld]) => `${local}@${domain}.${tld}`);
 }
 
@@ -145,18 +148,30 @@ function invalidEmailArbitrary() {
     // Missing @ symbol
     fc.string({ minLength: 5, maxLength: 20 }).filter(s => !s.includes('@') && s.trim().length > 0),
     // Missing domain (ends with @)
-    fc.string({ minLength: 1, maxLength: 10 }).filter(s => s.trim().length > 0).map(s => `${s.trim()}@`),
+    fc
+      .string({ minLength: 1, maxLength: 10 })
+      .filter(s => s.trim().length > 0)
+      .map(s => `${s.trim()}@`),
     // Missing local part (starts with @)
-    fc.string({ minLength: 1, maxLength: 10 }).filter(s => s.trim().length > 0).map(s => `@${s.trim()}.com`),
+    fc
+      .string({ minLength: 1, maxLength: 10 })
+      .filter(s => s.trim().length > 0)
+      .map(s => `@${s.trim()}.com`),
     // Missing TLD (no dot after @)
-    fc.tuple(
-      fc.string({ minLength: 1, maxLength: 10 }).filter(s => s.trim().length > 0 && !s.includes('@')),
-      fc.string({ minLength: 1, maxLength: 10 }).filter(s => s.trim().length > 0 && !s.includes('.') && !s.includes('@')),
-    ).map(([local, domain]) => `${local.trim()}@${domain.trim()}`),
+    fc
+      .tuple(
+        fc
+          .string({ minLength: 1, maxLength: 10 })
+          .filter(s => s.trim().length > 0 && !s.includes('@')),
+        fc
+          .string({ minLength: 1, maxLength: 10 })
+          .filter(s => s.trim().length > 0 && !s.includes('.') && !s.includes('@'))
+      )
+      .map(([local, domain]) => `${local.trim()}@${domain.trim()}`),
     // Contains spaces
     fc.constant('test @example.com'),
     fc.constant('test@ example.com'),
-    fc.constant('test @ example.com'),
+    fc.constant('test @ example.com')
   );
 }
 
@@ -165,8 +180,7 @@ function invalidEmailArbitrary() {
  * @returns {fc.Arbitrary<string>}
  */
 function validMessageArbitrary() {
-  return fc.string({ minLength: 10, maxLength: 1000 })
-    .filter(s => s.trim().length >= 10);
+  return fc.string({ minLength: 10, maxLength: 1000 }).filter(s => s.trim().length >= 10);
 }
 
 /**
@@ -182,7 +196,7 @@ function invalidMessageArbitrary() {
     // Too short (1-9 non-whitespace characters)
     stringFromChars('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 1, 9),
     // Too long (1001+ non-whitespace characters)
-    stringFromChars('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 1001, 1050),
+    stringFromChars('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 1001, 1050)
   );
 }
 
@@ -244,7 +258,7 @@ function invalidFormDataArbitrary() {
       name: validNameArbitrary(),
       email: invalidEmailArbitrary(),
       message: invalidMessageArbitrary(),
-    }),
+    })
   );
 }
 
@@ -296,9 +310,9 @@ function isValidMessage(message) {
  * @returns {boolean}
  */
 function isAllFieldsValid(formData) {
-  return isValidName(formData.name) &&
-         isValidEmail(formData.email) &&
-         isValidMessage(formData.message);
+  return (
+    isValidName(formData.name) && isValidEmail(formData.email) && isValidMessage(formData.message)
+  );
 }
 
 describe('Property 5: Form Validation Correctness', () => {
@@ -315,31 +329,25 @@ describe('Property 5: Form Validation Correctness', () => {
 
     test('For any valid form data, validateForm SHALL return isValid=true', () => {
       fc.assert(
-        fc.property(
-          validFormDataArbitrary(),
-          (formData) => {
-            const result = window.FormValidator.validateForm(formData);
+        fc.property(validFormDataArbitrary(), formData => {
+          const result = window.FormValidator.validateForm(formData);
 
-            // Property: Valid form data must be accepted
-            return result.isValid === true;
-          },
-        ),
-        fcConfig,
+          // Property: Valid form data must be accepted
+          return result.isValid === true;
+        }),
+        fcConfig
       );
     });
 
     test('For any valid form data, validateForm SHALL return empty errors object', () => {
       fc.assert(
-        fc.property(
-          validFormDataArbitrary(),
-          (formData) => {
-            const result = window.FormValidator.validateForm(formData);
+        fc.property(validFormDataArbitrary(), formData => {
+          const result = window.FormValidator.validateForm(formData);
 
-            // Property: Valid form data must have no errors
-            return Object.keys(result.errors).length === 0;
-          },
-        ),
-        fcConfig,
+          // Property: Valid form data must have no errors
+          return Object.keys(result.errors).length === 0;
+        }),
+        fcConfig
       );
     });
   });
@@ -356,16 +364,13 @@ describe('Property 5: Form Validation Correctness', () => {
 
     test('For any form data with at least one invalid field, validateForm SHALL return isValid=false', () => {
       fc.assert(
-        fc.property(
-          invalidFormDataArbitrary(),
-          (formData) => {
-            const result = window.FormValidator.validateForm(formData);
+        fc.property(invalidFormDataArbitrary(), formData => {
+          const result = window.FormValidator.validateForm(formData);
 
-            // Property: Invalid form data must be rejected
-            return result.isValid === false;
-          },
-        ),
-        fcConfig,
+          // Property: Invalid form data must be rejected
+          return result.isValid === false;
+        }),
+        fcConfig
       );
     });
 
@@ -377,14 +382,14 @@ describe('Property 5: Form Validation Correctness', () => {
             email: validEmailArbitrary(),
             message: validMessageArbitrary(),
           }),
-          (formData) => {
+          formData => {
             const result = window.FormValidator.validateForm(formData);
 
             // Property: Invalid name must produce name error
             return result.errors.name !== undefined;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
 
@@ -396,14 +401,14 @@ describe('Property 5: Form Validation Correctness', () => {
             email: invalidEmailArbitrary(),
             message: validMessageArbitrary(),
           }),
-          (formData) => {
+          formData => {
             const result = window.FormValidator.validateForm(formData);
 
             // Property: Invalid email must produce email error
             return result.errors.email !== undefined;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
 
@@ -415,14 +420,14 @@ describe('Property 5: Form Validation Correctness', () => {
             email: validEmailArbitrary(),
             message: invalidMessageArbitrary(),
           }),
-          (formData) => {
+          formData => {
             const result = window.FormValidator.validateForm(formData);
 
             // Property: Invalid message must produce message error
             return result.errors.message !== undefined;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -439,49 +444,37 @@ describe('Property 5: Form Validation Correctness', () => {
 
     test('For any invalid name, error message SHALL match expected message', () => {
       fc.assert(
-        fc.property(
-          invalidNameArbitrary(),
-          (name) => {
-            const result = window.FormValidator.validateField('name', name);
+        fc.property(invalidNameArbitrary(), name => {
+          const result = window.FormValidator.validateField('name', name);
 
-            // Property: Invalid name must have correct error message
-            return !result.isValid &&
-                   result.errorMessage === validationRules.name.errorMessage;
-          },
-        ),
-        fcConfig,
+          // Property: Invalid name must have correct error message
+          return !result.isValid && result.errorMessage === validationRules.name.errorMessage;
+        }),
+        fcConfig
       );
     });
 
     test('For any invalid email, error message SHALL match expected message', () => {
       fc.assert(
-        fc.property(
-          invalidEmailArbitrary(),
-          (email) => {
-            const result = window.FormValidator.validateField('email', email);
+        fc.property(invalidEmailArbitrary(), email => {
+          const result = window.FormValidator.validateField('email', email);
 
-            // Property: Invalid email must have correct error message
-            return !result.isValid &&
-                   result.errorMessage === validationRules.email.errorMessage;
-          },
-        ),
-        fcConfig,
+          // Property: Invalid email must have correct error message
+          return !result.isValid && result.errorMessage === validationRules.email.errorMessage;
+        }),
+        fcConfig
       );
     });
 
     test('For any invalid message, error message SHALL match expected message', () => {
       fc.assert(
-        fc.property(
-          invalidMessageArbitrary(),
-          (message) => {
-            const result = window.FormValidator.validateField('message', message);
+        fc.property(invalidMessageArbitrary(), message => {
+          const result = window.FormValidator.validateField('message', message);
 
-            // Property: Invalid message must have correct error message
-            return !result.isValid &&
-                   result.errorMessage === validationRules.message.errorMessage;
-          },
-        ),
-        fcConfig,
+          // Property: Invalid message must have correct error message
+          return !result.isValid && result.errorMessage === validationRules.message.errorMessage;
+        }),
+        fcConfig
       );
     });
   });
@@ -498,43 +491,37 @@ describe('Property 5: Form Validation Correctness', () => {
 
     test('For any form data, isValid=true iff all individual fields are valid', () => {
       fc.assert(
-        fc.property(
-          fc.oneof(validFormDataArbitrary(), invalidFormDataArbitrary()),
-          (formData) => {
-            const result = window.FormValidator.validateForm(formData);
-            const allFieldsValid = isAllFieldsValid(formData);
+        fc.property(fc.oneof(validFormDataArbitrary(), invalidFormDataArbitrary()), formData => {
+          const result = window.FormValidator.validateForm(formData);
+          const allFieldsValid = isAllFieldsValid(formData);
 
-            // Property: Form validity must match individual field validity
-            return result.isValid === allFieldsValid;
-          },
-        ),
-        fcConfig,
+          // Property: Form validity must match individual field validity
+          return result.isValid === allFieldsValid;
+        }),
+        fcConfig
       );
     });
 
     test('For any form data, number of errors SHALL equal number of invalid fields', () => {
       fc.assert(
-        fc.property(
-          fc.oneof(validFormDataArbitrary(), invalidFormDataArbitrary()),
-          (formData) => {
-            const result = window.FormValidator.validateForm(formData);
+        fc.property(fc.oneof(validFormDataArbitrary(), invalidFormDataArbitrary()), formData => {
+          const result = window.FormValidator.validateForm(formData);
 
-            let expectedErrorCount = 0;
-            if (!isValidName(formData.name)) {
-              expectedErrorCount++;
-            }
-            if (!isValidEmail(formData.email)) {
-              expectedErrorCount++;
-            }
-            if (!isValidMessage(formData.message)) {
-              expectedErrorCount++;
-            }
+          let expectedErrorCount = 0;
+          if (!isValidName(formData.name)) {
+            expectedErrorCount++;
+          }
+          if (!isValidEmail(formData.email)) {
+            expectedErrorCount++;
+          }
+          if (!isValidMessage(formData.message)) {
+            expectedErrorCount++;
+          }
 
-            // Property: Error count must match invalid field count
-            return Object.keys(result.errors).length === expectedErrorCount;
-          },
-        ),
-        fcConfig,
+          // Property: Error count must match invalid field count
+          return Object.keys(result.errors).length === expectedErrorCount;
+        }),
+        fcConfig
       );
     });
   });
@@ -551,46 +538,37 @@ describe('Property 5: Form Validation Correctness', () => {
 
     test('Empty name field SHALL be rejected', () => {
       fc.assert(
-        fc.property(
-          fc.constantFrom('', '   ', '\t', '\n', '  \t  '),
-          (emptyName) => {
-            const result = window.FormValidator.validateField('name', emptyName);
+        fc.property(fc.constantFrom('', '   ', '\t', '\n', '  \t  '), emptyName => {
+          const result = window.FormValidator.validateField('name', emptyName);
 
-            // Property: Empty name must be rejected
-            return result.isValid === false;
-          },
-        ),
-        fcConfig,
+          // Property: Empty name must be rejected
+          return result.isValid === false;
+        }),
+        fcConfig
       );
     });
 
     test('Empty email field SHALL be rejected', () => {
       fc.assert(
-        fc.property(
-          fc.constantFrom('', '   ', '\t', '\n', '  \t  '),
-          (emptyEmail) => {
-            const result = window.FormValidator.validateField('email', emptyEmail);
+        fc.property(fc.constantFrom('', '   ', '\t', '\n', '  \t  '), emptyEmail => {
+          const result = window.FormValidator.validateField('email', emptyEmail);
 
-            // Property: Empty email must be rejected
-            return result.isValid === false;
-          },
-        ),
-        fcConfig,
+          // Property: Empty email must be rejected
+          return result.isValid === false;
+        }),
+        fcConfig
       );
     });
 
     test('Empty message field SHALL be rejected', () => {
       fc.assert(
-        fc.property(
-          fc.constantFrom('', '   ', '\t', '\n', '  \t  '),
-          (emptyMessage) => {
-            const result = window.FormValidator.validateField('message', emptyMessage);
+        fc.property(fc.constantFrom('', '   ', '\t', '\n', '  \t  '), emptyMessage => {
+          const result = window.FormValidator.validateField('message', emptyMessage);
 
-            // Property: Empty message must be rejected
-            return result.isValid === false;
-          },
-        ),
-        fcConfig,
+          // Property: Empty message must be rejected
+          return result.isValid === false;
+        }),
+        fcConfig
       );
     });
 
@@ -617,18 +595,17 @@ describe('Property 5: Form Validation Correctness', () => {
 
     test('For any form data, validation result SHALL be deterministic', () => {
       fc.assert(
-        fc.property(
-          fc.oneof(validFormDataArbitrary(), invalidFormDataArbitrary()),
-          (formData) => {
-            const result1 = window.FormValidator.validateForm(formData);
-            const result2 = window.FormValidator.validateForm(formData);
+        fc.property(fc.oneof(validFormDataArbitrary(), invalidFormDataArbitrary()), formData => {
+          const result1 = window.FormValidator.validateForm(formData);
+          const result2 = window.FormValidator.validateForm(formData);
 
-            // Property: Same input must produce same output
-            return result1.isValid === result2.isValid &&
-                   JSON.stringify(result1.errors) === JSON.stringify(result2.errors);
-          },
-        ),
-        fcConfig,
+          // Property: Same input must produce same output
+          return (
+            result1.isValid === result2.isValid &&
+            JSON.stringify(result1.errors) === JSON.stringify(result2.errors)
+          );
+        }),
+        fcConfig
       );
     });
 
@@ -642,11 +619,12 @@ describe('Property 5: Form Validation Correctness', () => {
             const result2 = window.FormValidator.validateField(fieldName, value);
 
             // Property: Same input must produce same output
-            return result1.isValid === result2.isValid &&
-                   result1.errorMessage === result2.errorMessage;
-          },
+            return (
+              result1.isValid === result2.isValid && result1.errorMessage === result2.errorMessage
+            );
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -724,9 +702,9 @@ describe('Property 5: Form Validation Correctness', () => {
 
             // Property: Whitespace padding should not affect valid names
             return result.isValid === true;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
 
@@ -742,9 +720,9 @@ describe('Property 5: Form Validation Correctness', () => {
 
             // Property: Whitespace padding should not affect valid emails
             return result.isValid === true;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
 
@@ -760,9 +738,9 @@ describe('Property 5: Form Validation Correctness', () => {
 
             // Property: Whitespace padding should not affect valid messages
             return result.isValid === true;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
   });

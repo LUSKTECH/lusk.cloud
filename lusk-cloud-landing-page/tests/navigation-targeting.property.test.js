@@ -102,9 +102,9 @@ describe('Property 3: Navigation Link Targeting', () => {
 
             // Section top should be at the nav offset (with small tolerance)
             return Math.abs(sectionTopInViewport - NAV_OFFSET) < 1;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -136,14 +136,14 @@ describe('Property 3: Navigation Link Targeting', () => {
               sectionHeight,
               targetScrollY,
               viewportHeight,
-              NAV_OFFSET,
+              NAV_OFFSET
             );
 
             // Property: Section must be visible in viewport after scroll
             return isVisible === true;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -159,7 +159,7 @@ describe('Property 3: Navigation Link Targeting', () => {
         fc.property(
           // Generate section top positions above the nav offset
           fc.integer({ min: NAV_OFFSET + 1, max: 10000 }),
-          (sectionTop) => {
+          sectionTop => {
             // Calculate expected scroll position
             const expectedScrollY = calculateExpectedScrollPosition(sectionTop, NAV_OFFSET);
 
@@ -168,9 +168,9 @@ describe('Property 3: Navigation Link Targeting', () => {
 
             // Property: Calculated scroll should match expected
             return Math.abs(actualScrollY - expectedScrollY) < 1;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
 
@@ -185,9 +185,9 @@ describe('Property 3: Navigation Link Targeting', () => {
 
             // Property: Scroll position must never be negative
             return targetScrollY >= 0;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -211,9 +211,9 @@ describe('Property 3: Navigation Link Targeting', () => {
 
             // Property: Same inputs must produce same output
             return firstResult === secondResult;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -229,16 +229,13 @@ describe('Property 3: Navigation Link Targeting', () => {
       fc.assert(
         fc.property(
           // Generate an array of 2-5 section positions (simulating multiple page sections)
-          fc.array(
-            fc.integer({ min: 0, max: 10000 }),
-            { minLength: 2, maxLength: 5 },
-          ),
-          (sectionPositions) => {
+          fc.array(fc.integer({ min: 0, max: 10000 }), { minLength: 2, maxLength: 5 }),
+          sectionPositions => {
             // Sort positions to simulate sections in order on page
             const sortedPositions = [...sectionPositions].sort((a, b) => a - b);
 
             // For each section, verify scroll calculation is correct
-            return sortedPositions.every((sectionTop) => {
+            return sortedPositions.every(sectionTop => {
               const targetScrollY = simulateScrollCalculation(sectionTop, 0, NAV_OFFSET);
 
               // After scrolling, section should be at nav offset (or visible if near top)
@@ -249,9 +246,9 @@ describe('Property 3: Navigation Link Targeting', () => {
               const sectionTopInViewport = sectionTop - targetScrollY;
               return Math.abs(sectionTopInViewport - NAV_OFFSET) < 1;
             });
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -293,9 +290,9 @@ describe('Property 3: Navigation Link Targeting', () => {
 
             // Property: Visible height should be viewport height minus nav offset
             return visibleHeight === viewportHeight - NAV_OFFSET;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -309,27 +306,21 @@ describe('Property 3: Navigation Link Targeting', () => {
   describe('calculateExpectedScrollPosition correctness', () => {
     test('For any section above nav offset, expected position is section minus offset', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: NAV_OFFSET + 1, max: 100000 }),
-          (sectionTop) => {
-            const expected = calculateExpectedScrollPosition(sectionTop, NAV_OFFSET);
-            return expected === sectionTop - NAV_OFFSET;
-          },
-        ),
-        fcConfig,
+        fc.property(fc.integer({ min: NAV_OFFSET + 1, max: 100000 }), sectionTop => {
+          const expected = calculateExpectedScrollPosition(sectionTop, NAV_OFFSET);
+          return expected === sectionTop - NAV_OFFSET;
+        }),
+        fcConfig
       );
     });
 
     test('For any section at or below nav offset, expected position is 0', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: 0, max: NAV_OFFSET }),
-          (sectionTop) => {
-            const expected = calculateExpectedScrollPosition(sectionTop, NAV_OFFSET);
-            return expected === 0;
-          },
-        ),
-        fcConfig,
+        fc.property(fc.integer({ min: 0, max: NAV_OFFSET }), sectionTop => {
+          const expected = calculateExpectedScrollPosition(sectionTop, NAV_OFFSET);
+          return expected === 0;
+        }),
+        fcConfig
       );
     });
   });

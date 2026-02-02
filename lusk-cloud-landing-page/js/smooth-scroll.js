@@ -8,46 +8,44 @@
  * Provides smooth scrolling navigation using requestAnimationFrame for optimal performance.
  */
 
-(function() {
+(function () {
   'use strict';
 
   // Configuration
   const CONFIG = {
-    navHeight: 70,              // Height of sticky nav (matches --nav-height CSS variable)
-    animationDuration: 800,     // Duration of scroll animation in ms
-    easing: easeInOutCubic,      // Easing function for smooth animation
+    navHeight: 70, // Height of sticky nav (matches --nav-height CSS variable)
+    animationDuration: 800, // Duration of scroll animation in ms
+    easing: easeInOutCubic, // Easing function for smooth animation
   };
 
   // Selectors
   const SELECTORS = {
-    navLinks: 'a[href^="#"]',    // All anchor links starting with #
+    navLinks: 'a[href^="#"]', // All anchor links starting with #
   };
 
   /**
-     * Easing function for smooth animation
-     * Cubic ease-in-out provides natural acceleration and deceleration
-     * @param {number} t - Progress value between 0 and 1
-     * @returns {number} - Eased value between 0 and 1
-     */
+   * Easing function for smooth animation
+   * Cubic ease-in-out provides natural acceleration and deceleration
+   * @param {number} t - Progress value between 0 and 1
+   * @returns {number} - Eased value between 0 and 1
+   */
   function easeInOutCubic(t) {
-    return t < 0.5
-      ? 4 * t * t * t
-      : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   }
 
   /**
-     * Get the current scroll position
-     * @returns {number} - Current vertical scroll position
-     */
+   * Get the current scroll position
+   * @returns {number} - Current vertical scroll position
+   */
   function getScrollPosition() {
     return window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
   }
 
   /**
-     * Get the offset for sticky navigation
-     * Dynamically reads from CSS variable if available, falls back to config
-     * @returns {number} - Navigation height offset in pixels
-     */
+   * Get the offset for sticky navigation
+   * Dynamically reads from CSS variable if available, falls back to config
+   * @returns {number} - Navigation height offset in pixels
+   */
   function getNavOffset() {
     const root = document.documentElement;
     const navHeightVar = getComputedStyle(root).getPropertyValue('--nav-height');
@@ -63,13 +61,13 @@
   }
 
   /**
-     * Smooth scroll to a target element
-     * Uses requestAnimationFrame for smooth animation
-     *
-     * @param {string} targetId - The ID of the target element (without #)
-     * @param {number} [offset] - Optional offset from top (defaults to nav height)
-     * @returns {boolean} - True if scroll was initiated, false if target not found
-     */
+   * Smooth scroll to a target element
+   * Uses requestAnimationFrame for smooth animation
+   *
+   * @param {string} targetId - The ID of the target element (without #)
+   * @param {number} [offset] - Optional offset from top (defaults to nav height)
+   * @returns {boolean} - True if scroll was initiated, false if target not found
+   */
   function smoothScrollTo(targetId, offset) {
     // Remove # if present
     const cleanId = targetId.replace(/^#/, '');
@@ -103,9 +101,9 @@
     let startTime = null;
 
     /**
-         * Animation step function
-         * @param {number} currentTime - Current timestamp from requestAnimationFrame
-         */
+     * Animation step function
+     * @param {number} currentTime - Current timestamp from requestAnimationFrame
+     */
     function animationStep(currentTime) {
       if (startTime === null) {
         startTime = currentTime;
@@ -115,7 +113,7 @@
       const progress = Math.min(elapsed / CONFIG.animationDuration, 1);
       const easedProgress = CONFIG.easing(progress);
 
-      const currentPosition = startPosition + (distance * easedProgress);
+      const currentPosition = startPosition + distance * easedProgress;
 
       window.scrollTo(0, currentPosition);
 
@@ -137,13 +135,13 @@
   }
 
   /**
-     * Update URL hash without causing a jump
-     * Uses history.pushState for smooth experience
-     * @param {string} hash - The hash to set (without #)
-     */
+   * Update URL hash without causing a jump
+   * Uses history.pushState for smooth experience
+   * @param {string} hash - The hash to set (without #)
+   */
   function updateUrlHash(hash) {
     if (history.pushState) {
-      history.pushState(null, null, `#${  hash}`);
+      history.pushState(null, null, `#${hash}`);
     } else {
       // Fallback for older browsers - this may cause a small jump
       window.location.hash = hash;
@@ -151,15 +149,15 @@
   }
 
   /**
-     * Focus the target element for accessibility
-     * Makes the element focusable if it isn't already
-     * @param {HTMLElement} element - The element to focus
-     */
+   * Focus the target element for accessibility
+   * Makes the element focusable if it isn't already
+   * @param {HTMLElement} element - The element to focus
+   */
   function focusTarget(element) {
     // Check if element is naturally focusable
     const focusableElements = ['A', 'BUTTON', 'INPUT', 'TEXTAREA', 'SELECT'];
-    const isFocusable = focusableElements.includes(element.tagName) ||
-                           element.hasAttribute('tabindex');
+    const isFocusable =
+      focusableElements.includes(element.tagName) || element.hasAttribute('tabindex');
 
     if (!isFocusable) {
       // Temporarily make it focusable
@@ -171,16 +169,16 @@
     // Remove tabindex after focus if we added it
     if (!isFocusable) {
       // Use a small delay to ensure focus event completes
-      setTimeout(function() {
+      setTimeout(function () {
         element.removeAttribute('tabindex');
       }, 100);
     }
   }
 
   /**
-     * Handle click on navigation link
-     * @param {Event} event - Click event
-     */
+   * Handle click on navigation link
+   * @param {Event} event - Click event
+   */
   function handleNavLinkClick(event) {
     const link = event.currentTarget;
     const href = link.getAttribute('href');
@@ -201,10 +199,10 @@
   }
 
   /**
-     * Initialize smooth scroll functionality
-     * Attaches click listeners to all navigation links
-     * @param {NodeList|Array} [navLinks] - Optional specific links to attach to
-     */
+   * Initialize smooth scroll functionality
+   * Attaches click listeners to all navigation links
+   * @param {NodeList|Array} [navLinks] - Optional specific links to attach to
+   */
   function initSmoothScroll(navLinks) {
     // Get nav links if not provided
     const links = navLinks || document.querySelectorAll(SELECTORS.navLinks);
@@ -215,7 +213,7 @@
     }
 
     // Attach click listeners to all nav links
-    links.forEach(function(link) {
+    links.forEach(function (link) {
       link.addEventListener('click', handleNavLinkClick);
     });
 
@@ -224,29 +222,29 @@
   }
 
   /**
-     * Handle initial hash in URL
-     * Scrolls to target if page loads with a hash
-     */
+   * Handle initial hash in URL
+   * Scrolls to target if page loads with a hash
+   */
   function handleInitialHash() {
     const hash = window.location.hash;
 
     if (hash && hash.length > 1) {
       // Small delay to ensure page is fully loaded
-      setTimeout(function() {
+      setTimeout(function () {
         smoothScrollTo(hash);
       }, 100);
     }
   }
 
   /**
-     * Remove smooth scroll listeners
-     * Useful for cleanup or re-initialization
-     * @param {NodeList|Array} [navLinks] - Optional specific links to detach from
-     */
+   * Remove smooth scroll listeners
+   * Useful for cleanup or re-initialization
+   * @param {NodeList|Array} [navLinks] - Optional specific links to detach from
+   */
   function destroySmoothScroll(navLinks) {
     const links = navLinks || document.querySelectorAll(SELECTORS.navLinks);
 
-    links.forEach(function(link) {
+    links.forEach(function (link) {
       link.removeEventListener('click', handleNavLinkClick);
     });
   }
@@ -269,5 +267,4 @@
   } else {
     initSmoothScroll();
   }
-
 })();

@@ -110,16 +110,16 @@ describe('Property 2: Sticky Navigation Persistence', () => {
           // Generate scroll positions greater than the threshold
           // Using integer range from threshold+1 to a reasonable max scroll value
           fc.integer({ min: STICKY_THRESHOLD + 1, max: 10000 }),
-          (scrollY) => {
+          scrollY => {
             simulateScrollAndUpdateSticky(mockDOM.header, scrollY);
 
             // Property: header must have 'is-sticky' class when scrolled past threshold
             const hasSticky = mockDOM.header.classList.contains('is-sticky');
 
             return hasSticky === true;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
 
@@ -128,16 +128,16 @@ describe('Property 2: Sticky Navigation Persistence', () => {
         fc.property(
           // Generate scroll positions at or below the threshold
           fc.integer({ min: 0, max: STICKY_THRESHOLD }),
-          (scrollY) => {
+          scrollY => {
             simulateScrollAndUpdateSticky(mockDOM.header, scrollY);
 
             // Property: header must NOT have 'is-sticky' class when at or below threshold
             const hasSticky = mockDOM.header.classList.contains('is-sticky');
 
             return hasSticky === false;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -165,7 +165,7 @@ describe('Property 2: Sticky Navigation Persistence', () => {
         fc.property(
           // Generate any valid scroll position
           fc.integer({ min: 0, max: 10000 }),
-          (scrollY) => {
+          scrollY => {
             // Apply scroll twice and verify same result
             simulateScrollAndUpdateSticky(mockDOM.header, scrollY);
             const firstState = mockDOM.header.classList.contains('is-sticky');
@@ -177,9 +177,9 @@ describe('Property 2: Sticky Navigation Persistence', () => {
 
             // Property: same scroll position must produce same sticky state
             return firstState === secondState;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -193,25 +193,19 @@ describe('Property 2: Sticky Navigation Persistence', () => {
   describe('shouldBeSticky function correctness', () => {
     test('shouldBeSticky returns true for any scroll > threshold', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: STICKY_THRESHOLD + 1, max: 100000 }),
-          (scrollY) => {
-            return shouldBeSticky(scrollY) === true;
-          },
-        ),
-        fcConfig,
+        fc.property(fc.integer({ min: STICKY_THRESHOLD + 1, max: 100000 }), scrollY => {
+          return shouldBeSticky(scrollY) === true;
+        }),
+        fcConfig
       );
     });
 
     test('shouldBeSticky returns false for any scroll <= threshold', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: 0, max: STICKY_THRESHOLD }),
-          (scrollY) => {
-            return shouldBeSticky(scrollY) === false;
-          },
-        ),
-        fcConfig,
+        fc.property(fc.integer({ min: 0, max: STICKY_THRESHOLD }), scrollY => {
+          return shouldBeSticky(scrollY) === false;
+        }),
+        fcConfig
       );
     });
   });
@@ -252,9 +246,9 @@ describe('Property 2: Sticky Navigation Persistence', () => {
 
             // Property: should transition from non-sticky to sticky
             return initialState === false && finalState === true;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
 
@@ -276,9 +270,9 @@ describe('Property 2: Sticky Navigation Persistence', () => {
 
             // Property: should transition from sticky to non-sticky
             return initialState === true && finalState === false;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
   });

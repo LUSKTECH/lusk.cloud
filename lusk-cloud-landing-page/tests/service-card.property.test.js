@@ -34,7 +34,8 @@ const fcConfig = {
  * @returns {fc.Arbitrary<string>}
  */
 function stringFromChars(chars, minLength, maxLength) {
-  return fc.array(fc.constantFrom(...chars.split('')), { minLength, maxLength })
+  return fc
+    .array(fc.constantFrom(...chars.split('')), { minLength, maxLength })
     .map(arr => arr.join(''));
 }
 
@@ -127,9 +128,13 @@ function validateServiceCard(card) {
     hasTitleElement: titleElement !== null,
     hasNonEmptyTitle: titleElement !== null && titleElement.textContent.trim().length > 0,
     hasDescriptionElement: descriptionElement !== null,
-    hasNonEmptyDescription: descriptionElement !== null && descriptionElement.textContent.trim().length > 0,
+    hasNonEmptyDescription:
+      descriptionElement !== null && descriptionElement.textContent.trim().length > 0,
     hasIconElement: iconElement !== null,
-    hasVisibleIcon: svgElement !== null && svgElement.getAttribute('width') !== '0' && svgElement.getAttribute('height') !== '0',
+    hasVisibleIcon:
+      svgElement !== null &&
+      svgElement.getAttribute('width') !== '0' &&
+      svgElement.getAttribute('height') !== '0',
     titleContent: titleElement ? titleElement.textContent : null,
     descriptionContent: descriptionElement ? descriptionElement.textContent : null,
   };
@@ -175,61 +180,52 @@ describe('Property 4: Service Card Completeness', () => {
 
     test('For any service data, rendered card SHALL have a title element', () => {
       fc.assert(
-        fc.property(
-          serviceDataArbitrary(),
-          (serviceData) => {
-            const card = createServiceCard(serviceData);
-            document.body.appendChild(card);
+        fc.property(serviceDataArbitrary(), serviceData => {
+          const card = createServiceCard(serviceData);
+          document.body.appendChild(card);
 
-            const validation = validateServiceCard(card);
+          const validation = validateServiceCard(card);
 
-            document.body.removeChild(card);
+          document.body.removeChild(card);
 
-            // Property: Card must have a title element
-            return validation.hasTitleElement === true;
-          },
-        ),
-        fcConfig,
+          // Property: Card must have a title element
+          return validation.hasTitleElement === true;
+        }),
+        fcConfig
       );
     });
 
     test('For any service data with non-empty title, rendered card SHALL have non-empty title content', () => {
       fc.assert(
-        fc.property(
-          serviceDataArbitrary(),
-          (serviceData) => {
-            const card = createServiceCard(serviceData);
-            document.body.appendChild(card);
+        fc.property(serviceDataArbitrary(), serviceData => {
+          const card = createServiceCard(serviceData);
+          document.body.appendChild(card);
 
-            const validation = validateServiceCard(card);
+          const validation = validateServiceCard(card);
 
-            document.body.removeChild(card);
+          document.body.removeChild(card);
 
-            // Property: Card title must be non-empty
-            return validation.hasNonEmptyTitle === true;
-          },
-        ),
-        fcConfig,
+          // Property: Card title must be non-empty
+          return validation.hasNonEmptyTitle === true;
+        }),
+        fcConfig
       );
     });
 
     test('For any service data, title content SHALL match input title', () => {
       fc.assert(
-        fc.property(
-          serviceDataArbitrary(),
-          (serviceData) => {
-            const card = createServiceCard(serviceData);
-            document.body.appendChild(card);
+        fc.property(serviceDataArbitrary(), serviceData => {
+          const card = createServiceCard(serviceData);
+          document.body.appendChild(card);
 
-            const validation = validateServiceCard(card);
+          const validation = validateServiceCard(card);
 
-            document.body.removeChild(card);
+          document.body.removeChild(card);
 
-            // Property: Title content must match input
-            return validation.titleContent === serviceData.title;
-          },
-        ),
-        fcConfig,
+          // Property: Title content must match input
+          return validation.titleContent === serviceData.title;
+        }),
+        fcConfig
       );
     });
   });
@@ -246,61 +242,52 @@ describe('Property 4: Service Card Completeness', () => {
 
     test('For any service data, rendered card SHALL have a description element', () => {
       fc.assert(
-        fc.property(
-          serviceDataArbitrary(),
-          (serviceData) => {
-            const card = createServiceCard(serviceData);
-            document.body.appendChild(card);
+        fc.property(serviceDataArbitrary(), serviceData => {
+          const card = createServiceCard(serviceData);
+          document.body.appendChild(card);
 
-            const validation = validateServiceCard(card);
+          const validation = validateServiceCard(card);
 
-            document.body.removeChild(card);
+          document.body.removeChild(card);
 
-            // Property: Card must have a description element
-            return validation.hasDescriptionElement === true;
-          },
-        ),
-        fcConfig,
+          // Property: Card must have a description element
+          return validation.hasDescriptionElement === true;
+        }),
+        fcConfig
       );
     });
 
     test('For any service data with non-empty description, rendered card SHALL have non-empty description content', () => {
       fc.assert(
-        fc.property(
-          serviceDataArbitrary(),
-          (serviceData) => {
-            const card = createServiceCard(serviceData);
-            document.body.appendChild(card);
+        fc.property(serviceDataArbitrary(), serviceData => {
+          const card = createServiceCard(serviceData);
+          document.body.appendChild(card);
 
-            const validation = validateServiceCard(card);
+          const validation = validateServiceCard(card);
 
-            document.body.removeChild(card);
+          document.body.removeChild(card);
 
-            // Property: Card description must be non-empty
-            return validation.hasNonEmptyDescription === true;
-          },
-        ),
-        fcConfig,
+          // Property: Card description must be non-empty
+          return validation.hasNonEmptyDescription === true;
+        }),
+        fcConfig
       );
     });
 
     test('For any service data, description content SHALL match input description', () => {
       fc.assert(
-        fc.property(
-          serviceDataArbitrary(),
-          (serviceData) => {
-            const card = createServiceCard(serviceData);
-            document.body.appendChild(card);
+        fc.property(serviceDataArbitrary(), serviceData => {
+          const card = createServiceCard(serviceData);
+          document.body.appendChild(card);
 
-            const validation = validateServiceCard(card);
+          const validation = validateServiceCard(card);
 
-            document.body.removeChild(card);
+          document.body.removeChild(card);
 
-            // Property: Description content must match input
-            return validation.descriptionContent === serviceData.description;
-          },
-        ),
-        fcConfig,
+          // Property: Description content must match input
+          return validation.descriptionContent === serviceData.description;
+        }),
+        fcConfig
       );
     });
   });
@@ -317,41 +304,35 @@ describe('Property 4: Service Card Completeness', () => {
 
     test('For any service data, rendered card SHALL have an icon container element', () => {
       fc.assert(
-        fc.property(
-          serviceDataArbitrary(),
-          (serviceData) => {
-            const card = createServiceCard(serviceData);
-            document.body.appendChild(card);
+        fc.property(serviceDataArbitrary(), serviceData => {
+          const card = createServiceCard(serviceData);
+          document.body.appendChild(card);
 
-            const validation = validateServiceCard(card);
+          const validation = validateServiceCard(card);
 
-            document.body.removeChild(card);
+          document.body.removeChild(card);
 
-            // Property: Card must have an icon element
-            return validation.hasIconElement === true;
-          },
-        ),
-        fcConfig,
+          // Property: Card must have an icon element
+          return validation.hasIconElement === true;
+        }),
+        fcConfig
       );
     });
 
     test('For any service data, rendered card SHALL have a visible SVG icon', () => {
       fc.assert(
-        fc.property(
-          serviceDataArbitrary(),
-          (serviceData) => {
-            const card = createServiceCard(serviceData);
-            document.body.appendChild(card);
+        fc.property(serviceDataArbitrary(), serviceData => {
+          const card = createServiceCard(serviceData);
+          document.body.appendChild(card);
 
-            const validation = validateServiceCard(card);
+          const validation = validateServiceCard(card);
 
-            document.body.removeChild(card);
+          document.body.removeChild(card);
 
-            // Property: Card must have a visible icon (SVG with non-zero dimensions)
-            return validation.hasVisibleIcon === true;
-          },
-        ),
-        fcConfig,
+          // Property: Card must have a visible icon (SVG with non-zero dimensions)
+          return validation.hasVisibleIcon === true;
+        }),
+        fcConfig
       );
     });
   });
@@ -368,25 +349,22 @@ describe('Property 4: Service Card Completeness', () => {
 
     test('For any service data, rendered card SHALL have title, description, AND icon', () => {
       fc.assert(
-        fc.property(
-          serviceDataArbitrary(),
-          (serviceData) => {
-            const card = createServiceCard(serviceData);
-            document.body.appendChild(card);
+        fc.property(serviceDataArbitrary(), serviceData => {
+          const card = createServiceCard(serviceData);
+          document.body.appendChild(card);
 
-            const validation = validateServiceCard(card);
+          const validation = validateServiceCard(card);
 
-            document.body.removeChild(card);
+          document.body.removeChild(card);
 
-            // Property: Card must have ALL required elements
-            return (
-              validation.hasNonEmptyTitle === true &&
-              validation.hasNonEmptyDescription === true &&
-              validation.hasVisibleIcon === true
-            );
-          },
-        ),
-        fcConfig,
+          // Property: Card must have ALL required elements
+          return (
+            validation.hasNonEmptyTitle === true &&
+            validation.hasNonEmptyDescription === true &&
+            validation.hasVisibleIcon === true
+          );
+        }),
+        fcConfig
       );
     });
   });
@@ -407,7 +385,7 @@ describe('Property 4: Service Card Completeness', () => {
         fc.property(
           // Generate 1-6 service cards (matching typical landing page)
           fc.array(serviceDataArbitrary(), { minLength: 1, maxLength: 6 }),
-          (servicesData) => {
+          servicesData => {
             const section = createServicesSection(servicesData);
             document.body.appendChild(section);
 
@@ -427,9 +405,9 @@ describe('Property 4: Service Card Completeness', () => {
 
             // Property: All cards in section must be complete
             return allCardsComplete === true;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
 
@@ -437,7 +415,7 @@ describe('Property 4: Service Card Completeness', () => {
       fc.assert(
         fc.property(
           fc.array(serviceDataArbitrary(), { minLength: 1, maxLength: 6 }),
-          (servicesData) => {
+          servicesData => {
             const section = createServicesSection(servicesData);
             document.body.appendChild(section);
 
@@ -447,9 +425,9 @@ describe('Property 4: Service Card Completeness', () => {
 
             // Property: Number of cards must match input
             return cards.length === servicesData.length;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -570,25 +548,22 @@ describe('Property 4: Service Card Completeness', () => {
 
     test('For any service data, card creation is deterministic', () => {
       fc.assert(
-        fc.property(
-          serviceDataArbitrary(),
-          (serviceData) => {
-            // Create card twice with same input
-            const card1 = createServiceCard(serviceData);
-            const card2 = createServiceCard(serviceData);
+        fc.property(serviceDataArbitrary(), serviceData => {
+          // Create card twice with same input
+          const card1 = createServiceCard(serviceData);
+          const card2 = createServiceCard(serviceData);
 
-            const validation1 = validateServiceCard(card1);
-            const validation2 = validateServiceCard(card2);
+          const validation1 = validateServiceCard(card1);
+          const validation2 = validateServiceCard(card2);
 
-            // Property: Same input must produce same validation results
-            return (
-              validation1.titleContent === validation2.titleContent &&
-              validation1.descriptionContent === validation2.descriptionContent &&
-              validation1.hasVisibleIcon === validation2.hasVisibleIcon
-            );
-          },
-        ),
-        fcConfig,
+          // Property: Same input must produce same validation results
+          return (
+            validation1.titleContent === validation2.titleContent &&
+            validation1.descriptionContent === validation2.descriptionContent &&
+            validation1.hasVisibleIcon === validation2.hasVisibleIcon
+          );
+        }),
+        fcConfig
       );
     });
   });

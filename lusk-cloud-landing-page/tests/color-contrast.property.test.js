@@ -66,15 +66,9 @@ function getRelativeLuminance(rgb) {
   const bsRGB = b / 255;
 
   // Apply gamma correction
-  const rLinear = rsRGB <= 0.03928
-    ? rsRGB / 12.92
-    : Math.pow((rsRGB + 0.055) / 1.055, 2.4);
-  const gLinear = gsRGB <= 0.03928
-    ? gsRGB / 12.92
-    : Math.pow((gsRGB + 0.055) / 1.055, 2.4);
-  const bLinear = bsRGB <= 0.03928
-    ? bsRGB / 12.92
-    : Math.pow((bsRGB + 0.055) / 1.055, 2.4);
+  const rLinear = rsRGB <= 0.03928 ? rsRGB / 12.92 : Math.pow((rsRGB + 0.055) / 1.055, 2.4);
+  const gLinear = gsRGB <= 0.03928 ? gsRGB / 12.92 : Math.pow((gsRGB + 0.055) / 1.055, 2.4);
+  const bLinear = bsRGB <= 0.03928 ? bsRGB / 12.92 : Math.pow((bsRGB + 0.055) / 1.055, 2.4);
 
   // Calculate luminance using WCAG coefficients
   return 0.2126 * rLinear + 0.7152 * gLinear + 0.0722 * bLinear;
@@ -129,28 +123,78 @@ function meetsWcagAALargeText(ratio) {
 // - For buttons: Use primaryDark with large/bold text, or use dark text on primary backgrounds
 const TEXT_BACKGROUND_COMBINATIONS = [
   // Hero section - white text on dark background (high contrast)
-  { text: THEME_COLORS.white, background: THEME_COLORS.text, description: 'White text on dark background', isLargeText: true },
+  {
+    text: THEME_COLORS.white,
+    background: THEME_COLORS.text,
+    description: 'White text on dark background',
+    isLargeText: true,
+  },
 
   // Main content - dark text on light backgrounds (high contrast)
-  { text: THEME_COLORS.text, background: THEME_COLORS.white, description: 'Dark text on white background', isLargeText: false },
-  { text: THEME_COLORS.text, background: THEME_COLORS.secondary, description: 'Dark text on secondary background', isLargeText: false },
+  {
+    text: THEME_COLORS.text,
+    background: THEME_COLORS.white,
+    description: 'Dark text on white background',
+    isLargeText: false,
+  },
+  {
+    text: THEME_COLORS.text,
+    background: THEME_COLORS.secondary,
+    description: 'Dark text on secondary background',
+    isLargeText: false,
+  },
 
   // Muted text on white background only (textLight on secondary is borderline)
-  { text: THEME_COLORS.textLight, background: THEME_COLORS.white, description: 'Light text on white background', isLargeText: false },
+  {
+    text: THEME_COLORS.textLight,
+    background: THEME_COLORS.white,
+    description: 'Light text on white background',
+    isLargeText: false,
+  },
 
   // Headings with dark text (high contrast)
-  { text: THEME_COLORS.text, background: THEME_COLORS.white, description: 'Heading on white', isLargeText: true },
-  { text: THEME_COLORS.text, background: THEME_COLORS.secondary, description: 'Heading on secondary', isLargeText: true },
+  {
+    text: THEME_COLORS.text,
+    background: THEME_COLORS.white,
+    description: 'Heading on white',
+    isLargeText: true,
+  },
+  {
+    text: THEME_COLORS.text,
+    background: THEME_COLORS.secondary,
+    description: 'Heading on secondary',
+    isLargeText: true,
+  },
 
   // Dark text on primary light background (accessible alternative)
-  { text: THEME_COLORS.text, background: THEME_COLORS.primaryLight, description: 'Dark text on primary light background', isLargeText: false },
+  {
+    text: THEME_COLORS.text,
+    background: THEME_COLORS.primaryLight,
+    description: 'Dark text on primary light background',
+    isLargeText: false,
+  },
 
   // White text on text color (for footer, dark sections)
-  { text: THEME_COLORS.white, background: THEME_COLORS.text, description: 'White text in dark sections', isLargeText: false },
+  {
+    text: THEME_COLORS.white,
+    background: THEME_COLORS.text,
+    description: 'White text in dark sections',
+    isLargeText: false,
+  },
 
   // Primary dark for large text only (meets 3:1 for large text)
-  { text: THEME_COLORS.primaryDark, background: THEME_COLORS.white, description: 'Primary dark large text on white', isLargeText: true },
-  { text: THEME_COLORS.white, background: THEME_COLORS.primaryDark, description: 'White large text on primary dark', isLargeText: true },
+  {
+    text: THEME_COLORS.primaryDark,
+    background: THEME_COLORS.white,
+    description: 'Primary dark large text on white',
+    isLargeText: true,
+  },
+  {
+    text: THEME_COLORS.white,
+    background: THEME_COLORS.primaryDark,
+    description: 'White large text on primary dark',
+    isLargeText: true,
+  },
 ];
 
 /**
@@ -159,7 +203,8 @@ const TEXT_BACKGROUND_COMBINATIONS = [
  */
 function hexColorArbitrary() {
   const hexChars = '0123456789ABCDEF';
-  return fc.array(fc.constantFrom(...hexChars.split('')), { minLength: 6, maxLength: 6 })
+  return fc
+    .array(fc.constantFrom(...hexChars.split('')), { minLength: 6, maxLength: 6 })
     .map(arr => arr.join(''));
 }
 
@@ -182,39 +227,31 @@ describe('Property 1: Color Contrast Accessibility', () => {
 
     test('Contrast ratio should be symmetric (order independent)', () => {
       fc.assert(
-        fc.property(
-          hexColorArbitrary(),
-          hexColorArbitrary(),
-          (hex1, hex2) => {
-            const color1 = `#${hex1}`;
-            const color2 = `#${hex2}`;
+        fc.property(hexColorArbitrary(), hexColorArbitrary(), (hex1, hex2) => {
+          const color1 = `#${hex1}`;
+          const color2 = `#${hex2}`;
 
-            const ratio1 = calculateContrastRatio(color1, color2);
-            const ratio2 = calculateContrastRatio(color2, color1);
+          const ratio1 = calculateContrastRatio(color1, color2);
+          const ratio2 = calculateContrastRatio(color2, color1);
 
-            // Ratios should be equal regardless of order
-            return Math.abs(ratio1 - ratio2) < 0.001;
-          },
-        ),
-        fcConfig,
+          // Ratios should be equal regardless of order
+          return Math.abs(ratio1 - ratio2) < 0.001;
+        }),
+        fcConfig
       );
     });
 
     test('Contrast ratio should always be between 1 and 21', () => {
       fc.assert(
-        fc.property(
-          hexColorArbitrary(),
-          hexColorArbitrary(),
-          (hex1, hex2) => {
-            const color1 = `#${hex1}`;
-            const color2 = `#${hex2}`;
+        fc.property(hexColorArbitrary(), hexColorArbitrary(), (hex1, hex2) => {
+          const color1 = `#${hex1}`;
+          const color2 = `#${hex2}`;
 
-            const ratio = calculateContrastRatio(color1, color2);
+          const ratio = calculateContrastRatio(color1, color2);
 
-            return ratio >= 1 && ratio <= 21;
-          },
-        ),
-        fcConfig,
+          return ratio >= 1 && ratio <= 21;
+        }),
+        fcConfig
       );
     });
   });
@@ -231,7 +268,7 @@ describe('Property 1: Color Contrast Accessibility', () => {
         fc.property(
           // Generate indices into our combinations array
           fc.integer({ min: 0, max: TEXT_BACKGROUND_COMBINATIONS.length - 1 }),
-          (index) => {
+          index => {
             const combination = TEXT_BACKGROUND_COMBINATIONS[index];
             const ratio = calculateContrastRatio(combination.text, combination.background);
 
@@ -241,17 +278,15 @@ describe('Property 1: Color Contrast Accessibility', () => {
 
             // Property: contrast ratio must meet WCAG AA for the text size
             return ratio >= requiredRatio;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
 
     // Individual tests for each combination for better error reporting
-    TEXT_BACKGROUND_COMBINATIONS.forEach((combination) => {
-      const requiredRatio = combination.isLargeText
-        ? WCAG_AA_LARGE_TEXT
-        : WCAG_AA_NORMAL_TEXT;
+    TEXT_BACKGROUND_COMBINATIONS.forEach(combination => {
+      const requiredRatio = combination.isLargeText ? WCAG_AA_LARGE_TEXT : WCAG_AA_NORMAL_TEXT;
       const textType = combination.isLargeText ? 'large' : 'normal';
 
       test(`${combination.description} meets WCAG AA for ${textType} text (${requiredRatio}:1)`, () => {
@@ -278,17 +313,14 @@ describe('Property 1: Color Contrast Accessibility', () => {
 
     test('All designated text colors meet WCAG AA on white background', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: 0, max: textColors.length - 1 }),
-          (index) => {
-            const textColor = textColors[index];
-            const ratio = calculateContrastRatio(textColor.color, THEME_COLORS.white);
+        fc.property(fc.integer({ min: 0, max: textColors.length - 1 }), index => {
+          const textColor = textColors[index];
+          const ratio = calculateContrastRatio(textColor.color, THEME_COLORS.white);
 
-            // All text colors should meet normal text requirements
-            return ratio >= WCAG_AA_NORMAL_TEXT;
-          },
-        ),
-        fcConfig,
+          // All text colors should meet normal text requirements
+          return ratio >= WCAG_AA_NORMAL_TEXT;
+        }),
+        fcConfig
       );
     });
   });
@@ -308,25 +340,42 @@ describe('Property 1: Color Contrast Accessibility', () => {
   describe('Button color accessibility', () => {
     // Accessible button combinations
     const accessibleButtonCombinations = [
-      { text: THEME_COLORS.text, background: THEME_COLORS.primary, name: 'Dark text on primary', isLargeText: false },
-      { text: THEME_COLORS.text, background: THEME_COLORS.accent, name: 'Dark text on accent', isLargeText: false },
-      { text: THEME_COLORS.white, background: THEME_COLORS.text, name: 'White text on dark', isLargeText: false },
-      { text: THEME_COLORS.white, background: THEME_COLORS.primaryDark, name: 'White text on primaryDark (large)', isLargeText: true },
+      {
+        text: THEME_COLORS.text,
+        background: THEME_COLORS.primary,
+        name: 'Dark text on primary',
+        isLargeText: false,
+      },
+      {
+        text: THEME_COLORS.text,
+        background: THEME_COLORS.accent,
+        name: 'Dark text on accent',
+        isLargeText: false,
+      },
+      {
+        text: THEME_COLORS.white,
+        background: THEME_COLORS.text,
+        name: 'White text on dark',
+        isLargeText: false,
+      },
+      {
+        text: THEME_COLORS.white,
+        background: THEME_COLORS.primaryDark,
+        name: 'White text on primaryDark (large)',
+        isLargeText: true,
+      },
     ];
 
     test('Accessible button combinations meet WCAG AA', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: 0, max: accessibleButtonCombinations.length - 1 }),
-          (index) => {
-            const combo = accessibleButtonCombinations[index];
-            const ratio = calculateContrastRatio(combo.text, combo.background);
-            const requiredRatio = combo.isLargeText ? WCAG_AA_LARGE_TEXT : WCAG_AA_NORMAL_TEXT;
+        fc.property(fc.integer({ min: 0, max: accessibleButtonCombinations.length - 1 }), index => {
+          const combo = accessibleButtonCombinations[index];
+          const ratio = calculateContrastRatio(combo.text, combo.background);
+          const requiredRatio = combo.isLargeText ? WCAG_AA_LARGE_TEXT : WCAG_AA_NORMAL_TEXT;
 
-            return ratio >= requiredRatio;
-          },
-        ),
-        fcConfig,
+          return ratio >= requiredRatio;
+        }),
+        fcConfig
       );
     });
   });
@@ -349,16 +398,13 @@ describe('Property 1: Color Contrast Accessibility', () => {
 
     test('Luminance is always between 0 and 1', () => {
       fc.assert(
-        fc.property(
-          hexColorArbitrary(),
-          (hex) => {
-            const color = `#${hex}`;
-            const lum = getRelativeLuminance(hexToRgb(color));
+        fc.property(hexColorArbitrary(), hex => {
+          const color = `#${hex}`;
+          const lum = getRelativeLuminance(hexToRgb(color));
 
-            return lum >= 0 && lum <= 1;
-          },
-        ),
-        fcConfig,
+          return lum >= 0 && lum <= 1;
+        }),
+        fcConfig
       );
     });
 
@@ -401,17 +447,14 @@ describe('Property 1: Color Contrast Accessibility', () => {
 
     test('RGB values are always in valid range (0-255)', () => {
       fc.assert(
-        fc.property(
-          hexColorArbitrary(),
-          (hex) => {
-            const rgb = hexToRgb(`#${hex}`);
+        fc.property(hexColorArbitrary(), hex => {
+          const rgb = hexToRgb(`#${hex}`);
 
-            return rgb.r >= 0 && rgb.r <= 255 &&
-                   rgb.g >= 0 && rgb.g <= 255 &&
-                   rgb.b >= 0 && rgb.b <= 255;
-          },
-        ),
-        fcConfig,
+          return (
+            rgb.r >= 0 && rgb.r <= 255 && rgb.g >= 0 && rgb.g <= 255 && rgb.b >= 0 && rgb.b <= 255
+          );
+        }),
+        fcConfig
       );
     });
   });
@@ -424,49 +467,37 @@ describe('Property 1: Color Contrast Accessibility', () => {
   describe('WCAG AA threshold functions', () => {
     test('meetsWcagAANormalText returns true for ratio >= 4.5', () => {
       fc.assert(
-        fc.property(
-          fc.double({ min: 4.5, max: 21, noNaN: true }),
-          (ratio) => {
-            return meetsWcagAANormalText(ratio) === true;
-          },
-        ),
-        fcConfig,
+        fc.property(fc.double({ min: 4.5, max: 21, noNaN: true }), ratio => {
+          return meetsWcagAANormalText(ratio) === true;
+        }),
+        fcConfig
       );
     });
 
     test('meetsWcagAANormalText returns false for ratio < 4.5', () => {
       fc.assert(
-        fc.property(
-          fc.double({ min: 1, max: 4.49, noNaN: true }),
-          (ratio) => {
-            return meetsWcagAANormalText(ratio) === false;
-          },
-        ),
-        fcConfig,
+        fc.property(fc.double({ min: 1, max: 4.49, noNaN: true }), ratio => {
+          return meetsWcagAANormalText(ratio) === false;
+        }),
+        fcConfig
       );
     });
 
     test('meetsWcagAALargeText returns true for ratio >= 3.0', () => {
       fc.assert(
-        fc.property(
-          fc.double({ min: 3.0, max: 21, noNaN: true }),
-          (ratio) => {
-            return meetsWcagAALargeText(ratio) === true;
-          },
-        ),
-        fcConfig,
+        fc.property(fc.double({ min: 3.0, max: 21, noNaN: true }), ratio => {
+          return meetsWcagAALargeText(ratio) === true;
+        }),
+        fcConfig
       );
     });
 
     test('meetsWcagAALargeText returns false for ratio < 3.0', () => {
       fc.assert(
-        fc.property(
-          fc.double({ min: 1, max: 2.99, noNaN: true }),
-          (ratio) => {
-            return meetsWcagAALargeText(ratio) === false;
-          },
-        ),
-        fcConfig,
+        fc.property(fc.double({ min: 1, max: 2.99, noNaN: true }), ratio => {
+          return meetsWcagAALargeText(ratio) === false;
+        }),
+        fcConfig
       );
     });
   });

@@ -80,7 +80,8 @@ function isValidEmailReference(email) {
  * @returns {fc.Arbitrary<string>}
  */
 function stringFromChars(chars, minLength, maxLength) {
-  return fc.array(fc.constantFrom(...chars.split('')), { minLength, maxLength })
+  return fc
+    .array(fc.constantFrom(...chars.split('')), { minLength, maxLength })
     .map(arr => arr.join(''));
 }
 
@@ -101,15 +102,16 @@ function validEmailArbitrary() {
   // Common TLDs
   const tlds = ['com', 'org', 'net', 'io', 'co', 'edu', 'gov', 'info', 'biz'];
 
-  const localPart = stringFromChars(localPartChars, 1, 30)
-    .filter(s => s.length > 0);
+  const localPart = stringFromChars(localPartChars, 1, 30).filter(s => s.length > 0);
 
-  const domainPart = stringFromChars(domainChars, 1, 20)
-    .filter(s => s.length > 0 && !s.startsWith('-') && !s.endsWith('-'));
+  const domainPart = stringFromChars(domainChars, 1, 20).filter(
+    s => s.length > 0 && !s.startsWith('-') && !s.endsWith('-')
+  );
 
   const tld = fc.constantFrom(...tlds);
 
-  return fc.tuple(localPart, domainPart, tld)
+  return fc
+    .tuple(localPart, domainPart, tld)
     .map(([local, domain, tld]) => `${local}@${domain}.${tld}`);
 }
 
@@ -119,8 +121,7 @@ function validEmailArbitrary() {
  */
 function emailMissingAtArbitrary() {
   const chars = 'abcdefghijklmnopqrstuvwxyz0123456789.';
-  return stringFromChars(chars, 5, 30)
-    .filter(s => !s.includes('@') && s.trim().length > 0);
+  return stringFromChars(chars, 5, 30).filter(s => !s.includes('@') && s.trim().length > 0);
 }
 
 /**
@@ -128,11 +129,19 @@ function emailMissingAtArbitrary() {
  * @returns {fc.Arbitrary<string>}
  */
 function emailMultipleAtArbitrary() {
-  return fc.tuple(
-    fc.string({ minLength: 1, maxLength: 10 }).filter(s => s.trim().length > 0 && !s.includes('@')),
-    fc.string({ minLength: 1, maxLength: 10 }).filter(s => s.trim().length > 0 && !s.includes('@')),
-    fc.string({ minLength: 1, maxLength: 10 }).filter(s => s.trim().length > 0 && !s.includes('@')),
-  ).map(([a, b, c]) => `${a.trim()}@${b.trim()}@${c.trim()}`);
+  return fc
+    .tuple(
+      fc
+        .string({ minLength: 1, maxLength: 10 })
+        .filter(s => s.trim().length > 0 && !s.includes('@')),
+      fc
+        .string({ minLength: 1, maxLength: 10 })
+        .filter(s => s.trim().length > 0 && !s.includes('@')),
+      fc
+        .string({ minLength: 1, maxLength: 10 })
+        .filter(s => s.trim().length > 0 && !s.includes('@'))
+    )
+    .map(([a, b, c]) => `${a.trim()}@${b.trim()}@${c.trim()}`);
 }
 
 /**
@@ -141,10 +150,9 @@ function emailMultipleAtArbitrary() {
  */
 function emailMissingLocalPartArbitrary() {
   const domainChars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-  return fc.tuple(
-    stringFromChars(domainChars, 1, 10),
-    fc.constantFrom('com', 'org', 'net'),
-  ).map(([domain, tld]) => `@${domain}.${tld}`);
+  return fc
+    .tuple(stringFromChars(domainChars, 1, 10), fc.constantFrom('com', 'org', 'net'))
+    .map(([domain, tld]) => `@${domain}.${tld}`);
 }
 
 /**
@@ -153,8 +161,7 @@ function emailMissingLocalPartArbitrary() {
  */
 function emailMissingDomainArbitrary() {
   const localChars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-  return stringFromChars(localChars, 1, 15)
-    .map(local => `${local}@`);
+  return stringFromChars(localChars, 1, 15).map(local => `${local}@`);
 }
 
 /**
@@ -163,10 +170,9 @@ function emailMissingDomainArbitrary() {
  */
 function emailMissingTldArbitrary() {
   const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-  return fc.tuple(
-    stringFromChars(chars, 1, 10),
-    stringFromChars(chars, 1, 10),
-  ).map(([local, domain]) => `${local}@${domain}`);
+  return fc
+    .tuple(stringFromChars(chars, 1, 10), stringFromChars(chars, 1, 10))
+    .map(([local, domain]) => `${local}@${domain}`);
 }
 
 /**
@@ -184,7 +190,7 @@ function emailWithSpacesArbitrary() {
     // Space around @
     fc.constant('test @example.com'),
     fc.constant('test@ example.com'),
-    fc.constant('test @ example.com'),
+    fc.constant('test @ example.com')
   );
 }
 
@@ -193,10 +199,7 @@ function emailWithSpacesArbitrary() {
  * @returns {fc.Arbitrary<string>}
  */
 function emptyOrWhitespaceArbitrary() {
-  return fc.oneof(
-    fc.constant(''),
-    stringFromChars(' \t\n', 1, 10),
-  );
+  return fc.oneof(fc.constant(''), stringFromChars(' \t\n', 1, 10));
 }
 
 /**
@@ -206,7 +209,8 @@ function emptyOrWhitespaceArbitrary() {
 function minimumValidEmailArbitrary() {
   // Minimum valid: a@b.c (5 characters)
   const singleChar = fc.constantFrom(...'abcdefghijklmnopqrstuvwxyz'.split(''));
-  return fc.tuple(singleChar, singleChar, singleChar)
+  return fc
+    .tuple(singleChar, singleChar, singleChar)
     .map(([local, domain, tld]) => `${local}@${domain}.${tld}`);
 }
 
@@ -225,31 +229,25 @@ describe('Property 6: Email Format Validation', () => {
 
     test('For any valid email (local@domain.tld format), validateEmail SHALL return true', () => {
       fc.assert(
-        fc.property(
-          validEmailArbitrary(),
-          (email) => {
-            const result = window.FormValidator.validateEmail(email);
+        fc.property(validEmailArbitrary(), email => {
+          const result = window.FormValidator.validateEmail(email);
 
-            // Property: Valid email format must be accepted
-            return result === true;
-          },
-        ),
-        fcConfig,
+          // Property: Valid email format must be accepted
+          return result === true;
+        }),
+        fcConfig
       );
     });
 
     test('For any minimum valid email (a@b.c format), validateEmail SHALL return true', () => {
       fc.assert(
-        fc.property(
-          minimumValidEmailArbitrary(),
-          (email) => {
-            const result = window.FormValidator.validateEmail(email);
+        fc.property(minimumValidEmailArbitrary(), email => {
+          const result = window.FormValidator.validateEmail(email);
 
-            // Property: Minimum valid email must be accepted
-            return result === true;
-          },
-        ),
-        fcConfig,
+          // Property: Minimum valid email must be accepted
+          return result === true;
+        }),
+        fcConfig
       );
     });
 
@@ -265,9 +263,9 @@ describe('Property 6: Email Format Validation', () => {
 
             // Property: Whitespace padding should not affect valid emails
             return result === true;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -284,16 +282,13 @@ describe('Property 6: Email Format Validation', () => {
 
     test('For any string without @ symbol, validateEmail SHALL return false', () => {
       fc.assert(
-        fc.property(
-          emailMissingAtArbitrary(),
-          (email) => {
-            const result = window.FormValidator.validateEmail(email);
+        fc.property(emailMissingAtArbitrary(), email => {
+          const result = window.FormValidator.validateEmail(email);
 
-            // Property: Email without @ must be rejected
-            return result === false;
-          },
-        ),
-        fcConfig,
+          // Property: Email without @ must be rejected
+          return result === false;
+        }),
+        fcConfig
       );
     });
   });
@@ -305,16 +300,13 @@ describe('Property 6: Email Format Validation', () => {
 
     test('For any string with multiple @ symbols, validateEmail SHALL return false', () => {
       fc.assert(
-        fc.property(
-          emailMultipleAtArbitrary(),
-          (email) => {
-            const result = window.FormValidator.validateEmail(email);
+        fc.property(emailMultipleAtArbitrary(), email => {
+          const result = window.FormValidator.validateEmail(email);
 
-            // Property: Email with multiple @ must be rejected
-            return result === false;
-          },
-        ),
-        fcConfig,
+          // Property: Email with multiple @ must be rejected
+          return result === false;
+        }),
+        fcConfig
       );
     });
   });
@@ -326,16 +318,13 @@ describe('Property 6: Email Format Validation', () => {
 
     test('For any email starting with @ (missing local part), validateEmail SHALL return false', () => {
       fc.assert(
-        fc.property(
-          emailMissingLocalPartArbitrary(),
-          (email) => {
-            const result = window.FormValidator.validateEmail(email);
+        fc.property(emailMissingLocalPartArbitrary(), email => {
+          const result = window.FormValidator.validateEmail(email);
 
-            // Property: Email without local part must be rejected
-            return result === false;
-          },
-        ),
-        fcConfig,
+          // Property: Email without local part must be rejected
+          return result === false;
+        }),
+        fcConfig
       );
     });
   });
@@ -347,16 +336,13 @@ describe('Property 6: Email Format Validation', () => {
 
     test('For any email ending with @ (missing domain), validateEmail SHALL return false', () => {
       fc.assert(
-        fc.property(
-          emailMissingDomainArbitrary(),
-          (email) => {
-            const result = window.FormValidator.validateEmail(email);
+        fc.property(emailMissingDomainArbitrary(), email => {
+          const result = window.FormValidator.validateEmail(email);
 
-            // Property: Email without domain must be rejected
-            return result === false;
-          },
-        ),
-        fcConfig,
+          // Property: Email without domain must be rejected
+          return result === false;
+        }),
+        fcConfig
       );
     });
   });
@@ -368,16 +354,13 @@ describe('Property 6: Email Format Validation', () => {
 
     test('For any email without dot in domain (missing TLD), validateEmail SHALL return false', () => {
       fc.assert(
-        fc.property(
-          emailMissingTldArbitrary(),
-          (email) => {
-            const result = window.FormValidator.validateEmail(email);
+        fc.property(emailMissingTldArbitrary(), email => {
+          const result = window.FormValidator.validateEmail(email);
 
-            // Property: Email without TLD (no dot) must be rejected
-            return result === false;
-          },
-        ),
-        fcConfig,
+          // Property: Email without TLD (no dot) must be rejected
+          return result === false;
+        }),
+        fcConfig
       );
     });
   });
@@ -389,16 +372,13 @@ describe('Property 6: Email Format Validation', () => {
 
     test('For any email containing spaces, validateEmail SHALL return false', () => {
       fc.assert(
-        fc.property(
-          emailWithSpacesArbitrary(),
-          (email) => {
-            const result = window.FormValidator.validateEmail(email);
+        fc.property(emailWithSpacesArbitrary(), email => {
+          const result = window.FormValidator.validateEmail(email);
 
-            // Property: Email with internal spaces must be rejected
-            return result === false;
-          },
-        ),
-        fcConfig,
+          // Property: Email with internal spaces must be rejected
+          return result === false;
+        }),
+        fcConfig
       );
     });
   });
@@ -410,16 +390,13 @@ describe('Property 6: Email Format Validation', () => {
 
     test('For any empty or whitespace-only string, validateEmail SHALL return false', () => {
       fc.assert(
-        fc.property(
-          emptyOrWhitespaceArbitrary(),
-          (email) => {
-            const result = window.FormValidator.validateEmail(email);
+        fc.property(emptyOrWhitespaceArbitrary(), email => {
+          const result = window.FormValidator.validateEmail(email);
 
-            // Property: Empty or whitespace-only must be rejected
-            return result === false;
-          },
-        ),
-        fcConfig,
+          // Property: Empty or whitespace-only must be rejected
+          return result === false;
+        }),
+        fcConfig
       );
     });
   });
@@ -445,33 +422,30 @@ describe('Property 6: Email Format Validation', () => {
             emailMissingDomainArbitrary(),
             emailMissingTldArbitrary(),
             emptyOrWhitespaceArbitrary(),
-            fc.string({ minLength: 0, maxLength: 50 }),
+            fc.string({ minLength: 0, maxLength: 50 })
           ),
-          (email) => {
+          email => {
             const validatorResult = window.FormValidator.validateEmail(email);
             const referenceResult = isValidEmailReference(email);
 
             // Property: Validator must match reference implementation
             return validatorResult === referenceResult;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
 
     test('For any arbitrary string, validateEmail SHALL be consistent with pattern', () => {
       fc.assert(
-        fc.property(
-          fc.string({ minLength: 0, maxLength: 100 }),
-          (email) => {
-            const validatorResult = window.FormValidator.validateEmail(email);
-            const referenceResult = isValidEmailReference(email);
+        fc.property(fc.string({ minLength: 0, maxLength: 100 }), email => {
+          const validatorResult = window.FormValidator.validateEmail(email);
+          const referenceResult = isValidEmailReference(email);
 
-            // Property: Validator must match pattern-based validation
-            return validatorResult === referenceResult;
-          },
-        ),
-        fcConfig,
+          // Property: Validator must match pattern-based validation
+          return validatorResult === referenceResult;
+        }),
+        fcConfig
       );
     });
   });
@@ -488,17 +462,14 @@ describe('Property 6: Email Format Validation', () => {
 
     test('For any email string, validateEmail result SHALL be deterministic', () => {
       fc.assert(
-        fc.property(
-          fc.string({ minLength: 0, maxLength: 100 }),
-          (email) => {
-            const result1 = window.FormValidator.validateEmail(email);
-            const result2 = window.FormValidator.validateEmail(email);
+        fc.property(fc.string({ minLength: 0, maxLength: 100 }), email => {
+          const result1 = window.FormValidator.validateEmail(email);
+          const result2 = window.FormValidator.validateEmail(email);
 
-            // Property: Same input must produce same output
-            return result1 === result2;
-          },
-        ),
-        fcConfig,
+          // Property: Same input must produce same output
+          return result1 === result2;
+        }),
+        fcConfig
       );
     });
   });
@@ -535,18 +506,18 @@ describe('Property 6: Email Format Validation', () => {
 
     test('Invalid email formats SHALL be rejected', () => {
       const invalidEmails = [
-        '',                      // Empty
-        '   ',                   // Whitespace only
-        'plaintext',             // No @ symbol
-        '@domain.com',           // Missing local part
-        'user@',                 // Missing domain
-        'user@domain',           // Missing TLD (no dot)
-        'user@@domain.com',      // Multiple @
+        '', // Empty
+        '   ', // Whitespace only
+        'plaintext', // No @ symbol
+        '@domain.com', // Missing local part
+        'user@', // Missing domain
+        'user@domain', // Missing TLD (no dot)
+        'user@@domain.com', // Multiple @
         'user@domain@other.com', // Multiple @
-        'user @domain.com',      // Space before @
-        'user@ domain.com',      // Space after @
-        'us er@domain.com',      // Space in local part
-        'user@dom ain.com',       // Space in domain
+        'user @domain.com', // Space before @
+        'user@ domain.com', // Space after @
+        'us er@domain.com', // Space in local part
+        'user@dom ain.com', // Space in domain
       ];
 
       invalidEmails.forEach(email => {
@@ -576,11 +547,7 @@ describe('Property 6: Email Format Validation', () => {
     });
 
     test('Email with subdomain SHALL be accepted', () => {
-      const subdomainEmails = [
-        'user@mail.example.com',
-        'user@sub.domain.org',
-        'user@a.b.c.d.com',
-      ];
+      const subdomainEmails = ['user@mail.example.com', 'user@sub.domain.org', 'user@a.b.c.d.com'];
 
       subdomainEmails.forEach(email => {
         expect(window.FormValidator.validateEmail(email)).toBe(true);

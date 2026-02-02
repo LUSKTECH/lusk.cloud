@@ -359,7 +359,7 @@ describe('Form Validator Module', () => {
 
       let defaultPrevented = false;
       const originalPreventDefault = event.preventDefault.bind(event);
-      event.preventDefault = function() {
+      event.preventDefault = function () {
         defaultPrevented = true;
         originalPreventDefault();
       };
@@ -519,7 +519,7 @@ describe('Form Validator Module', () => {
         Promise.resolve({
           ok: true,
           status: 200,
-        }),
+        })
       );
     });
 
@@ -577,7 +577,7 @@ describe('Form Validator Module', () => {
         Promise.resolve({
           ok: true,
           status: 200,
-        }),
+        })
       );
     });
 
@@ -689,7 +689,7 @@ describe('Additional Coverage Tests', () => {
         Promise.resolve({
           ok: false,
           status: 500,
-        }),
+        })
       );
 
       require('../js/form-validator.js');
@@ -758,7 +758,7 @@ describe('Additional Coverage Tests', () => {
         Promise.resolve({
           ok: true,
           status: 200,
-        }),
+        })
       );
 
       require('../js/form-validator.js');

@@ -57,7 +57,7 @@ function loadCssContent() {
   for (const file of cssFiles) {
     const filePath = path.join(cssDir, file);
     if (fs.existsSync(filePath)) {
-      combinedCss += `${fs.readFileSync(filePath, 'utf8')  }\n`;
+      combinedCss += `${fs.readFileSync(filePath, 'utf8')}\n`;
     }
   }
 
@@ -122,7 +122,7 @@ function extractCssRulesForSelector(css, selector) {
   // Match CSS rules for the selector (handles multiple selectors and nested rules)
   const ruleRegex = new RegExp(
     `(?:^|[,}\\s])${escapedSelector}\\s*(?:,\\s*[^{]+)?\\s*\\{([^}]*)\\}`,
-    'gim',
+    'gim'
   );
 
   let match;
@@ -336,38 +336,32 @@ describe('Property 7: Image Aspect Ratio Preservation', () => {
   describe('Object-fit validation', () => {
     test('For any image with object-fit, the value SHALL preserve aspect ratio', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: 0, max: Math.max(0, imgElements.length - 1) }),
-          (index) => {
-            if (imgElements.length === 0) {
-              return true;
-            }
-
-            const img = imgElements[index];
-            const cssRules = getCssRulesForImage(img, cssContent);
-            const objectFitRule = cssRules.find(r => r.property === 'object-fit');
-
-            // If object-fit is defined, it must be a valid value
-            if (objectFitRule) {
-              return isValidObjectFit(objectFitRule.value);
-            }
-
+        fc.property(fc.integer({ min: 0, max: Math.max(0, imgElements.length - 1) }), index => {
+          if (imgElements.length === 0) {
             return true;
-          },
-        ),
-        fcConfig,
+          }
+
+          const img = imgElements[index];
+          const cssRules = getCssRulesForImage(img, cssContent);
+          const objectFitRule = cssRules.find(r => r.property === 'object-fit');
+
+          // If object-fit is defined, it must be a valid value
+          if (objectFitRule) {
+            return isValidObjectFit(objectFitRule.value);
+          }
+
+          return true;
+        }),
+        fcConfig
       );
     });
 
     test('Valid object-fit values SHALL include cover, contain, scale-down, or none', () => {
       fc.assert(
-        fc.property(
-          fc.constantFrom(...VALID_OBJECT_FIT_VALUES),
-          (objectFitValue) => {
-            return isValidObjectFit(objectFitValue) === true;
-          },
-        ),
-        fcConfig,
+        fc.property(fc.constantFrom(...VALID_OBJECT_FIT_VALUES), objectFitValue => {
+          return isValidObjectFit(objectFitValue) === true;
+        }),
+        fcConfig
       );
     });
 
@@ -384,55 +378,51 @@ describe('Property 7: Image Aspect Ratio Preservation', () => {
   describe('Transform scale validation', () => {
     test('For any image, transform SHALL NOT have non-uniform scale values', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: 0, max: Math.max(0, imgElements.length - 1) }),
-          (index) => {
-            if (imgElements.length === 0) {
-              return true;
-            }
-
-            const img = imgElements[index];
-            const cssRules = getCssRulesForImage(img, cssContent);
-            const transformRule = cssRules.find(r => r.property === 'transform');
-
-            // If transform is defined, it must not have non-uniform scaling
-            if (transformRule) {
-              return !hasNonUniformScale(transformRule.value);
-            }
-
+        fc.property(fc.integer({ min: 0, max: Math.max(0, imgElements.length - 1) }), index => {
+          if (imgElements.length === 0) {
             return true;
-          },
-        ),
-        fcConfig,
+          }
+
+          const img = imgElements[index];
+          const cssRules = getCssRulesForImage(img, cssContent);
+          const transformRule = cssRules.find(r => r.property === 'transform');
+
+          // If transform is defined, it must not have non-uniform scaling
+          if (transformRule) {
+            return !hasNonUniformScale(transformRule.value);
+          }
+
+          return true;
+        }),
+        fcConfig
       );
     });
 
     test('Uniform scale transforms SHALL be acceptable', () => {
       fc.assert(
-        fc.property(
-          fc.double({ min: 0.1, max: 3, noNaN: true }),
-          (scaleValue) => {
-            const uniformScale = `scale(${scaleValue})`;
-            return hasNonUniformScale(uniformScale) === false;
-          },
-        ),
-        fcConfig,
+        fc.property(fc.double({ min: 0.1, max: 3, noNaN: true }), scaleValue => {
+          const uniformScale = `scale(${scaleValue})`;
+          return hasNonUniformScale(uniformScale) === false;
+        }),
+        fcConfig
       );
     });
 
     test('Non-uniform scale transforms SHALL be detected', () => {
       fc.assert(
         fc.property(
-          fc.tuple(
-            fc.double({ min: 0.1, max: 3, noNaN: true }),
-            fc.double({ min: 0.1, max: 3, noNaN: true }),
-          ).filter(([x, y]) => Math.abs(x - y) > 0.001),
+          fc
+            .tuple(
+              fc.double({ min: 0.1, max: 3, noNaN: true }),
+              fc.double({ min: 0.1, max: 3, noNaN: true })
+            )
+            .filter(([x, y]) => Math.abs(x - y) > 0.001),
           ([scaleX, scaleY]) => {
             const nonUniformScale = `scale(${scaleX}, ${scaleY})`;
             return hasNonUniformScale(nonUniformScale) === true;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -445,20 +435,17 @@ describe('Property 7: Image Aspect Ratio Preservation', () => {
   describe('Explicit dimensions validation', () => {
     test('For any image with explicit dimensions, aspect ratio SHALL be preserved', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: 0, max: Math.max(0, imgElements.length - 1) }),
-          (index) => {
-            if (imgElements.length === 0) {
-              return true;
-            }
+        fc.property(fc.integer({ min: 0, max: Math.max(0, imgElements.length - 1) }), index => {
+          if (imgElements.length === 0) {
+            return true;
+          }
 
-            const img = imgElements[index];
-            const result = validateImageAspectRatio(img, cssContent);
+          const img = imgElements[index];
+          const result = validateImageAspectRatio(img, cssContent);
 
-            return result.isValid;
-          },
-        ),
-        fcConfig,
+          return result.isValid;
+        }),
+        fcConfig
       );
     });
   });
@@ -471,20 +458,17 @@ describe('Property 7: Image Aspect Ratio Preservation', () => {
   describe('Comprehensive aspect ratio validation', () => {
     test('For any img element, aspect ratio validation SHALL pass', () => {
       fc.assert(
-        fc.property(
-          fc.integer({ min: 0, max: Math.max(0, imgElements.length - 1) }),
-          (index) => {
-            if (imgElements.length === 0) {
-              return true;
-            }
+        fc.property(fc.integer({ min: 0, max: Math.max(0, imgElements.length - 1) }), index => {
+          if (imgElements.length === 0) {
+            return true;
+          }
 
-            const img = imgElements[index];
-            const result = validateImageAspectRatio(img, cssContent);
+          const img = imgElements[index];
+          const result = validateImageAspectRatio(img, cssContent);
 
-            return result.isValid;
-          },
-        ),
-        fcConfig,
+          return result.isValid;
+        }),
+        fcConfig
       );
     });
 
@@ -539,8 +523,8 @@ describe('Property 7: Image Aspect Ratio Preservation', () => {
     });
 
     test('Logo images SHALL preserve aspect ratio', () => {
-      const logoImages = imgElements.filter(img =>
-        img.attributes.src && img.attributes.src.includes('logo'),
+      const logoImages = imgElements.filter(
+        img => img.attributes.src && img.attributes.src.includes('logo')
       );
 
       logoImages.forEach(img => {
@@ -567,7 +551,9 @@ describe('Property 7: Image Aspect Ratio Preservation', () => {
         const classes = extractImageClasses(img).join(', ') || '(no classes)';
         const width = img.attributes.width || 'auto';
         const height = img.attributes.height || 'auto';
-        console.log(`  ${index + 1}. src="${src}" classes="${classes}" width="${width}" height="${height}"`);
+        console.log(
+          `  ${index + 1}. src="${src}" classes="${classes}" width="${width}" height="${height}"`
+        );
       });
     });
   });
@@ -580,13 +566,10 @@ describe('Property 7: Image Aspect Ratio Preservation', () => {
   describe('Helper function properties', () => {
     test('isValidObjectFit SHALL return true for all valid values', () => {
       fc.assert(
-        fc.property(
-          fc.constantFrom('cover', 'contain', 'scale-down', 'none'),
-          (value) => {
-            return isValidObjectFit(value) === true;
-          },
-        ),
-        fcConfig,
+        fc.property(fc.constantFrom('cover', 'contain', 'scale-down', 'none'), value => {
+          return isValidObjectFit(value) === true;
+        }),
+        fcConfig
       );
     });
 
@@ -596,13 +579,10 @@ describe('Property 7: Image Aspect Ratio Preservation', () => {
 
     test('isValidObjectFit SHALL handle case-insensitive values', () => {
       fc.assert(
-        fc.property(
-          fc.constantFrom('COVER', 'Cover', 'CONTAIN', 'Contain'),
-          (value) => {
-            return isValidObjectFit(value) === true;
-          },
-        ),
-        fcConfig,
+        fc.property(fc.constantFrom('COVER', 'Cover', 'CONTAIN', 'Contain'), value => {
+          return isValidObjectFit(value) === true;
+        }),
+        fcConfig
       );
     });
 

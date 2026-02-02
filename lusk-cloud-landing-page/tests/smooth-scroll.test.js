@@ -14,13 +14,13 @@ let cancelRafMock;
 
 beforeAll(() => {
   // Mock requestAnimationFrame
-  rafMock = jest.fn((callback) => {
+  rafMock = jest.fn(callback => {
     rafId++;
     rafCallbacks.push({ id: rafId, callback });
     return rafId;
   });
 
-  cancelRafMock = jest.fn((id) => {
+  cancelRafMock = jest.fn(id => {
     rafCallbacks = rafCallbacks.filter(item => item.id !== id);
   });
 
@@ -156,7 +156,7 @@ describe('Smooth Scroll Module', () => {
 
       expect(result).toBe(false);
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Target element #nonexistent not found'),
+        expect.stringContaining('Target element #nonexistent not found')
       );
 
       consoleSpy.mockRestore();
@@ -188,9 +188,7 @@ describe('Smooth Scroll Module', () => {
       // Run animation to completion
       runAnimationToCompletion();
 
-      expect(window.history.pushState).toHaveBeenCalledWith(
-        null, null, '#services',
-      );
+      expect(window.history.pushState).toHaveBeenCalledWith(null, null, '#services');
     });
 
     test('should use custom offset when provided', () => {
@@ -241,10 +239,20 @@ describe('Smooth Scroll Module', () => {
 
       // Mock getBoundingClientRect
       document.getElementById('hero').getBoundingClientRect = jest.fn(() => ({
-        top: 0, left: 0, right: 0, bottom: 0, width: 0, height: 500,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: 0,
+        height: 500,
       }));
       document.getElementById('services').getBoundingClientRect = jest.fn(() => ({
-        top: 500, left: 0, right: 0, bottom: 0, width: 0, height: 500,
+        top: 500,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: 0,
+        height: 500,
       }));
 
       require('../js/smooth-scroll.js');
@@ -277,7 +285,7 @@ describe('Smooth Scroll Module', () => {
 
       // Override preventDefault to track if it was called
       const originalPreventDefault = event.preventDefault.bind(event);
-      event.preventDefault = function() {
+      event.preventDefault = function () {
         defaultPrevented = true;
         originalPreventDefault();
       };
@@ -298,7 +306,12 @@ describe('Smooth Scroll Module', () => {
             `;
 
       document.getElementById('services').getBoundingClientRect = jest.fn(() => ({
-        top: 500, left: 0, right: 0, bottom: 0, width: 0, height: 500,
+        top: 500,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: 0,
+        height: 500,
       }));
 
       require('../js/smooth-scroll.js');
@@ -373,7 +386,12 @@ describe('Smooth Scroll Module', () => {
             `;
 
       document.getElementById('services').getBoundingClientRect = jest.fn(() => ({
-        top: 500, left: 0, right: 0, bottom: 0, width: 0, height: 500,
+        top: 500,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: 0,
+        height: 500,
       }));
 
       require('../js/smooth-scroll.js');
@@ -382,9 +400,7 @@ describe('Smooth Scroll Module', () => {
     test('should update hash using history.pushState', () => {
       window.LuskSmoothScroll._updateUrlHash('services');
 
-      expect(window.history.pushState).toHaveBeenCalledWith(
-        null, null, '#services',
-      );
+      expect(window.history.pushState).toHaveBeenCalledWith(null, null, '#services');
     });
 
     test('should fallback to location.hash when pushState unavailable', () => {
@@ -412,7 +428,12 @@ describe('Smooth Scroll Module', () => {
             `;
 
       document.getElementById('services').getBoundingClientRect = jest.fn(() => ({
-        top: 0, left: 0, right: 0, bottom: 0, width: 0, height: 500,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: 0,
+        height: 500,
       }));
 
       require('../js/smooth-scroll.js');
@@ -476,9 +497,7 @@ describe('Smooth Scroll Module', () => {
       document.body.innerHTML = '<div>No links here</div>';
       require('../js/smooth-scroll.js');
 
-      expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('No navigation links found'),
-      );
+      expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('No navigation links found'));
 
       consoleSpy.mockRestore();
     });

@@ -6,31 +6,31 @@
  * Requirements: 7.4 (Subtle, smooth transitions that evoke floating or drifting sensations)
  */
 
-(function() {
+(function () {
   'use strict';
 
   /**
-     * Animation Controller
-     * Manages scroll-triggered and hover animations
-     */
+   * Animation Controller
+   * Manages scroll-triggered and hover animations
+   */
   const AnimationController = {
     /**
-         * Default configuration for scroll animations
-         */
+     * Default configuration for scroll animations
+     */
     defaultConfig: {
-      threshold: 0.1,      // Trigger when 10% of element is visible
-      rootMargin: '0px',   // No margin around viewport
-      once: true,           // Animate only once by default
+      threshold: 0.1, // Trigger when 10% of element is visible
+      rootMargin: '0px', // No margin around viewport
+      once: true, // Animate only once by default
     },
 
     /**
-         * IntersectionObserver instance
-         */
+     * IntersectionObserver instance
+     */
     observer: null,
 
     /**
-         * Initialize the animation controller
-         */
+     * Initialize the animation controller
+     */
     init() {
       // Check for IntersectionObserver support
       if (!this.isIntersectionObserverSupported()) {
@@ -49,43 +49,44 @@
     },
 
     /**
-         * Check if IntersectionObserver is supported
-         * @returns {boolean}
-         */
+     * Check if IntersectionObserver is supported
+     * @returns {boolean}
+     */
     isIntersectionObserverSupported() {
-      return 'IntersectionObserver' in window &&
-                   'IntersectionObserverEntry' in window &&
-                   'intersectionRatio' in window.IntersectionObserverEntry.prototype;
+      return (
+        'IntersectionObserver' in window &&
+        'IntersectionObserverEntry' in window &&
+        'intersectionRatio' in window.IntersectionObserverEntry.prototype
+      );
     },
 
     /**
-         * Check if user prefers reduced motion
-         * @returns {boolean}
-         */
+     * Check if user prefers reduced motion
+     * @returns {boolean}
+     */
     prefersReducedMotion() {
-      return window.matchMedia &&
-                   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     },
 
     /**
-         * Handle browsers without IntersectionObserver support
-         * Graceful degradation: show all elements immediately
-         */
+     * Handle browsers without IntersectionObserver support
+     * Graceful degradation: show all elements immediately
+     */
     handleNoSupport() {
       const animatedElements = document.querySelectorAll('[data-animate]');
-      animatedElements.forEach(function(element) {
+      animatedElements.forEach(function (element) {
         element.classList.add('is-visible');
         element.style.opacity = '1';
       });
     },
 
     /**
-         * Handle reduced motion preference
-         * Show all elements without animation
-         */
+     * Handle reduced motion preference
+     * Show all elements without animation
+     */
     handleReducedMotion() {
       const animatedElements = document.querySelectorAll('[data-animate]');
-      animatedElements.forEach(function(element) {
+      animatedElements.forEach(function (element) {
         element.classList.add('is-visible');
         element.style.opacity = '1';
         element.style.animation = 'none';
@@ -93,35 +94,38 @@
     },
 
     /**
-         * Initialize scroll-triggered animations
-         * @param {Object} customConfig - Optional custom configuration
-         */
+     * Initialize scroll-triggered animations
+     * @param {Object} customConfig - Optional custom configuration
+     */
     initScrollAnimations(customConfig) {
       const config = Object.assign({}, this.defaultConfig, customConfig);
       const self = this;
 
       // Create the IntersectionObserver
-      this.observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          self.handleIntersection(entry, config);
-        });
-      }, {
-        threshold: config.threshold,
-        rootMargin: config.rootMargin,
-      });
+      this.observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            self.handleIntersection(entry, config);
+          });
+        },
+        {
+          threshold: config.threshold,
+          rootMargin: config.rootMargin,
+        }
+      );
 
       // Observe all elements with data-animate attribute
       const animatedElements = document.querySelectorAll('[data-animate]');
-      animatedElements.forEach(function(element) {
+      animatedElements.forEach(function (element) {
         self.observer.observe(element);
       });
     },
 
     /**
-         * Handle intersection event for an element
-         * @param {IntersectionObserverEntry} entry
-         * @param {Object} config
-         */
+     * Handle intersection event for an element
+     * @param {IntersectionObserverEntry} entry
+     * @param {Object} config
+     */
     handleIntersection(entry, config) {
       if (entry.isIntersecting) {
         const element = entry.target;
@@ -129,7 +133,7 @@
         // Get animation delay from data attribute
         const delay = element.dataset.animateDelay;
         if (delay) {
-          element.style.animationDelay = `${delay  }ms`;
+          element.style.animationDelay = `${delay}ms`;
         }
 
         // Add visible class to trigger animation
@@ -150,10 +154,10 @@
     },
 
     /**
-         * Manually trigger animation on an element
-         * @param {HTMLElement} element
-         * @param {string} animationType - Animation type (fade-in, fade-in-up, etc.)
-         */
+     * Manually trigger animation on an element
+     * @param {HTMLElement} element
+     * @param {string} animationType - Animation type (fade-in, fade-in-up, etc.)
+     */
     animateElement(element, animationType) {
       if (!element) {
         return;
@@ -164,9 +168,9 @@
     },
 
     /**
-         * Reset animation on an element
-         * @param {HTMLElement} element
-         */
+     * Reset animation on an element
+     * @param {HTMLElement} element
+     */
     resetAnimation(element) {
       if (!element) {
         return;
@@ -179,9 +183,9 @@
     },
 
     /**
-         * Add a new element to be observed
-         * @param {HTMLElement} element
-         */
+     * Add a new element to be observed
+     * @param {HTMLElement} element
+     */
     observe(element) {
       if (this.observer && element) {
         this.observer.observe(element);
@@ -189,9 +193,9 @@
     },
 
     /**
-         * Stop observing an element
-         * @param {HTMLElement} element
-         */
+     * Stop observing an element
+     * @param {HTMLElement} element
+     */
     unobserve(element) {
       if (this.observer && element) {
         this.observer.unobserve(element);
@@ -199,8 +203,8 @@
     },
 
     /**
-         * Disconnect the observer and clean up
-         */
+     * Disconnect the observer and clean up
+     */
     destroy() {
       if (this.observer) {
         this.observer.disconnect();
@@ -210,44 +214,44 @@
   };
 
   /**
-     * Initialize scroll animations on elements with data-animate attribute
-     * This is the main entry point for the animations module
-     */
+   * Initialize scroll animations on elements with data-animate attribute
+   * This is the main entry point for the animations module
+   */
   function initScrollAnimations() {
     AnimationController.init();
   }
 
   /**
-     * Initialize hover animations
-     * Adds event listeners for enhanced hover effects
-     */
+   * Initialize hover animations
+   * Adds event listeners for enhanced hover effects
+   */
   function initHoverAnimations() {
     // Service cards hover effect enhancement
     const serviceCards = document.querySelectorAll('.service-card');
-    serviceCards.forEach(function(card) {
-      card.addEventListener('mouseenter', function() {
+    serviceCards.forEach(function (card) {
+      card.addEventListener('mouseenter', function () {
         this.classList.add('is-hovered');
       });
-      card.addEventListener('mouseleave', function() {
+      card.addEventListener('mouseleave', function () {
         this.classList.remove('is-hovered');
       });
     });
 
     // CTA buttons hover effect
     const ctaButtons = document.querySelectorAll('.btn-primary, .btn-secondary');
-    ctaButtons.forEach(function(button) {
-      button.addEventListener('mouseenter', function() {
+    ctaButtons.forEach(function (button) {
+      button.addEventListener('mouseenter', function () {
         this.classList.add('is-hovered');
       });
-      button.addEventListener('mouseleave', function() {
+      button.addEventListener('mouseleave', function () {
         this.classList.remove('is-hovered');
       });
     });
   }
 
   /**
-     * Initialize all animations
-     */
+   * Initialize all animations
+   */
   function init() {
     initScrollAnimations();
     initHoverAnimations();
@@ -262,5 +266,4 @@
 
   // Expose AnimationController for external use
   window.AnimationController = AnimationController;
-
 })();

@@ -14,7 +14,7 @@ describe('Navigation Module', () => {
     document.body.innerHTML = '';
 
     // Mock requestAnimationFrame
-    window.requestAnimationFrame = jest.fn((callback) => {
+    window.requestAnimationFrame = jest.fn(callback => {
       rafCallback = callback;
       return 1;
     });
@@ -79,7 +79,7 @@ describe('Navigation Module', () => {
       loadModule();
 
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Required elements not found'),
+        expect.stringContaining('Required elements not found')
       );
       consoleSpy.mockRestore();
     });

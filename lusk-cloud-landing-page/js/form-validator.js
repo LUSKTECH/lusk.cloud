@@ -4,7 +4,7 @@
  * Requirements: 5.3, 5.4, 5.5, 5.6
  */
 
-(function() {
+(function () {
   'use strict';
 
   // Validation rules configuration
@@ -29,11 +29,11 @@
   };
 
   /**
-     * Validates an email address using regex pattern
-     * @param {string} email - The email address to validate
-     * @returns {boolean} - True if valid, false otherwise
-     * Validates: Requirement 5.6
-     */
+   * Validates an email address using regex pattern
+   * @param {string} email - The email address to validate
+   * @returns {boolean} - True if valid, false otherwise
+   * Validates: Requirement 5.6
+   */
   function validateEmail(email) {
     if (typeof email !== 'string') {
       return false;
@@ -46,12 +46,12 @@
   }
 
   /**
-     * Validates a single form field
-     * @param {string} fieldName - The name of the field to validate
-     * @param {string} value - The value to validate
-     * @returns {Object} - Validation result with isValid and errorMessage
-     * Validates: Requirements 5.4, 5.5
-     */
+   * Validates a single form field
+   * @param {string} fieldName - The name of the field to validate
+   * @param {string} value - The value to validate
+   * @returns {Object} - Validation result with isValid and errorMessage
+   * Validates: Requirements 5.4, 5.5
+   */
   function validateField(fieldName, value) {
     const rules = validationRules[fieldName];
 
@@ -102,11 +102,11 @@
   }
 
   /**
-     * Validates all form fields
-     * @param {Object} formData - Object containing field names and values
-     * @returns {Object} - Object with isValid boolean and errors object
-     * Validates: Requirements 5.3, 5.4, 5.5
-     */
+   * Validates all form fields
+   * @param {Object} formData - Object containing field names and values
+   * @returns {Object} - Object with isValid boolean and errors object
+   * Validates: Requirements 5.3, 5.4, 5.5
+   */
   function validateForm(formData) {
     const errors = {};
     let isValid = true;
@@ -125,10 +125,10 @@
   }
 
   /**
-     * Displays error message for a field
-     * @param {HTMLElement} input - The input element
-     * @param {string} message - The error message to display
-     */
+   * Displays error message for a field
+   * @param {HTMLElement} input - The input element
+   * @param {string} message - The error message to display
+   */
   function showFieldError(input, message) {
     const errorElement = document.getElementById(`${input.name}-error`);
 
@@ -142,9 +142,9 @@
   }
 
   /**
-     * Clears error message for a field
-     * @param {HTMLElement} input - The input element
-     */
+   * Clears error message for a field
+   * @param {HTMLElement} input - The input element
+   */
   function clearFieldError(input) {
     const errorElement = document.getElementById(`${input.name}-error`);
 
@@ -158,9 +158,9 @@
   }
 
   /**
-     * Updates the character counter for the message field
-     * @param {HTMLTextAreaElement} textarea - The textarea element
-     */
+   * Updates the character counter for the message field
+   * @param {HTMLTextAreaElement} textarea - The textarea element
+   */
   function updateCharacterCounter(textarea) {
     const counter = document.getElementById('message-counter');
     if (counter && textarea) {
@@ -185,9 +185,9 @@
   }
 
   /**
-     * Shows the success message and hides the form
-     * Validates: Requirement 5.3
-     */
+   * Shows the success message and hides the form
+   * Validates: Requirement 5.3
+   */
   function showSuccessMessage() {
     const form = document.getElementById('contact-form');
     const successMessage = document.getElementById('form-success');
@@ -203,8 +203,8 @@
   }
 
   /**
-     * Shows the error message for submission failures
-     */
+   * Shows the error message for submission failures
+   */
   function showSubmissionError() {
     const errorMessage = document.getElementById('form-error');
 
@@ -214,8 +214,8 @@
   }
 
   /**
-     * Hides the submission error message
-     */
+   * Hides the submission error message
+   */
   function hideSubmissionError() {
     const errorMessage = document.getElementById('form-error');
 
@@ -225,9 +225,9 @@
   }
 
   /**
-     * Sets the loading state on the submit button
-     * @param {boolean} isLoading - Whether to show loading state
-     */
+   * Sets the loading state on the submit button
+   * @param {boolean} isLoading - Whether to show loading state
+   */
   function setLoadingState(isLoading) {
     const submitButton = document.getElementById('contact-submit');
 
@@ -245,10 +245,10 @@
   }
 
   /**
-     * Handles form submission
-     * @param {Event} event - The submit event
-     * Validates: Requirements 5.3, 5.4, 5.5
-     */
+   * Handles form submission
+   * @param {Event} event - The submit event
+   * Validates: Requirements 5.3, 5.4, 5.5
+   */
   async function handleFormSubmit(event) {
     event.preventDefault();
 
@@ -309,11 +309,11 @@
   }
 
   /**
-     * Submits the form data to Netlify Forms
-     * @param {Object} formData - The form data to submit
-     * @param {HTMLFormElement} form - The form element
-     * @returns {Promise} - Resolves on success, rejects on failure
-     */
+   * Submits the form data to Netlify Forms
+   * @param {Object} formData - The form data to submit
+   * @param {HTMLFormElement} form - The form element
+   * @returns {Promise} - Resolves on success, rejects on failure
+   */
   function submitForm(formData, form) {
     const body = new URLSearchParams({
       'form-name': form.getAttribute('name') || 'contact',
@@ -333,9 +333,9 @@
   }
 
   /**
-     * Handles real-time validation on blur
-     * @param {Event} event - The blur event
-     */
+   * Handles real-time validation on blur
+   * @param {Event} event - The blur event
+   */
   function handleFieldBlur(event) {
     const input = event.target;
     const fieldName = input.name;
@@ -351,9 +351,9 @@
   }
 
   /**
-     * Handles real-time validation on input
-     * @param {Event} event - The input event
-     */
+   * Handles real-time validation on input
+   * @param {Event} event - The input event
+   */
   function handleFieldInput(event) {
     const input = event.target;
     const fieldName = input.name;
@@ -373,8 +373,8 @@
   }
 
   /**
-     * Initializes the contact form validation
-     */
+   * Initializes the contact form validation
+   */
   function initContactForm() {
     const form = document.getElementById('contact-form');
 
@@ -425,5 +425,4 @@
       validationRules,
     };
   }
-
 })();
