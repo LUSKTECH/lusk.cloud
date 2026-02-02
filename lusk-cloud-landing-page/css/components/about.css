@@ -1,0 +1,466 @@
+/*
+ * About Section Styles
+ * Lusk.cloud Landing Page
+ * 
+ * Requirements:
+ * - 4.1: Display information about Lusk.cloud
+ * - 4.2: Mention relationship with Lusk Technologies, Inc. (lusk.tech)
+ * - 4.3: Communicate company's mission and expertise
+ * - 4.4: Include imagery consistent with cloud theme
+ */
+
+/* ========================================
+   About Section Container
+   ======================================== */
+.about-section {
+    background-color: var(--color-white);
+    padding: var(--section-padding) 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.about-container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+    position: relative;
+    z-index: 1;
+}
+
+/* ========================================
+   Cloud-themed Decorative Elements
+   Requirement 4.4: Imagery consistent with cloud theme
+   ======================================== */
+.about-cloud {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-secondary) 0%, rgb(240, 249, 255, 0.5) 100%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.about-cloud-1 {
+    width: 300px;
+    height: 150px;
+    top: 10%;
+    left: -100px;
+    border-radius: 100px;
+    opacity: 0.6;
+    animation: float-slow 8s ease-in-out infinite;
+}
+
+.about-cloud-2 {
+    width: 200px;
+    height: 100px;
+    bottom: 15%;
+    right: -50px;
+    border-radius: 80px;
+    opacity: 0.4;
+    animation: float-slow 10s ease-in-out infinite reverse;
+}
+
+@keyframes float-slow {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+    }
+
+    50% {
+        transform: translateY(-20px) translateX(10px);
+    }
+}
+
+/* ========================================
+   Section Header
+   ======================================== */
+.about-header {
+    text-align: center;
+    margin-bottom: var(--spacing-3xl);
+}
+
+.about-title {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+    margin-bottom: var(--spacing-md);
+    line-height: var(--line-height-heading);
+}
+
+.about-subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-light);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: var(--line-height-base);
+}
+
+/* ========================================
+   Two-Column Layout
+   ======================================== */
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-3xl);
+    align-items: center;
+}
+
+/* ========================================
+   Text Content Column
+   ======================================== */
+.about-text {
+    position: relative;
+    z-index: 1;
+}
+
+.about-heading {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    margin-bottom: var(--spacing-lg);
+    line-height: var(--line-height-heading);
+}
+
+.about-description {
+    font-size: var(--font-size-md);
+    color: var(--color-text-light);
+    line-height: var(--line-height-base);
+    margin-bottom: var(--spacing-md);
+}
+
+.about-description strong {
+    color: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
+/* ========================================
+   Company Attribution
+   Requirement 4.2: Mention Lusk Technologies, Inc.
+   ======================================== */
+.about-attribution {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, rgb(14, 165, 233, 0.05) 100%);
+    border-left: 4px solid var(--color-primary);
+    padding: var(--spacing-md) var(--spacing-lg);
+    margin: var(--spacing-xl) 0;
+    border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+}
+
+.attribution-text {
+    font-size: var(--font-size-md);
+    color: var(--color-text);
+    margin: 0;
+    line-height: var(--line-height-base);
+}
+
+.attribution-link {
+    color: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+    transition: color var(--animation-duration) var(--animation-easing);
+}
+
+.attribution-link:hover {
+    color: var(--color-primary-dark);
+    text-decoration: underline;
+}
+
+/* ========================================
+   Key Highlights / Stats
+   ======================================== */
+.about-highlights {
+    display: flex;
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-xl);
+}
+
+.highlight-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.highlight-number {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    line-height: 1;
+    margin-bottom: var(--spacing-xs);
+}
+
+.highlight-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    font-weight: var(--font-weight-medium);
+}
+
+/* ========================================
+   Image Column
+   Requirement 4.4: Cloud-themed imagery
+   ======================================== */
+.about-image-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.about-image-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+}
+
+.about-image {
+    width: 100%;
+    height: auto;
+    border-radius: var(--border-radius-lg);
+    position: relative;
+    z-index: 1;
+}
+
+/* ========================================
+   Floating Decorative Elements
+   ======================================== */
+.about-float-element {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.about-float-1 {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-accent) 100%);
+    top: -20px;
+    right: -10px;
+    opacity: 0.7;
+    animation: float-element 4s ease-in-out infinite;
+}
+
+.about-float-2 {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-primary) 100%);
+    bottom: 20%;
+    left: -20px;
+    opacity: 0.6;
+    animation: float-element 5s ease-in-out infinite reverse;
+}
+
+.about-float-3 {
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    bottom: -10px;
+    right: 20%;
+    opacity: 0.5;
+    animation: float-element 6s ease-in-out infinite;
+}
+
+@keyframes float-element {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-15px) scale(1.05);
+    }
+}
+
+/* ========================================
+   Responsive Styles
+   ======================================== */
+
+/* Tablet (768px - 1023px) */
+@media (width <= 1023px) {
+    .about-section {
+        padding: var(--section-padding-mobile) 0;
+    }
+
+    .about-content {
+        gap: var(--spacing-2xl);
+    }
+
+    .about-title {
+        font-size: var(--font-size-3xl);
+    }
+
+    .about-heading {
+        font-size: var(--font-size-xl);
+    }
+
+    .about-header {
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    .about-highlights {
+        gap: var(--spacing-lg);
+    }
+
+    .highlight-number {
+        font-size: var(--font-size-2xl);
+    }
+
+    .about-cloud-1 {
+        width: 200px;
+        height: 100px;
+        left: -80px;
+    }
+
+    .about-cloud-2 {
+        width: 150px;
+        height: 75px;
+        right: -40px;
+    }
+}
+
+/* Mobile: Stack columns (<768px) */
+@media (width <= 767px) {
+    .about-section {
+        padding: var(--section-padding-mobile) 0;
+    }
+
+    .about-container {
+        padding: 0 var(--spacing-md);
+    }
+
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-xl);
+    }
+
+    /* Reverse order on mobile: image first, then text */
+    .about-image-wrapper {
+        order: -1;
+    }
+
+    .about-title {
+        font-size: var(--font-size-2xl);
+    }
+
+    .about-subtitle {
+        font-size: var(--font-size-md);
+    }
+
+    .about-heading {
+        font-size: var(--font-size-lg);
+        text-align: center;
+    }
+
+    .about-description {
+        font-size: var(--font-size-sm);
+    }
+
+    .about-header {
+        margin-bottom: var(--spacing-xl);
+    }
+
+    .about-attribution {
+        padding: var(--spacing-sm) var(--spacing-md);
+        margin: var(--spacing-lg) 0;
+    }
+
+    .attribution-text {
+        font-size: var(--font-size-sm);
+    }
+
+    .about-highlights {
+        justify-content: center;
+        gap: var(--spacing-lg);
+        flex-wrap: wrap;
+    }
+
+    .highlight-item {
+        align-items: center;
+        text-align: center;
+        min-width: 80px;
+    }
+
+    .highlight-number {
+        font-size: var(--font-size-xl);
+    }
+
+    .highlight-label {
+        font-size: var(--font-size-xs);
+    }
+
+    /* Hide decorative clouds on mobile for cleaner look */
+    .about-cloud {
+        display: none;
+    }
+
+    .about-image-container {
+        max-width: 350px;
+    }
+
+    .about-float-1 {
+        width: 40px;
+        height: 40px;
+        top: -10px;
+        right: 0;
+    }
+
+    .about-float-2 {
+        width: 30px;
+        height: 30px;
+        left: -10px;
+    }
+
+    .about-float-3 {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* Small mobile (<480px) */
+@media (width <= 479px) {
+    .about-container {
+        padding: 0 var(--spacing-sm);
+    }
+
+    .about-highlights {
+        gap: var(--spacing-md);
+    }
+
+    .highlight-item {
+        min-width: 70px;
+    }
+
+    .about-image-container {
+        max-width: 280px;
+    }
+}
+
+/* ========================================
+   Focus States for Accessibility
+   Requirement 8.3: Keyboard navigation support
+   ======================================== */
+.attribution-link:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.attribution-link:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.attribution-link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* ========================================
+   Reduced Motion Preference
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+    .about-cloud,
+    .about-float-element {
+        animation: none;
+    }
+
+    .attribution-link {
+        transition: none;
+    }
+}

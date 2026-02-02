@@ -1,0 +1,317 @@
+/*
+ * Animation Utilities
+ * Lusk.cloud Landing Page
+ * 
+ * Requirements: 7.4 (Subtle, smooth transitions that evoke floating or drifting sensations)
+ */
+
+/* ========================================
+   Animation Variables
+   Using CSS custom properties from variables.css:
+   --animation-duration: 0.3s
+   --animation-easing: cubic-bezier(0.4, 0, 0.2, 1)
+   --float-duration: 6s
+   ======================================== */
+
+/* ========================================
+   Keyframe Animations
+   ======================================== */
+
+/* Fade In - Simple opacity transition */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Fade In Up - Opacity with upward movement */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fade In Down - Opacity with downward movement */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Float - Gentle floating motion for cloud-like effect */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+/* Slide In Left - Enter from left side */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Slide In Right - Enter from right side */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Scale In - Grow from smaller size */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Pulse - Subtle attention-grabbing pulse */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* ========================================
+   Animation Utility Classes
+   Apply these classes to elements for animations
+   ======================================== */
+
+/* Base animation class - sets up common properties */
+.animate {
+    animation-fill-mode: both;
+    animation-timing-function: var(--animation-easing);
+}
+
+/* Fade In */
+.animate-fade-in {
+    animation-name: fadeIn;
+    animation-duration: var(--animation-duration-slow);
+}
+
+/* Fade In Up */
+.animate-fade-in-up {
+    animation-name: fadeInUp;
+    animation-duration: var(--animation-duration-slow);
+}
+
+/* Fade In Down */
+.animate-fade-in-down {
+    animation-name: fadeInDown;
+    animation-duration: var(--animation-duration-slow);
+}
+
+/* Float - Continuous floating animation */
+.animate-float {
+    animation-name: float;
+    animation-duration: var(--float-duration);
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+/* Slide In Left */
+.animate-slide-in-left {
+    animation-name: slideInLeft;
+    animation-duration: var(--animation-duration-slow);
+}
+
+/* Slide In Right */
+.animate-slide-in-right {
+    animation-name: slideInRight;
+    animation-duration: var(--animation-duration-slow);
+}
+
+/* Scale In */
+.animate-scale-in {
+    animation-name: scaleIn;
+    animation-duration: var(--animation-duration-slow);
+}
+
+/* Pulse - Continuous pulse animation */
+.animate-pulse {
+    animation-name: pulse;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+/* ========================================
+   Animation Delay Utilities
+   Use with data-animate-delay attribute or classes
+   ======================================== */
+
+.animate-delay-100 {
+    animation-delay: 0.1s;
+}
+
+.animate-delay-200 {
+    animation-delay: 0.2s;
+}
+
+.animate-delay-300 {
+    animation-delay: 0.3s;
+}
+
+.animate-delay-400 {
+    animation-delay: 0.4s;
+}
+
+.animate-delay-500 {
+    animation-delay: 0.5s;
+}
+
+.animate-delay-600 {
+    animation-delay: 0.6s;
+}
+
+.animate-delay-700 {
+    animation-delay: 0.7s;
+}
+
+.animate-delay-800 {
+    animation-delay: 0.8s;
+}
+
+/* ========================================
+   Scroll Animation Classes
+   Used with IntersectionObserver in animations.js
+   Elements start hidden and animate when visible
+   ======================================== */
+
+/* Initial state for scroll-triggered animations */
+[data-animate] {
+    opacity: 0;
+}
+
+/* Visible state - applied by JavaScript when element enters viewport */
+[data-animate].is-visible {
+    opacity: 1;
+}
+
+/* Specific scroll animation types */
+[data-animate="fade-in"].is-visible {
+    animation: fadeIn var(--animation-duration-slow) var(--animation-easing) forwards;
+}
+
+[data-animate="fade-in-up"].is-visible {
+    animation: fadeInUp var(--animation-duration-slow) var(--animation-easing) forwards;
+}
+
+[data-animate="fade-in-down"].is-visible {
+    animation: fadeInDown var(--animation-duration-slow) var(--animation-easing) forwards;
+}
+
+[data-animate="slide-in-left"].is-visible {
+    animation: slideInLeft var(--animation-duration-slow) var(--animation-easing) forwards;
+}
+
+[data-animate="slide-in-right"].is-visible {
+    animation: slideInRight var(--animation-duration-slow) var(--animation-easing) forwards;
+}
+
+[data-animate="scale-in"].is-visible {
+    animation: scaleIn var(--animation-duration-slow) var(--animation-easing) forwards;
+}
+
+/* ========================================
+   Hover Animation Utilities
+   ======================================== */
+
+/* Lift effect on hover */
+.hover-lift {
+    transition: transform var(--animation-duration) var(--animation-easing),
+                box-shadow var(--animation-duration) var(--animation-easing);
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Scale effect on hover */
+.hover-scale {
+    transition: transform var(--animation-duration) var(--animation-easing);
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+/* Glow effect on hover */
+.hover-glow {
+    transition: box-shadow var(--animation-duration) var(--animation-easing);
+}
+
+.hover-glow:hover {
+    box-shadow: 0 0 20px rgb(14, 165, 233, 0.4);
+}
+
+/* ========================================
+   Reduced Motion Support
+   Respect user's motion preferences
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    [data-animate] {
+        opacity: 1;
+    }
+    
+    .animate-float {
+        animation: none;
+    }
+    
+    .animate-pulse {
+        animation: none;
+    }
+}

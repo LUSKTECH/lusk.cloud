@@ -1,0 +1,347 @@
+/*
+ * Navigation Component Styles
+ * Lusk.cloud Landing Page
+ * 
+ * Requirements: 
+ * - 2.1: Navigation bar displays logo and navigation links
+ * - 2.4: On mobile devices, navigation collapses into hamburger menu
+ */
+
+/* ========================================
+   Site Header
+   ======================================== */
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-index-sticky);
+    background-color: transparent;
+    transition: background-color var(--animation-duration) var(--animation-easing),
+                box-shadow var(--animation-duration) var(--animation-easing);
+}
+
+/* Sticky state - applied via JavaScript when scrolled */
+.site-header.is-sticky {
+    background-color: var(--color-white);
+    box-shadow: var(--shadow-md);
+}
+
+.site-header.is-sticky .nav-link {
+    color: var(--color-text);
+}
+
+.site-header.is-sticky .nav-link:hover {
+    color: var(--color-primary);
+}
+
+.site-header.is-sticky .hamburger,
+.site-header.is-sticky .hamburger::before,
+.site-header.is-sticky .hamburger::after {
+    background-color: var(--color-text);
+}
+
+/* ========================================
+   Navbar Container
+   ======================================== */
+.navbar {
+    width: 100%;
+    height: var(--nav-height);
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: var(--container-max-width);
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+}
+
+/* ========================================
+   Logo Styles
+   Requirement 2.1: Display Lusk.cloud logo
+   ======================================== */
+.nav-logo {
+    display: flex;
+    align-items: center;
+    z-index: calc(var(--z-index-sticky) + 1);
+}
+
+.nav-logo img {
+    width: 150px;
+    height: auto;
+    transition: opacity var(--animation-duration) var(--animation-easing);
+}
+
+.nav-logo:hover img {
+    opacity: 0.8;
+}
+
+.nav-logo:focus {
+    outline-offset: 4px;
+}
+
+.nav-logo:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+}
+
+/* ========================================
+   Navigation Menu
+   Requirement 2.1: Display navigation links
+   ======================================== */
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xl);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    margin: 0;
+}
+
+/* ========================================
+   Navigation Links
+   ======================================== */
+.nav-link {
+    display: inline-block;
+    padding: var(--spacing-sm) var(--spacing-xs);
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-white);
+    text-decoration: none;
+    position: relative;
+    transition: color var(--animation-duration) var(--animation-easing);
+}
+
+.nav-link:hover {
+    color: var(--color-accent);
+}
+
+/* Underline animation on hover */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: var(--spacing-xs);
+    right: var(--spacing-xs);
+    height: 2px;
+    background-color: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--animation-duration) var(--animation-easing);
+}
+
+.nav-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* Active link state */
+.nav-link.active {
+    color: var(--color-accent);
+}
+
+.nav-link.active::after {
+    transform: scaleX(1);
+}
+
+/* Focus-visible for keyboard navigation (Accessibility) */
+.nav-link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+}
+
+.site-header:not(.is-sticky) .nav-link:focus-visible {
+    outline-color: var(--color-white);
+}
+
+/* ========================================
+   Hamburger Menu Button
+   Requirement 2.4: Hamburger menu for mobile
+   ======================================== */
+.nav-toggle {
+    display: none;
+    position: relative;
+    width: 30px;
+    height: 24px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: calc(var(--z-index-sticky) + 1);
+}
+
+.nav-toggle:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+}
+
+.nav-toggle:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+}
+
+.site-header:not(.is-sticky) .nav-toggle:focus-visible {
+    outline-color: var(--color-white);
+}
+
+/* Hamburger icon - three lines */
+.hamburger {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--color-white);
+    border-radius: 2px;
+    transform: translateY(-50%);
+    transition: background-color var(--animation-duration) var(--animation-easing);
+}
+
+.hamburger::before,
+.hamburger::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--color-white);
+    border-radius: 2px;
+    transition: transform var(--animation-duration) var(--animation-easing),
+                top var(--animation-duration) var(--animation-easing),
+                bottom var(--animation-duration) var(--animation-easing);
+}
+
+.hamburger::before {
+    top: -8px;
+}
+
+.hamburger::after {
+    bottom: -8px;
+}
+
+/* Hamburger animation when menu is open */
+.nav-toggle[aria-expanded="true"] .hamburger {
+    background-color: transparent;
+}
+
+.nav-toggle[aria-expanded="true"] .hamburger::before {
+    top: 0;
+    transform: rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] .hamburger::after {
+    bottom: 0;
+    transform: rotate(-45deg);
+}
+
+/* ========================================
+   Mobile Styles
+   Requirement 2.4: Navigation collapses into hamburger menu
+   ======================================== */
+@media (width <= 768px) {
+    .navbar {
+        height: var(--nav-height-mobile);
+    }
+
+    .nav-container {
+        padding: 0 var(--spacing-md);
+    }
+
+    /* Show hamburger button on mobile */
+    .nav-toggle {
+        display: block;
+    }
+
+    /* Mobile menu - hidden by default */
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: var(--spacing-lg);
+        background-color: var(--color-primary-dark);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-100%);
+        transition: opacity var(--animation-duration) var(--animation-easing),
+                    visibility var(--animation-duration) var(--animation-easing),
+                    transform var(--animation-duration) var(--animation-easing);
+    }
+
+    /* Mobile menu - visible when active */
+    .nav-menu.is-active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    /* Mobile nav links */
+    .nav-menu .nav-link {
+        font-size: var(--font-size-2xl);
+        color: var(--color-white);
+        padding: var(--spacing-md);
+    }
+
+    .nav-menu .nav-link:hover {
+        color: var(--color-accent);
+    }
+
+    /* Ensure hamburger is visible on sticky header in mobile */
+    .site-header.is-sticky .hamburger,
+    .site-header.is-sticky .hamburger::before,
+    .site-header.is-sticky .hamburger::after {
+        background-color: var(--color-text);
+    }
+
+    /* When menu is open, keep hamburger white */
+    .nav-toggle[aria-expanded="true"] .hamburger::before,
+    .nav-toggle[aria-expanded="true"] .hamburger::after {
+        background-color: var(--color-white);
+    }
+
+    /* Logo size adjustment for mobile */
+    .nav-logo img {
+        width: 120px;
+    }
+}
+
+/* ========================================
+   Tablet Styles
+   ======================================== */
+@media (width >= 769px) and (width <= 1024px) {
+    .nav-menu {
+        gap: var(--spacing-lg);
+    }
+
+    .nav-link {
+        font-size: var(--font-size-sm);
+    }
+}
+
+/* ========================================
+   Accessibility - Reduced Motion
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+    .site-header,
+    .nav-link,
+    .nav-link::after,
+    .hamburger,
+    .hamburger::before,
+    .hamburger::after,
+    .nav-menu {
+        transition: none;
+    }
+}

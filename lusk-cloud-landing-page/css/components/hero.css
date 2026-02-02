@@ -1,0 +1,331 @@
+/*
+ * Hero Section Styles
+ * Lusk.cloud Landing Page
+ * 
+ * Requirements:
+ * - 1.6: Text remains readable against background through appropriate contrast
+ * - 7.1: Use color palette inspired by sky and cloud imagery
+ * - 7.2: Incorporate cloud-themed graphics and imagery throughout
+ */
+
+/* ========================================
+   Hero Section Container
+   Full viewport height with relative positioning for layered content
+   ======================================== */
+.hero-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* ========================================
+   Video Background
+   Absolute positioning with object-fit: cover for full coverage
+   ======================================== */
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+/* ========================================
+   Fallback Image
+   Hidden by default, shown when video is not supported
+   ======================================== */
+.hero-fallback-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+/* Hide fallback when video is supported */
+.hero-video + .hero-fallback-image {
+    display: none;
+}
+
+/* Show fallback when video fails to load */
+.hero-video:not([src]) + .hero-fallback-image,
+.hero-video[src=""] + .hero-fallback-image {
+    display: block;
+}
+
+/* ========================================
+   Overlay for Text Readability
+   Requirement 1.6: Ensures text remains readable against background
+   ======================================== */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        180deg,
+        rgb(0, 0, 0, 0.3) 0%,
+        rgb(0, 0, 0, 0.4) 50%,
+        rgb(0, 0, 0, 0.5) 100%
+    );
+    z-index: 2;
+}
+
+/* ========================================
+   Hero Content
+   Centered content with z-index above overlay
+   ======================================== */
+.hero-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    max-width: 800px;
+    padding: var(--spacing-xl);
+    color: var(--color-white);
+}
+
+/* ========================================
+   Brand Name
+   Large, prominent display of company name
+   ======================================== */
+.hero-brand {
+    display: block;
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-primary-light);
+    margin-bottom: var(--spacing-md);
+    text-shadow: 0 2px 4px rgb(0, 0, 0, 0.3);
+}
+
+/* ========================================
+   Headline
+   Large font, white color for maximum impact
+   ======================================== */
+.hero-headline {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-5xl);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.1;
+    color: var(--color-white);
+    margin-bottom: var(--spacing-lg);
+    text-shadow: 0 2px 8px rgb(0, 0, 0, 0.4);
+}
+
+/* ========================================
+   Subheadline
+   Lighter weight, slightly muted for hierarchy
+   ======================================== */
+.hero-subheadline {
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.6;
+    color: rgb(255, 255, 255, 0.9);
+    margin-bottom: var(--spacing-xl);
+    text-shadow: 0 1px 4px rgb(0, 0, 0, 0.3);
+}
+
+/* ========================================
+   CTA Button Container
+   Flexbox layout for button arrangement
+   ======================================== */
+.hero-cta-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    justify-content: center;
+    align-items: center;
+}
+
+/* ========================================
+   CTA Buttons
+   Primary: solid sky blue background, white text
+   Secondary: transparent with white border
+   ======================================== */
+.cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+    border-radius: var(--border-radius-md);
+    transition: all var(--animation-duration) var(--animation-easing);
+    cursor: pointer;
+    min-width: 160px;
+}
+
+/* Primary CTA - Solid sky blue background */
+.cta-primary {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 4px 14px rgb(14, 165, 233, 0.4);
+}
+
+.cta-primary:hover {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    color: var(--color-white);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgb(14, 165, 233, 0.5);
+}
+
+.cta-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgb(14, 165, 233, 0.4);
+}
+
+/* Secondary CTA - Transparent with white border */
+.cta-secondary {
+    background-color: transparent;
+    color: var(--color-white);
+    border: 2px solid var(--color-white);
+    box-shadow: 0 4px 14px rgb(255, 255, 255, 0.1);
+}
+
+.cta-secondary:hover {
+    background-color: var(--color-white);
+    color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgb(255, 255, 255, 0.2);
+}
+
+.cta-secondary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgb(255, 255, 255, 0.1);
+}
+
+/* Focus states for accessibility */
+.cta-button:focus-visible {
+    outline: 2px solid var(--color-white);
+    outline-offset: 4px;
+}
+
+/* ========================================
+   Responsive Adjustments
+   Mobile-first approach with breakpoint adjustments
+   ======================================== */
+
+/* Tablet and below */
+@media (width <= 768px) {
+    .hero-section {
+        min-height: 500px;
+    }
+
+    .hero-content {
+        padding: var(--spacing-lg);
+    }
+
+    .hero-brand {
+        font-size: var(--font-size-lg);
+    }
+
+    .hero-headline {
+        font-size: var(--font-size-4xl);
+    }
+
+    .hero-subheadline {
+        font-size: var(--font-size-lg);
+    }
+
+    .cta-button {
+        padding: var(--spacing-sm) var(--spacing-lg);
+        font-size: var(--font-size-sm);
+        min-width: 140px;
+    }
+}
+
+/* Mobile */
+@media (width <= 480px) {
+    .hero-section {
+        min-height: 100vh;
+        min-height: 100svh; /* Use small viewport height for mobile browsers */
+    }
+
+    .hero-content {
+        padding: var(--spacing-md);
+    }
+
+    .hero-brand {
+        font-size: var(--font-size-md);
+        letter-spacing: 0.08em;
+    }
+
+    .hero-headline {
+        font-size: var(--font-size-3xl);
+        margin-bottom: var(--spacing-md);
+    }
+
+    .hero-subheadline {
+        font-size: var(--font-size-md);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .hero-cta-container {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .cta-button {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    /* Hide video on mobile for performance (Requirement 6.5) */
+    .hero-video {
+        display: none;
+    }
+
+    /* Show fallback image on mobile */
+    .hero-fallback-image {
+        display: block !important;
+    }
+}
+
+/* Large screens */
+@media (width >= 1280px) {
+    .hero-headline {
+        font-size: var(--font-size-6xl);
+    }
+
+    .hero-subheadline {
+        font-size: var(--font-size-2xl);
+    }
+
+    .cta-button {
+        padding: var(--spacing-md) var(--spacing-2xl);
+        font-size: var(--font-size-lg);
+        min-width: 180px;
+    }
+}
+
+/* ========================================
+   Reduced Motion Preference
+   Respect user's motion preferences
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+    .cta-button {
+        transition: none;
+    }
+
+    .cta-primary:hover,
+    .cta-secondary:hover {
+        transform: none;
+    }
+}

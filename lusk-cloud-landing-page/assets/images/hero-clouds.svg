@@ -1,0 +1,179 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <!--
+    PLACEHOLDER IMAGE: hero-clouds.svg
+    
+    For production, replace this SVG with:
+    - hero-clouds.webp: High-quality cloud/sky image in WebP format
+    
+    This SVG serves as a visual placeholder demonstrating the intended
+    aesthetic for the hero background image.
+    
+    Recommended specifications for hero-clouds.webp:
+    - Dimensions: 1920x1080 minimum (16:9 aspect ratio)
+    - Format: WebP (with JPEG fallback for older browsers)
+    - Quality: 80-85% compression
+    - File size: 100-300KB
+    - Content: Dramatic sky with fluffy clouds, blue tones
+  -->
+  
+  <defs>
+    <!-- Deep sky gradient -->
+    <linearGradient id="deepSkyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0369A1;stop-opacity:1" />
+      <stop offset="25%" style="stop-color:#0EA5E9;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#38BDF8;stop-opacity:1" />
+      <stop offset="75%" style="stop-color:#7DD3FC;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#BAE6FD;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Fluffy cloud gradient -->
+    <linearGradient id="fluffyCloudGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#F0F9FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E0F2FE;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Cloud highlight -->
+    <linearGradient id="cloudHighlight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFFFFF;stop-opacity:0.5" />
+    </linearGradient>
+    
+    <!-- Soft shadow filter -->
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="15" result="blur"/>
+      <feOffset in="blur" dx="0" dy="8" result="offsetBlur"/>
+      <feFlood flood-color="#0284C7" flood-opacity="0.2" result="color"/>
+      <feComposite in="color" in2="offsetBlur" operator="in" result="shadow"/>
+      <feMerge>
+        <feMergeNode in="shadow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Sun rays -->
+    <radialGradient id="sunRays" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" style="stop-color:#FEF9C3;stop-opacity:0.4" />
+      <stop offset="40%" style="stop-color:#FDE68A;stop-opacity:0.15" />
+      <stop offset="100%" style="stop-color:#FDE68A;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Sky background -->
+  <rect width="1920" height="1080" fill="url(#deepSkyGradient)"/>
+  
+  <!-- Sun glow effect -->
+  <ellipse cx="1400" cy="150" rx="500" ry="350" fill="url(#sunRays)"/>
+  
+  <!-- Distant cloud layer (very subtle) -->
+  <g opacity="0.3">
+    <g transform="translate(100, 100)">
+      <ellipse cx="200" cy="40" rx="180" ry="35" fill="#FFFFFF"/>
+      <ellipse cx="80" cy="50" rx="100" ry="28" fill="#FFFFFF"/>
+      <ellipse cx="340" cy="45" rx="140" ry="32" fill="#FFFFFF"/>
+    </g>
+    <g transform="translate(1200, 80)">
+      <ellipse cx="180" cy="35" rx="160" ry="30" fill="#FFFFFF"/>
+      <ellipse cx="60" cy="45" rx="90" ry="25" fill="#FFFFFF"/>
+      <ellipse cx="320" cy="40" rx="120" ry="28" fill="#FFFFFF"/>
+    </g>
+    <g transform="translate(600, 60)">
+      <ellipse cx="150" cy="30" rx="140" ry="25" fill="#FFFFFF"/>
+      <ellipse cx="280" cy="35" rx="100" ry="22" fill="#FFFFFF"/>
+    </g>
+  </g>
+  
+  <!-- Mid-distance clouds -->
+  <g opacity="0.5" filter="url(#softShadow)">
+    <g transform="translate(-50, 200)">
+      <ellipse cx="280" cy="70" rx="240" ry="60" fill="url(#fluffyCloudGradient)"/>
+      <ellipse cx="120" cy="85" rx="160" ry="50" fill="url(#fluffyCloudGradient)"/>
+      <ellipse cx="450" cy="80" rx="200" ry="55" fill="url(#fluffyCloudGradient)"/>
+    </g>
+    <g transform="translate(1350, 180)">
+      <ellipse cx="220" cy="65" rx="200" ry="55" fill="url(#fluffyCloudGradient)"/>
+      <ellipse cx="80" cy="80" rx="140" ry="45" fill="url(#fluffyCloudGradient)"/>
+      <ellipse cx="380" cy="75" rx="170" ry="50" fill="url(#fluffyCloudGradient)"/>
+    </g>
+  </g>
+  
+  <!-- Main cloud formations -->
+  <g filter="url(#softShadow)">
+    <!-- Large left cloud cluster -->
+    <g transform="translate(-100, 380)" opacity="0.85">
+      <ellipse cx="350" cy="100" rx="300" ry="90" fill="url(#fluffyCloudGradient)"/>
+      <ellipse cx="150" cy="130" rx="200" ry="70" fill="url(#fluffyCloudGradient)"/>
+      <ellipse cx="550" cy="120" rx="250" ry="80" fill="url(#fluffyCloudGradient)"/>
+      <ellipse cx="380" cy="160" rx="280" ry="60" fill="url(#fluffyCloudGradient)"/>
+      <!-- Highlights -->
+      <ellipse cx="280" cy="80" rx="120" ry="40" fill="url(#cloudHighlight)" opacity="0.7"/>
+      <ellipse cx="450" cy="90" rx="80" ry="30" fill="url(#cloudHighlight)" opacity="0.5"/>
+    </g>
+    
+    <!-- Center-right cloud cluster -->
+    <g transform="translate(800, 320)" opacity="0.9">
+      <ellipse cx="300" cy="90" rx="280" ry="85" fill="url(#fluffyCloudGradient)"/>
+      <ellipse cx="120" cy="115" rx="180" ry="65" fill="url(#fluffyCloudGradient)"/>
+      <ellipse cx="500" cy="105" rx="220" ry="75" fill="url(#fluffyCloudGradient)"/>
+      <ellipse cx="320" cy="145" rx="260" ry="55" fill="url(#fluffyCloudGradient)"/>
+      <!-- Highlights -->
+      <ellipse cx="250" cy="70" rx="100" ry="35" fill="url(#cloudHighlight)" opacity="0.6"/>
+    </g>
+    
+    <!-- Right edge cloud -->
+    <g transform="translate(1500, 420)" opacity="0.8">
+      <ellipse cx="200" cy="80" rx="220" ry="70" fill="url(#fluffyCloudGradient)"/>
+      <ellipse cx="80" cy="100" rx="150" ry="55" fill="url(#fluffyCloudGradient)"/>
+      <ellipse cx="350" cy="95" rx="180" ry="60" fill="url(#fluffyCloudGradient)"/>
+    </g>
+  </g>
+  
+  <!-- Foreground cloud bank -->
+  <g filter="url(#softShadow)">
+    <!-- Bottom left massive cloud -->
+    <g transform="translate(-200, 600)" opacity="0.95">
+      <ellipse cx="400" cy="150" rx="380" ry="130" fill="url(#fluffyCloudGradient)"/>
+      <ellipse cx="180" cy="190" rx="260" ry="100" fill="url(#fluffyCloudGradient)"/>
+      <ellipse cx="650" cy="175" rx="320" ry="115" fill="url(#fluffyCloudGradient)"/>
+      <ellipse cx="420" cy="230" rx="350" ry="80" fill="url(#fluffyCloudGradient)"/>
+      <!-- Bright highlights -->
+      <ellipse cx="320" cy="120" rx="150" ry="50" fill="url(#cloudHighlight)" opacity="0.8"/>
+      <ellipse cx="520" cy="140" rx="100" ry="35" fill="url(#cloudHighlight)" opacity="0.6"/>
+    </g>
+    
+    <!-- Bottom center cloud -->
+    <g transform="translate(500, 650)" opacity="0.95">
+      <ellipse cx="350" cy="140" rx="350" ry="120" fill="url(#fluffyCloudGradient)"/>
+      <ellipse cx="150" cy="175" rx="240" ry="95" fill="url(#fluffyCloudGradient)"/>
+      <ellipse cx="580" cy="160" rx="300" ry="105" fill="url(#fluffyCloudGradient)"/>
+      <ellipse cx="370" cy="210" rx="320" ry="70" fill="url(#fluffyCloudGradient)"/>
+      <!-- Highlights -->
+      <ellipse cx="280" cy="110" rx="130" ry="45" fill="url(#cloudHighlight)" opacity="0.7"/>
+    </g>
+    
+    <!-- Bottom right cloud -->
+    <g transform="translate(1200, 580)" opacity="0.9">
+      <ellipse cx="320" cy="130" rx="320" ry="110" fill="url(#fluffyCloudGradient)"/>
+      <ellipse cx="140" cy="165" rx="220" ry="85" fill="url(#fluffyCloudGradient)"/>
+      <ellipse cx="520" cy="150" rx="280" ry="95" fill="url(#fluffyCloudGradient)"/>
+      <ellipse cx="340" cy="200" rx="300" ry="65" fill="url(#fluffyCloudGradient)"/>
+    </g>
+  </g>
+  
+  <!-- Horizon cloud layer -->
+  <g opacity="1">
+    <ellipse cx="960" cy="1120" rx="1400" ry="250" fill="#FFFFFF"/>
+    <ellipse cx="300" cy="1100" rx="700" ry="180" fill="#F8FAFC"/>
+    <ellipse cx="1600" cy="1110" rx="800" ry="200" fill="#F8FAFC"/>
+  </g>
+  
+  <!-- Small wispy clouds -->
+  <g opacity="0.4">
+    <ellipse cx="150" cy="500" rx="50" ry="20" fill="#FFFFFF"/>
+    <ellipse cx="1800" cy="350" rx="60" ry="22" fill="#FFFFFF"/>
+    <ellipse cx="950" cy="250" rx="45" ry="18" fill="#FFFFFF"/>
+    <ellipse cx="400" cy="550" rx="40" ry="15" fill="#FFFFFF"/>
+    <ellipse cx="1550" cy="480" rx="55" ry="20" fill="#FFFFFF"/>
+    <ellipse cx="700" cy="450" rx="35" ry="14" fill="#FFFFFF"/>
+  </g>
+</svg>

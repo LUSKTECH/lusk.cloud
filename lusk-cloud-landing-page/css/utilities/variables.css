@@ -1,0 +1,126 @@
+/*
+ * CSS Variables - Theme Configuration
+ * Lusk.cloud Landing Page
+ * 
+ * Requirements: 7.1 (sky/cloud color palette), 7.3 (modern, readable fonts)
+ */
+
+:root {
+    /* ========================================
+       Colors - Sky/Cloud Theme
+       Requirement 7.1: Color palette inspired by sky and cloud imagery
+       ======================================== */
+    --color-primary: #0EA5E9;           /* Sky blue */
+    --color-primary-dark: #0284C7;      /* Deeper sky blue */
+    --color-primary-light: #7DD3FC;     /* Light sky blue */
+    --color-secondary: #F0F9FF;         /* Light cloud white */
+    --color-accent: #38BDF8;            /* Bright sky accent */
+    --color-text: #1E293B;              /* Dark slate for readability */
+    --color-text-light: #64748B;        /* Muted text */
+    --color-white: #FFF;
+    --color-overlay: rgb(0, 0, 0, 0.4);/* For text readability on video */
+    --color-overlay-light: rgb(0, 0, 0, 0.2);
+    
+    /* Additional colors for UI states */
+    --color-success: #10B981;           /* Green for success states */
+    --color-error: #EF4444;             /* Red for error states */
+    --color-warning: #F59E0B;           /* Amber for warnings */
+    --color-border: #E2E8F0;            /* Light border color */
+    --color-background-alt: #F8FAFC;    /* Alternate background */
+    
+    /* ========================================
+       Typography
+       Requirement 7.3: Modern, readable fonts consistent with brand
+       ======================================== */
+    --font-family-base: 'Inter', 'Segoe UI', sans-serif;
+    --font-family-heading: 'Poppins', 'Inter', sans-serif;
+    --font-size-base: 16px;
+    --line-height-base: 1.6;
+    --line-height-heading: 1.2;
+    
+    /* Font size scale */
+    --font-size-xs: 0.75rem;    /* 12px */
+    --font-size-sm: 0.875rem;   /* 14px */
+    --font-size-md: 1rem;       /* 16px */
+    --font-size-lg: 1.125rem;   /* 18px */
+    --font-size-xl: 1.25rem;    /* 20px */
+    --font-size-2xl: 1.5rem;    /* 24px */
+    --font-size-3xl: 1.875rem;  /* 30px */
+    --font-size-4xl: 2.25rem;   /* 36px */
+    --font-size-5xl: 3rem;      /* 48px */
+    --font-size-6xl: 3.75rem;   /* 60px */
+    
+    /* Font weights */
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    
+    /* ========================================
+       Spacing
+       ======================================== */
+    --section-padding: 80px;
+    --section-padding-mobile: 48px;
+    --container-max-width: 1200px;
+    --card-gap: 24px;
+    
+    /* Spacing scale */
+    --spacing-xs: 0.25rem;   /* 4px */
+    --spacing-sm: 0.5rem;    /* 8px */
+    --spacing-md: 1rem;      /* 16px */
+    --spacing-lg: 1.5rem;    /* 24px */
+    --spacing-xl: 2rem;      /* 32px */
+    --spacing-2xl: 3rem;     /* 48px */
+    --spacing-3xl: 4rem;     /* 64px */
+    
+    /* ========================================
+       Breakpoints (for reference - use in media queries)
+       Requirement 6.1, 6.2, 6.3: Responsive design
+       ======================================== */
+    --breakpoint-mobile: 480px;
+    --breakpoint-tablet: 768px;
+    --breakpoint-desktop: 1024px;
+    --breakpoint-wide: 1280px;
+    
+    /* ========================================
+       Animations
+       Requirement 7.4: Subtle, smooth transitions
+       ======================================== */
+    --animation-duration: 0.3s;
+    --animation-duration-slow: 0.5s;
+    --animation-duration-fast: 0.15s;
+    --animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
+    --animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --float-duration: 6s;
+    
+    /* ========================================
+       Borders and Shadows
+       ======================================== */
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    --border-radius-xl: 16px;
+    --border-radius-full: 9999px;
+    
+    /* Box shadows for depth */
+    --shadow-sm: 0 1px 2px 0 rgb(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0, 0, 0, 0.1), 0 2px 4px -1px rgb(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgb(0, 0, 0, 0.1), 0 4px 6px -2px rgb(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgb(0, 0, 0, 0.1), 0 10px 10px -5px rgb(0, 0, 0, 0.04);
+    
+    /* ========================================
+       Navigation
+       ======================================== */
+    --nav-height: 70px;
+    --nav-height-mobile: 60px;
+    
+    /* ========================================
+       Z-index scale
+       ======================================== */
+    --z-index-dropdown: 100;
+    --z-index-sticky: 200;
+    --z-index-fixed: 300;
+    --z-index-modal-backdrop: 400;
+    --z-index-modal: 500;
+    --z-index-tooltip: 600;
+}

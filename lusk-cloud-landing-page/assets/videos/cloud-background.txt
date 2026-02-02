@@ -1,0 +1,39 @@
+PLACEHOLDER: cloud-background.mp4
+
+This file serves as a placeholder reference for the hero section video background.
+
+For production, replace with an actual video file:
+
+FILE: cloud-background.mp4
+
+SPECIFICATIONS:
+- Format: MP4 (H.264 codec for broad compatibility)
+- Resolution: 1920x1080 (1080p) minimum
+- Duration: 10-30 seconds (seamless loop)
+- File size: 2-5MB (compressed for web delivery)
+- Frame rate: 24-30fps
+- Audio: None (video should be silent)
+
+CONTENT GUIDELINES:
+- Time-lapse clouds moving across a blue sky
+- Sunrise or sunset sky with dramatic cloud formations
+- Soft, flowing cloud movements that evoke calmness
+- Colors should complement the site's sky-blue palette (#0EA5E9, #38BDF8, #7DD3FC)
+
+RECOMMENDED SOURCES:
+- Stock video sites: Pexels, Pixabay, Videvo (free)
+- Premium: Shutterstock, Adobe Stock, Envato Elements
+- Search terms: "cloud timelapse", "sky clouds loop", "blue sky clouds"
+
+IMPLEMENTATION NOTES:
+- Video should loop seamlessly (start and end frames should match)
+- Use poster attribute with hero-fallback.jpg for initial frame
+- Video is muted and autoplays (no audio controls needed)
+- Mobile devices will show static fallback image instead
+
+HTML ATTRIBUTES (already configured in index.html):
+- autoplay: Video starts automatically
+- loop: Video repeats continuously
+- muted: No audio (required for autoplay in most browsers)
+- playsinline: Prevents fullscreen on mobile
+- poster: Shows fallback image while video loads

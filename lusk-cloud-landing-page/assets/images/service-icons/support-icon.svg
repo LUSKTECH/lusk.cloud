@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <linearGradient id="supportGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#38BDF8" />
+      <stop offset="100%" style="stop-color:#0284C7" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="24" cy="24" r="22" fill="#F0F9FF"/>
+  
+  <!-- Headset/support icon -->
+  <!-- Headband -->
+  <path d="M12 24C12 17.4 17.4 12 24 12C30.6 12 36 17.4 36 24" 
+        fill="none" 
+        stroke="url(#supportGradient)" 
+        stroke-width="3" 
+        stroke-linecap="round"/>
+  
+  <!-- Left earpiece -->
+  <rect x="9" y="22" width="6" height="10" rx="2" fill="url(#supportGradient)"/>
+  
+  <!-- Right earpiece -->
+  <rect x="33" y="22" width="6" height="10" rx="2" fill="url(#supportGradient)"/>
+  
+  <!-- Microphone arm -->
+  <path d="M33 30C33 30 30 32 30 36" 
+        fill="none" 
+        stroke="url(#supportGradient)" 
+        stroke-width="2" 
+        stroke-linecap="round"/>
+  
+  <!-- Microphone -->
+  <circle cx="30" cy="38" r="3" fill="url(#supportGradient)"/>
+  <circle cx="30" cy="38" r="1.5" fill="#FFFFFF" opacity="0.5"/>
+  
+  <!-- Signal waves (representing 24/7 support) -->
+  <path d="M40 16C42 18 42 22 40 24" 
+        fill="none" 
+        stroke="#38BDF8" 
+        stroke-width="1.5" 
+        stroke-linecap="round" 
+        opacity="0.6"/>
+  <path d="M43 14C46 18 46 24 43 28" 
+        fill="none" 
+        stroke="#38BDF8" 
+        stroke-width="1.5" 
+        stroke-linecap="round" 
+        opacity="0.4"/>
+</svg>

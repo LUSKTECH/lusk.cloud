@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <!--
+    PLACEHOLDER IMAGE: hero-fallback.svg
+    
+    For production, replace this SVG with actual image files:
+    - hero-clouds.webp: High-quality cloud/sky image (WebP format for modern browsers)
+    - hero-fallback.jpg: JPEG fallback for older browsers
+    - cloud-background.mp4: Looping cloud video for hero background
+    
+    Recommended specifications:
+    - Image dimensions: 1920x1080 minimum (16:9 aspect ratio)
+    - Video: 1080p, 10-30 seconds loop, compressed for web (~2-5MB)
+    - Content: Dramatic sky with clouds, sunrise/sunset colors
+    - Style: Evokes openness, possibility, and professionalism
+  -->
+  
+  <defs>
+    <!-- Sky gradient - sunrise/sunset inspired -->
+    <linearGradient id="heroSkyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0EA5E9;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#38BDF8;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#7DD3FC;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#BAE6FD;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Cloud gradient -->
+    <linearGradient id="heroCloudGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.95" />
+      <stop offset="100%" style="stop-color:#F0F9FF;stop-opacity:0.9" />
+    </linearGradient>
+    
+    <!-- Soft cloud shadow -->
+    <filter id="cloudShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="20" result="blur"/>
+      <feOffset in="blur" dx="0" dy="10" result="offsetBlur"/>
+      <feFlood flood-color="#0284C7" flood-opacity="0.15" result="color"/>
+      <feComposite in="color" in2="offsetBlur" operator="in" result="shadow"/>
+      <feMerge>
+        <feMergeNode in="shadow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Glow effect for sun -->
+    <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FEF3C7;stop-opacity:0.8" />
+      <stop offset="50%" style="stop-color:#FDE68A;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#FDE68A;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Sky background -->
+  <rect width="1920" height="1080" fill="url(#heroSkyGradient)"/>
+  
+  <!-- Sun glow (positioned in upper area) -->
+  <ellipse cx="960" cy="200" rx="400" ry="300" fill="url(#sunGlow)"/>
+  
+  <!-- Background clouds (distant, subtle) -->
+  <g opacity="0.4">
+    <!-- Far left cloud -->
+    <g transform="translate(50, 150)">
+      <ellipse cx="150" cy="50" rx="120" ry="45" fill="#FFFFFF"/>
+      <ellipse cx="80" cy="60" rx="80" ry="35" fill="#FFFFFF"/>
+      <ellipse cx="230" cy="55" rx="90" ry="40" fill="#FFFFFF"/>
+    </g>
+    
+    <!-- Far right cloud -->
+    <g transform="translate(1400, 100)">
+      <ellipse cx="150" cy="50" rx="130" ry="50" fill="#FFFFFF"/>
+      <ellipse cx="70" cy="65" rx="90" ry="40" fill="#FFFFFF"/>
+      <ellipse cx="250" cy="60" rx="100" ry="45" fill="#FFFFFF"/>
+    </g>
+    
+    <!-- Center distant cloud -->
+    <g transform="translate(700, 80)">
+      <ellipse cx="200" cy="40" rx="180" ry="35" fill="#FFFFFF"/>
+      <ellipse cx="100" cy="50" rx="100" ry="30" fill="#FFFFFF"/>
+      <ellipse cx="320" cy="45" rx="120" ry="32" fill="#FFFFFF"/>
+    </g>
+  </g>
+  
+  <!-- Mid-layer clouds -->
+  <g opacity="0.6" filter="url(#cloudShadow)">
+    <!-- Left mid cloud -->
+    <g transform="translate(-100, 300)">
+      <ellipse cx="250" cy="80" rx="200" ry="70" fill="url(#heroCloudGradient)"/>
+      <ellipse cx="120" cy="100" rx="140" ry="55" fill="url(#heroCloudGradient)"/>
+      <ellipse cx="400" cy="90" rx="160" ry="60" fill="url(#heroCloudGradient)"/>
+      <ellipse cx="280" cy="120" rx="180" ry="50" fill="url(#heroCloudGradient)"/>
+    </g>
+    
+    <!-- Right mid cloud -->
+    <g transform="translate(1300, 250)">
+      <ellipse cx="200" cy="70" rx="180" ry="65" fill="url(#heroCloudGradient)"/>
+      <ellipse cx="80" cy="90" rx="120" ry="50" fill="url(#heroCloudGradient)"/>
+      <ellipse cx="350" cy="85" rx="150" ry="55" fill="url(#heroCloudGradient)"/>
+    </g>
+    
+    <!-- Center mid cloud -->
+    <g transform="translate(600, 350)">
+      <ellipse cx="300" cy="60" rx="250" ry="55" fill="url(#heroCloudGradient)"/>
+      <ellipse cx="150" cy="80" rx="160" ry="45" fill="url(#heroCloudGradient)"/>
+      <ellipse cx="480" cy="75" rx="180" ry="50" fill="url(#heroCloudGradient)"/>
+    </g>
+  </g>
+  
+  <!-- Foreground clouds (closer, more prominent) -->
+  <g opacity="0.85" filter="url(#cloudShadow)">
+    <!-- Large left foreground cloud -->
+    <g transform="translate(-200, 550)">
+      <ellipse cx="350" cy="120" rx="300" ry="100" fill="url(#heroCloudGradient)"/>
+      <ellipse cx="150" cy="150" rx="200" ry="80" fill="url(#heroCloudGradient)"/>
+      <ellipse cx="550" cy="140" rx="250" ry="90" fill="url(#heroCloudGradient)"/>
+      <ellipse cx="380" cy="180" rx="280" ry="70" fill="url(#heroCloudGradient)"/>
+    </g>
+    
+    <!-- Large right foreground cloud -->
+    <g transform="translate(1100, 500)">
+      <ellipse cx="300" cy="100" rx="280" ry="95" fill="url(#heroCloudGradient)"/>
+      <ellipse cx="120" cy="130" rx="180" ry="75" fill="url(#heroCloudGradient)"/>
+      <ellipse cx="500" cy="120" rx="220" ry="85" fill="url(#heroCloudGradient)"/>
+      <ellipse cx="320" cy="160" rx="260" ry="65" fill="url(#heroCloudGradient)"/>
+    </g>
+    
+    <!-- Bottom center cloud bank -->
+    <g transform="translate(300, 700)">
+      <ellipse cx="400" cy="150" rx="450" ry="130" fill="url(#heroCloudGradient)"/>
+      <ellipse cx="200" cy="180" rx="300" ry="100" fill="url(#heroCloudGradient)"/>
+      <ellipse cx="650" cy="170" rx="350" ry="110" fill="url(#heroCloudGradient)"/>
+      <ellipse cx="450" cy="220" rx="400" ry="90" fill="url(#heroCloudGradient)"/>
+    </g>
+  </g>
+  
+  <!-- Bottom cloud layer (horizon effect) -->
+  <g opacity="0.95">
+    <ellipse cx="960" cy="1100" rx="1200" ry="200" fill="#FFFFFF"/>
+    <ellipse cx="400" cy="1080" rx="600" ry="150" fill="#F8FAFC"/>
+    <ellipse cx="1500" cy="1090" rx="700" ry="160" fill="#F8FAFC"/>
+  </g>
+  
+  <!-- Small accent clouds (floating wisps) -->
+  <g opacity="0.5">
+    <ellipse cx="200" cy="450" rx="60" ry="25" fill="#FFFFFF"/>
+    <ellipse cx="1700" cy="400" rx="70" ry="30" fill="#FFFFFF"/>
+    <ellipse cx="1000" cy="200" rx="50" ry="20" fill="#FFFFFF"/>
+    <ellipse cx="500" cy="500" rx="45" ry="18" fill="#FFFFFF"/>
+    <ellipse cx="1400" cy="550" rx="55" ry="22" fill="#FFFFFF"/>
+  </g>
+</svg>

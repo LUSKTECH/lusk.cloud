@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+coverage/
+
+# Package files
+package-lock.json
+
+# IDE
+.vscode/
+.idea/
+
+# Kiro
+.kiro/
+
+# Git
+.git/

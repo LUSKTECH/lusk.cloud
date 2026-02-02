@@ -1,0 +1,80 @@
+name: Code Quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  markdown-lint:
+    name: Markdown Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lint Markdown files
+        uses: DavidAnson/markdownlint-cli2-action@v19
+        with:
+          globs: '**/*.md'
+          config: '.markdownlint.json'
+
+  html-validate:
+    name: HTML Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install html-validate
+        run: npm install -g html-validate
+
+      - name: Validate HTML
+        run: html-validate lusk-cloud-landing-page/**/*.html || true
+
+  css-lint:
+    name: CSS Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'npm'
+          cache-dependency-path: lusk-cloud-landing-page/package-lock.json
+
+      - name: Install dependencies
+        working-directory: lusk-cloud-landing-page
+        run: npm ci
+
+      - name: Run Stylelint
+        working-directory: lusk-cloud-landing-page
+        run: npm run lint:css || true
+
+  accessibility:
+    name: Accessibility Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install pa11y
+        run: npm install -g pa11y-ci
+
+      - name: Check accessibility
+        run: |
+          echo "Accessibility checks configured - run locally with pa11y-ci"

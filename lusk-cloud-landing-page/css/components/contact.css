@@ -1,0 +1,612 @@
+/*
+ * Contact Section Styles
+ * Lusk.cloud Landing Page
+ * 
+ * Requirements: 5.1 (Display a contact form), 7.1 (Sky/cloud color palette)
+ */
+
+/* ========================================
+   Contact Section Container
+   ======================================== */
+.contact-section {
+    position: relative;
+    padding: var(--section-padding) 0;
+    background: linear-gradient(180deg, var(--color-white) 0%, var(--color-secondary) 100%);
+    overflow: hidden;
+}
+
+.contact-container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+}
+
+/* ========================================
+   Section Header (Centered)
+   ======================================== */
+.contact-header {
+    text-align: center;
+    margin-bottom: var(--spacing-3xl);
+}
+
+.contact-title {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+    margin-bottom: var(--spacing-md);
+}
+
+.contact-subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-light);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: var(--line-height-base);
+}
+
+/* ========================================
+   Two-Column Layout (Form and Contact Info)
+   ======================================== */
+.contact-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-3xl);
+    align-items: start;
+}
+
+/* ========================================
+   Contact Form Wrapper
+   ======================================== */
+.contact-form-wrapper {
+    background-color: var(--color-white);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-xl);
+}
+
+/* ========================================
+   Form Styling
+   ======================================== */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+/* Form Group Spacing */
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Label Styling */
+.form-label {
+    display: block;
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+    margin-bottom: var(--spacing-xs);
+}
+
+/* Input/Textarea Styling */
+.form-input {
+    width: 100%;
+    padding: var(--spacing-md);
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-md);
+    color: var(--color-text);
+    background-color: var(--color-white);
+    border: 2px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    transition: border-color var(--animation-duration) var(--animation-easing),
+                box-shadow var(--animation-duration) var(--animation-easing),
+                background-color var(--animation-duration) var(--animation-easing);
+}
+
+.form-input::placeholder {
+    color: var(--color-text-light);
+    opacity: 0.7;
+}
+
+/* Focus States with Primary Color Border and Shadow */
+.form-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgb(14, 165, 233, 0.15);
+    background-color: var(--color-white);
+}
+
+/* Focus-visible for keyboard navigation (Accessibility) */
+.form-input:focus-visible {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgb(14, 165, 233, 0.25);
+}
+
+/* Hover state */
+.form-input:hover:not(:focus) {
+    border-color: var(--color-primary-light);
+}
+
+/* Textarea Specific Styling */
+.form-textarea {
+    min-height: 150px;
+    resize: vertical;
+    line-height: var(--line-height-base);
+}
+
+/* Textarea Footer (Error + Counter) */
+.form-textarea-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: var(--spacing-xs);
+    gap: var(--spacing-md);
+}
+
+/* Character Counter */
+.form-counter {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-light);
+    flex-shrink: 0;
+}
+
+/* ========================================
+   Error States (Red Border, Error Text)
+   ======================================== */
+.form-input.error,
+.form-input:invalid:not(:placeholder-shown, :focus) {
+    border-color: var(--color-error);
+    background-color: rgb(239, 68, 68, 0.02);
+}
+
+.form-input.error:focus {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 4px rgb(239, 68, 68, 0.15);
+}
+
+/* Error Text Styling */
+.form-error {
+    display: block;
+    font-size: var(--font-size-sm);
+    color: var(--color-error);
+    margin-top: var(--spacing-xs);
+    min-height: 1.25rem;
+    line-height: 1.25rem;
+}
+
+.form-error:empty {
+    display: none;
+}
+
+/* Show error when has content */
+.form-error:not(:empty) {
+    display: block;
+    animation: fadeIn var(--animation-duration) var(--animation-easing);
+}
+
+/* ========================================
+   Submit Button Styling
+   ======================================== */
+.form-submit-group {
+    margin-top: var(--spacing-sm);
+}
+
+.form-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-white);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    border: none;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: transform var(--animation-duration) var(--animation-easing),
+                box-shadow var(--animation-duration) var(--animation-easing),
+                background var(--animation-duration) var(--animation-easing);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hover State */
+.form-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgb(14, 165, 233, 0.35);
+    background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+}
+
+/* Active State */
+.form-submit-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgb(14, 165, 233, 0.25);
+}
+
+/* Focus-visible for accessibility */
+.form-submit-btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Disabled State */
+.form-submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Button Text */
+.btn-text {
+    transition: opacity var(--animation-duration) var(--animation-easing);
+}
+
+/* Loading State */
+.btn-loading {
+    position: absolute;
+    display: none;
+}
+
+.form-submit-btn.loading .btn-text {
+    opacity: 0;
+}
+
+.form-submit-btn.loading .btn-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Spinner Animation */
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ========================================
+   Success/Error Message Container Styling
+   ======================================== */
+.form-message {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+    margin-top: var(--spacing-lg);
+    animation: slideIn var(--animation-duration-slow) var(--animation-easing);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Success Message */
+.form-success {
+    background-color: rgb(16, 185, 129, 0.1);
+    border: 1px solid var(--color-success);
+}
+
+.form-success .message-icon {
+    color: var(--color-success);
+    flex-shrink: 0;
+}
+
+.form-success .message-title {
+    color: var(--color-success);
+}
+
+/* Error Message (Submission Errors) */
+.form-error-message {
+    background-color: rgb(239, 68, 68, 0.1);
+    border: 1px solid var(--color-error);
+}
+
+.form-error-message .message-icon {
+    color: var(--color-error);
+    flex-shrink: 0;
+}
+
+.form-error-message .message-title {
+    color: var(--color-error);
+}
+
+/* Message Content */
+.message-content {
+    flex: 1;
+}
+
+.message-title {
+    display: block;
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--spacing-xs);
+}
+
+.message-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    margin: 0;
+}
+
+/* Hidden state */
+.form-message[hidden] {
+    display: none;
+}
+
+/* ========================================
+   Contact Info Column Styling
+   ======================================== */
+.contact-info-wrapper {
+    height: 100%;
+}
+
+.contact-info {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+    color: var(--color-white);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-info-title {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-white);
+    margin-bottom: var(--spacing-md);
+}
+
+.contact-info-description {
+    font-size: var(--font-size-md);
+    color: rgb(255, 255, 255, 0.9);
+    line-height: var(--line-height-base);
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Contact Details List */
+.contact-details {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--spacing-xl) 0;
+}
+
+.contact-detail-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) 0;
+    border-bottom: 1px solid rgb(255, 255, 255, 0.15);
+}
+
+.contact-detail-item:last-child {
+    border-bottom: none;
+}
+
+.contact-icon {
+    flex-shrink: 0;
+    color: rgb(255, 255, 255, 0.9);
+}
+
+.contact-link {
+    color: var(--color-white);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+    transition: opacity var(--animation-duration) var(--animation-easing);
+}
+
+.contact-link:hover {
+    opacity: 0.8;
+    color: var(--color-white);
+}
+
+.contact-link:focus-visible {
+    outline: 2px solid var(--color-white);
+    outline-offset: 2px;
+}
+
+.contact-text {
+    color: rgb(255, 255, 255, 0.9);
+}
+
+/* ========================================
+   Social Links Styling
+   ======================================== */
+.contact-social {
+    margin-top: auto;
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid rgb(255, 255, 255, 0.15);
+}
+
+.contact-social-title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: rgb(255, 255, 255, 0.8);
+    margin-bottom: var(--spacing-md);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.social-links {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background-color: rgb(255, 255, 255, 0.1);
+    border-radius: var(--border-radius-full);
+    color: var(--color-white);
+    transition: background-color var(--animation-duration) var(--animation-easing),
+                transform var(--animation-duration) var(--animation-easing);
+}
+
+.social-link:hover {
+    background-color: rgb(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    color: var(--color-white);
+}
+
+.social-link:focus-visible {
+    outline: 2px solid var(--color-white);
+    outline-offset: 2px;
+}
+
+.social-link svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* ========================================
+   Responsive Behavior (Stack on Mobile)
+   ======================================== */
+
+/* Tablet and below */
+@media (width <= 768px) {
+    .contact-section {
+        padding: var(--section-padding-mobile) 0;
+    }
+
+    .contact-container {
+        padding: 0 var(--spacing-md);
+    }
+
+    .contact-header {
+        margin-bottom: var(--spacing-2xl);
+    }
+
+    .contact-title {
+        font-size: var(--font-size-3xl);
+    }
+
+    .contact-subtitle {
+        font-size: var(--font-size-md);
+    }
+
+    /* Stack columns vertically */
+    .contact-content {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-xl);
+    }
+
+    /* Reorder: Form first, then info */
+    .contact-form-wrapper {
+        order: 1;
+    }
+
+    .contact-info-wrapper {
+        order: 2;
+    }
+
+    .contact-form-wrapper {
+        padding: var(--spacing-lg);
+    }
+
+    .contact-info {
+        padding: var(--spacing-lg);
+    }
+
+    .contact-info-title {
+        font-size: var(--font-size-xl);
+    }
+
+    .form-submit-btn {
+        padding: var(--spacing-md);
+    }
+}
+
+/* Mobile */
+@media (width <= 480px) {
+    .contact-section {
+        padding: var(--spacing-2xl) 0;
+    }
+
+    .contact-container {
+        padding: 0 var(--spacing-md);
+    }
+
+    .contact-title {
+        font-size: var(--font-size-2xl);
+    }
+
+    .contact-form-wrapper {
+        padding: var(--spacing-md);
+        border-radius: var(--border-radius-md);
+    }
+
+    .contact-form {
+        gap: var(--spacing-md);
+    }
+
+    .form-input {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .form-textarea {
+        min-height: 120px;
+    }
+
+    .contact-info {
+        padding: var(--spacing-md);
+        border-radius: var(--border-radius-md);
+    }
+
+    .social-links {
+        justify-content: center;
+    }
+
+    .social-link {
+        width: 40px;
+        height: 40px;
+    }
+
+    .social-link svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* Large screens */
+@media (width >= 1024px) {
+    .contact-content {
+        grid-template-columns: 1.2fr 0.8fr;
+    }
+}
+

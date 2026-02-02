@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="500" height="400">
+  <defs>
+    <!-- Sky gradient background -->
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#7DD3FC;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#0EA5E9;stop-opacity:0.1" />
+    </linearGradient>
+    
+    <!-- Cloud gradient -->
+    <linearGradient id="cloudGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F0F9FF;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Primary blue gradient -->
+    <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0EA5E9" />
+      <stop offset="100%" style="stop-color:#0284C7" />
+    </linearGradient>
+    
+    <!-- Accent gradient -->
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#38BDF8" />
+      <stop offset="100%" style="stop-color:#0EA5E9" />
+    </linearGradient>
+    
+    <!-- Drop shadow filter -->
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#0EA5E9" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="500" height="400" fill="url(#skyGradient)" rx="16"/>
+  
+  <!-- Large background cloud -->
+  <g transform="translate(50, 80)" opacity="0.4">
+    <ellipse cx="150" cy="60" rx="100" ry="50" fill="#FFFFFF"/>
+    <ellipse cx="80" cy="70" rx="60" ry="40" fill="#FFFFFF"/>
+    <ellipse cx="220" cy="70" rx="70" ry="45" fill="#FFFFFF"/>
+  </g>
+  
+  <!-- Main cloud illustration -->
+  <g transform="translate(100, 120)" filter="url(#dropShadow)">
+    <!-- Main cloud body -->
+    <path d="M280 120c22 0 40-18 40-40s-18-40-40-40c-4 0-8 0.5-12 1.5C260 18 236 0 208 0c-33 0-60 27-60 60 0 2 0 4 0.5 6C126 70 108 90 108 114c0 29 23 52 52 52h120c22 0 40-18 40-40z" 
+          fill="url(#cloudGradient)" 
+          stroke="#E0F2FE" 
+          stroke-width="2"/>
+    
+    <!-- Cloud accent highlights -->
+    <ellipse cx="180" cy="90" rx="40" ry="25" fill="#FFFFFF" opacity="0.6"/>
+    <ellipse cx="240" cy="70" rx="30" ry="20" fill="#FFFFFF" opacity="0.4"/>
+  </g>
+  
+  <!-- Server/Data center icon on cloud -->
+  <g transform="translate(200, 180)">
+    <!-- Server box -->
+    <rect x="0" y="0" width="100" height="70" rx="8" fill="url(#blueGradient)"/>
+    
+    <!-- Server lines -->
+    <rect x="15" y="12" width="50" height="6" rx="3" fill="#FFFFFF" opacity="0.9"/>
+    <rect x="15" y="26" width="35" height="6" rx="3" fill="#FFFFFF" opacity="0.7"/>
+    <rect x="15" y="40" width="45" height="6" rx="3" fill="#FFFFFF" opacity="0.8"/>
+    <rect x="15" y="54" width="30" height="6" rx="3" fill="#FFFFFF" opacity="0.6"/>
+    
+    <!-- Status lights -->
+    <circle cx="80" cy="15" r="5" fill="#10B981"/>
+    <circle cx="80" cy="30" r="5" fill="#10B981"/>
+    <circle cx="80" cy="45" r="5" fill="#38BDF8"/>
+  </g>
+  
+  <!-- Connection lines -->
+  <g stroke="url(#accentGradient)" stroke-width="2" stroke-dasharray="5,5" opacity="0.6">
+    <line x1="250" y1="260" x2="250" y2="300"/>
+    <line x1="200" y1="280" x2="150" y2="320"/>
+    <line x1="300" y1="280" x2="350" y2="320"/>
+  </g>
+  
+  <!-- Connected devices -->
+  <!-- Laptop -->
+  <g transform="translate(100, 310)">
+    <rect x="0" y="0" width="60" height="40" rx="4" fill="url(#blueGradient)"/>
+    <rect x="5" y="5" width="50" height="30" rx="2" fill="#F0F9FF"/>
+    <rect x="-5" y="40" width="70" height="5" rx="2" fill="#64748B"/>
+  </g>
+  
+  <!-- Mobile phone -->
+  <g transform="translate(220, 300)">
+    <rect x="0" y="0" width="30" height="55" rx="4" fill="url(#blueGradient)"/>
+    <rect x="3" y="8" width="24" height="40" rx="2" fill="#F0F9FF"/>
+    <circle cx="15" cy="52" r="3" fill="#F0F9FF" opacity="0.5"/>
+  </g>
+  
+  <!-- Desktop monitor -->
+  <g transform="translate(320, 305)">
+    <rect x="0" y="0" width="55" height="40" rx="3" fill="url(#blueGradient)"/>
+    <rect x="4" y="4" width="47" height="32" rx="2" fill="#F0F9FF"/>
+    <rect x="20" y="40" width="15" height="8" fill="#64748B"/>
+    <rect x="10" y="48" width="35" height="4" rx="2" fill="#64748B"/>
+  </g>
+  
+  <!-- Floating accent circles -->
+  <circle cx="80" cy="100" r="15" fill="url(#accentGradient)" opacity="0.5"/>
+  <circle cx="420" cy="150" r="20" fill="url(#accentGradient)" opacity="0.4"/>
+  <circle cx="450" cy="280" r="12" fill="url(#blueGradient)" opacity="0.3"/>
+  <circle cx="60" cy="250" r="10" fill="url(#blueGradient)" opacity="0.4"/>
+  
+  <!-- Small decorative clouds -->
+  <g transform="translate(380, 60)" opacity="0.5">
+    <ellipse cx="30" cy="15" rx="25" ry="12" fill="#FFFFFF"/>
+    <ellipse cx="15" cy="18" rx="15" ry="10" fill="#FFFFFF"/>
+    <ellipse cx="50" cy="18" rx="18" ry="11" fill="#FFFFFF"/>
+  </g>
+  
+  <g transform="translate(30, 180)" opacity="0.4">
+    <ellipse cx="25" cy="12" rx="20" ry="10" fill="#FFFFFF"/>
+    <ellipse cx="12" cy="15" rx="12" ry="8" fill="#FFFFFF"/>
+    <ellipse cx="40" cy="15" rx="15" ry="9" fill="#FFFFFF"/>
+  </g>
+</svg>

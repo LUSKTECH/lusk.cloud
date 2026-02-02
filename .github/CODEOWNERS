@@ -1,0 +1,14 @@
+# Default owners for everything in the repo
+* @lusk-technologies/maintainers
+
+# JavaScript files
+*.js @lusk-technologies/frontend
+
+# CSS files
+*.css @lusk-technologies/frontend
+
+# Documentation
+*.md @lusk-technologies/docs
+
+# CI/CD
+.github/ @lusk-technologies/devops

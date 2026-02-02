@@ -1,0 +1,323 @@
+/*
+ * Footer Component Styles
+ * Lusk.cloud Landing Page
+ * 
+ * Requirements: 7.5 (Footer with Lusk Technologies, Inc. attribution and copyright)
+ */
+
+/* ========================================
+   Footer Base Styles
+   ======================================== */
+.site-footer {
+    background: linear-gradient(180deg, var(--color-secondary) 0%, #E0F2FE 100%);
+    padding: var(--spacing-3xl) 0 var(--spacing-xl);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Cloud-themed decorative elements */
+.site-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, 
+        var(--color-primary-light) 0%, 
+        var(--color-primary) 50%, 
+        var(--color-primary-light) 100%
+    );
+}
+
+/* ========================================
+   Footer Container
+   ======================================== */
+.footer-container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+}
+
+/* ========================================
+   Footer Main Content Grid
+   ======================================== */
+.footer-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--spacing-2xl);
+    margin-bottom: var(--spacing-2xl);
+}
+
+/* ========================================
+   Footer Brand Section
+   ======================================== */
+.footer-brand {
+    max-width: 300px;
+}
+
+.footer-logo {
+    display: inline-block;
+    margin-bottom: var(--spacing-md);
+}
+
+.footer-logo:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+    border-radius: var(--border-radius-sm);
+}
+
+.footer-logo img {
+    width: 140px;
+    height: auto;
+}
+
+.footer-tagline {
+    color: var(--color-text-light);
+    font-size: var(--font-size-sm);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-lg);
+}
+
+/* ========================================
+   Footer Social Links
+   ======================================== */
+.footer-social {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.footer-social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--border-radius-full);
+    background-color: var(--color-white);
+    color: var(--color-primary);
+    transition: all var(--animation-duration) var(--animation-easing);
+    box-shadow: var(--shadow-sm);
+}
+
+.footer-social-link:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.footer-social-link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.footer-social-link svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* ========================================
+   Footer Navigation Columns
+   ======================================== */
+.footer-nav-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-nav-title {
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    margin-bottom: var(--spacing-md);
+}
+
+.footer-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-nav-item {
+    margin-bottom: var(--spacing-sm);
+}
+
+.footer-nav-link {
+    color: var(--color-text-light);
+    font-size: var(--font-size-sm);
+    text-decoration: none;
+    transition: color var(--animation-duration) var(--animation-easing);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.footer-nav-link:hover {
+    color: var(--color-primary);
+}
+
+.footer-nav-link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* External link indicator */
+.footer-nav-link[target="_blank"]::after {
+    content: '';
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.7;
+}
+
+.footer-nav-link[target="_blank"]:hover::after {
+    opacity: 1;
+}
+
+/* ========================================
+   Footer Bottom Bar
+   ======================================== */
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid rgb(14, 165, 233, 0.2);
+}
+
+.footer-copyright {
+    color: var(--color-text-light);
+    font-size: var(--font-size-sm);
+    margin: 0;
+}
+
+.footer-copyright a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+}
+
+.footer-copyright a:hover {
+    text-decoration: underline;
+}
+
+.footer-copyright a:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Secondary Navigation (Legal Links) */
+.footer-legal {
+    display: flex;
+    gap: var(--spacing-lg);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-legal-link {
+    color: var(--color-text-light);
+    font-size: var(--font-size-sm);
+    text-decoration: none;
+    transition: color var(--animation-duration) var(--animation-easing);
+}
+
+.footer-legal-link:hover {
+    color: var(--color-primary);
+}
+
+.footer-legal-link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* ========================================
+   Responsive Styles
+   ======================================== */
+
+/* Tablet */
+@media (width <= 768px) {
+    .site-footer {
+        padding: var(--spacing-2xl) 0 var(--spacing-lg);
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-xl);
+    }
+
+    .footer-brand {
+        grid-column: 1 / -1;
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .footer-logo {
+        display: block;
+    }
+
+    .footer-tagline {
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .footer-social {
+        justify-content: center;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: var(--spacing-md);
+        text-align: center;
+    }
+
+    .footer-legal {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
+
+/* Mobile */
+@media (width <= 480px) {
+    .site-footer {
+        padding: var(--spacing-xl) 0 var(--spacing-md);
+    }
+
+    .footer-container {
+        padding: 0 var(--spacing-md);
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+        text-align: center;
+    }
+
+    .footer-nav-column {
+        align-items: center;
+    }
+
+    .footer-nav-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .footer-nav-item {
+        margin-bottom: 0;
+    }
+
+    .footer-legal {
+        gap: var(--spacing-md);
+    }
+
+    .footer-copyright {
+        font-size: var(--font-size-xs);
+    }
+}

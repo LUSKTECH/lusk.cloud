@@ -1,0 +1,35 @@
+{
+  "name": "lusk-cloud-landing-page",
+  "version": "1.0.0",
+  "description": "Lusk.cloud landing page - a modern, sky/cloud-themed website for a web management consultancy",
+  "main": "index.html",
+  "type": "module",
+  "scripts": {
+    "test": "jest --config jest.config.cjs",
+    "test:watch": "jest --watch --config jest.config.cjs",
+    "test:coverage": "jest --coverage --config jest.config.cjs",
+    "lint": "eslint js/ tests/",
+    "lint:fix": "eslint js/ tests/ --fix",
+    "lint:css": "stylelint css/**/*.css",
+    "lint:css:fix": "stylelint css/**/*.css --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "keywords": [
+    "landing-page",
+    "cloud",
+    "web-consultancy"
+  ],
+  "author": "Lusk Technologies, Inc.",
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^9.39.0",
+    "eslint": "^9.39.0",
+    "fast-check": "^4.5.0",
+    "jest": "^30.2.0",
+    "jest-environment-jsdom": "^30.2.0",
+    "prettier": "^3.8.0",
+    "stylelint": "^16.26.0",
+    "stylelint-config-standard": "^39.0.0"
+  }
+}
