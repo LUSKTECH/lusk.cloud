@@ -191,7 +191,7 @@ describe('Property 4: Service Card Completeness', () => {
           // Property: Card must have a title element
           return validation.hasTitleElement === true;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -208,7 +208,7 @@ describe('Property 4: Service Card Completeness', () => {
           // Property: Card title must be non-empty
           return validation.hasNonEmptyTitle === true;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -225,7 +225,7 @@ describe('Property 4: Service Card Completeness', () => {
           // Property: Title content must match input
           return validation.titleContent === serviceData.title;
         }),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -253,7 +253,7 @@ describe('Property 4: Service Card Completeness', () => {
           // Property: Card must have a description element
           return validation.hasDescriptionElement === true;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -270,7 +270,7 @@ describe('Property 4: Service Card Completeness', () => {
           // Property: Card description must be non-empty
           return validation.hasNonEmptyDescription === true;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -287,7 +287,7 @@ describe('Property 4: Service Card Completeness', () => {
           // Property: Description content must match input
           return validation.descriptionContent === serviceData.description;
         }),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -315,7 +315,7 @@ describe('Property 4: Service Card Completeness', () => {
           // Property: Card must have an icon element
           return validation.hasIconElement === true;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -332,7 +332,7 @@ describe('Property 4: Service Card Completeness', () => {
           // Property: Card must have a visible icon (SVG with non-zero dimensions)
           return validation.hasVisibleIcon === true;
         }),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -364,7 +364,7 @@ describe('Property 4: Service Card Completeness', () => {
             validation.hasVisibleIcon === true
           );
         }),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -405,9 +405,9 @@ describe('Property 4: Service Card Completeness', () => {
 
             // Property: All cards in section must be complete
             return allCardsComplete === true;
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -425,9 +425,9 @@ describe('Property 4: Service Card Completeness', () => {
 
             // Property: Number of cards must match input
             return cards.length === servicesData.length;
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -563,7 +563,7 @@ describe('Property 4: Service Card Completeness', () => {
             validation1.hasVisibleIcon === validation2.hasVisibleIcon
           );
         }),
-        fcConfig
+        fcConfig,
       );
     });
   });

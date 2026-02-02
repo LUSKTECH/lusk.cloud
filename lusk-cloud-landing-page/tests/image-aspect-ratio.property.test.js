@@ -122,7 +122,7 @@ function extractCssRulesForSelector(css, selector) {
   // Match CSS rules for the selector (handles multiple selectors and nested rules)
   const ruleRegex = new RegExp(
     `(?:^|[,}\\s])${escapedSelector}\\s*(?:,\\s*[^{]+)?\\s*\\{([^}]*)\\}`,
-    'gim'
+    'gim',
   );
 
   let match;
@@ -352,7 +352,7 @@ describe('Property 7: Image Aspect Ratio Preservation', () => {
 
           return true;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -361,7 +361,7 @@ describe('Property 7: Image Aspect Ratio Preservation', () => {
         fc.property(fc.constantFrom(...VALID_OBJECT_FIT_VALUES), objectFitValue => {
           return isValidObjectFit(objectFitValue) === true;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -394,7 +394,7 @@ describe('Property 7: Image Aspect Ratio Preservation', () => {
 
           return true;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -404,7 +404,7 @@ describe('Property 7: Image Aspect Ratio Preservation', () => {
           const uniformScale = `scale(${scaleValue})`;
           return hasNonUniformScale(uniformScale) === false;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -414,15 +414,15 @@ describe('Property 7: Image Aspect Ratio Preservation', () => {
           fc
             .tuple(
               fc.double({ min: 0.1, max: 3, noNaN: true }),
-              fc.double({ min: 0.1, max: 3, noNaN: true })
+              fc.double({ min: 0.1, max: 3, noNaN: true }),
             )
             .filter(([x, y]) => Math.abs(x - y) > 0.001),
           ([scaleX, scaleY]) => {
             const nonUniformScale = `scale(${scaleX}, ${scaleY})`;
             return hasNonUniformScale(nonUniformScale) === true;
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -445,7 +445,7 @@ describe('Property 7: Image Aspect Ratio Preservation', () => {
 
           return result.isValid;
         }),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -468,7 +468,7 @@ describe('Property 7: Image Aspect Ratio Preservation', () => {
 
           return result.isValid;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -524,7 +524,7 @@ describe('Property 7: Image Aspect Ratio Preservation', () => {
 
     test('Logo images SHALL preserve aspect ratio', () => {
       const logoImages = imgElements.filter(
-        img => img.attributes.src && img.attributes.src.includes('logo')
+        img => img.attributes.src && img.attributes.src.includes('logo'),
       );
 
       logoImages.forEach(img => {
@@ -552,7 +552,7 @@ describe('Property 7: Image Aspect Ratio Preservation', () => {
         const width = img.attributes.width || 'auto';
         const height = img.attributes.height || 'auto';
         console.log(
-          `  ${index + 1}. src="${src}" classes="${classes}" width="${width}" height="${height}"`
+          `  ${index + 1}. src="${src}" classes="${classes}" width="${width}" height="${height}"`,
         );
       });
     });
@@ -569,7 +569,7 @@ describe('Property 7: Image Aspect Ratio Preservation', () => {
         fc.property(fc.constantFrom('cover', 'contain', 'scale-down', 'none'), value => {
           return isValidObjectFit(value) === true;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -582,7 +582,7 @@ describe('Property 7: Image Aspect Ratio Preservation', () => {
         fc.property(fc.constantFrom('COVER', 'Cover', 'CONTAIN', 'Contain'), value => {
           return isValidObjectFit(value) === true;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 

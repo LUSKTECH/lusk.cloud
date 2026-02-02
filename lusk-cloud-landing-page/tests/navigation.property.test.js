@@ -117,9 +117,9 @@ describe('Property 2: Sticky Navigation Persistence', () => {
             const hasSticky = mockDOM.header.classList.contains('is-sticky');
 
             return hasSticky === true;
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -135,9 +135,9 @@ describe('Property 2: Sticky Navigation Persistence', () => {
             const hasSticky = mockDOM.header.classList.contains('is-sticky');
 
             return hasSticky === false;
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -177,9 +177,9 @@ describe('Property 2: Sticky Navigation Persistence', () => {
 
             // Property: same scroll position must produce same sticky state
             return firstState === secondState;
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -196,7 +196,7 @@ describe('Property 2: Sticky Navigation Persistence', () => {
         fc.property(fc.integer({ min: STICKY_THRESHOLD + 1, max: 100000 }), scrollY => {
           return shouldBeSticky(scrollY) === true;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -205,7 +205,7 @@ describe('Property 2: Sticky Navigation Persistence', () => {
         fc.property(fc.integer({ min: 0, max: STICKY_THRESHOLD }), scrollY => {
           return shouldBeSticky(scrollY) === false;
         }),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -246,9 +246,9 @@ describe('Property 2: Sticky Navigation Persistence', () => {
 
             // Property: should transition from non-sticky to sticky
             return initialState === false && finalState === true;
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -270,9 +270,9 @@ describe('Property 2: Sticky Navigation Persistence', () => {
 
             // Property: should transition from sticky to non-sticky
             return initialState === true && finalState === false;
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
   });

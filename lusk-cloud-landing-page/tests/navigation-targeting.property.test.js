@@ -102,9 +102,9 @@ describe('Property 3: Navigation Link Targeting', () => {
 
             // Section top should be at the nav offset (with small tolerance)
             return Math.abs(sectionTopInViewport - NAV_OFFSET) < 1;
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -136,14 +136,14 @@ describe('Property 3: Navigation Link Targeting', () => {
               sectionHeight,
               targetScrollY,
               viewportHeight,
-              NAV_OFFSET
+              NAV_OFFSET,
             );
 
             // Property: Section must be visible in viewport after scroll
             return isVisible === true;
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -168,9 +168,9 @@ describe('Property 3: Navigation Link Targeting', () => {
 
             // Property: Calculated scroll should match expected
             return Math.abs(actualScrollY - expectedScrollY) < 1;
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -185,9 +185,9 @@ describe('Property 3: Navigation Link Targeting', () => {
 
             // Property: Scroll position must never be negative
             return targetScrollY >= 0;
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -211,9 +211,9 @@ describe('Property 3: Navigation Link Targeting', () => {
 
             // Property: Same inputs must produce same output
             return firstResult === secondResult;
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -246,9 +246,9 @@ describe('Property 3: Navigation Link Targeting', () => {
               const sectionTopInViewport = sectionTop - targetScrollY;
               return Math.abs(sectionTopInViewport - NAV_OFFSET) < 1;
             });
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -290,9 +290,9 @@ describe('Property 3: Navigation Link Targeting', () => {
 
             // Property: Visible height should be viewport height minus nav offset
             return visibleHeight === viewportHeight - NAV_OFFSET;
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -310,7 +310,7 @@ describe('Property 3: Navigation Link Targeting', () => {
           const expected = calculateExpectedScrollPosition(sectionTop, NAV_OFFSET);
           return expected === sectionTop - NAV_OFFSET;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -320,7 +320,7 @@ describe('Property 3: Navigation Link Targeting', () => {
           const expected = calculateExpectedScrollPosition(sectionTop, NAV_OFFSET);
           return expected === 0;
         }),
-        fcConfig
+        fcConfig,
       );
     });
   });

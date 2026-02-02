@@ -157,7 +157,7 @@ describe('Property 8: Image Accessibility', () => {
           // Property: Every img element must have an alt attribute
           return hasAlt;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -194,7 +194,7 @@ describe('Property 8: Image Accessibility', () => {
           // Property: Non-decorative images must have non-empty alt
           return isMeaningfulAlt(altValue);
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -217,7 +217,7 @@ describe('Property 8: Image Accessibility', () => {
           // Property: Alt text must not be only whitespace
           return altValue.trim().length > 0;
         }),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -241,7 +241,7 @@ describe('Property 8: Image Accessibility', () => {
           // Property: All images must pass accessibility validation
           return result.isValid;
         }),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -265,7 +265,7 @@ describe('Property 8: Image Accessibility', () => {
           // Property: Every image must be accessible
           return result.isValid;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -338,7 +338,7 @@ describe('Property 8: Image Accessibility', () => {
         fc.property(validAltTextArbitrary(), altText => {
           return isMeaningfulAlt(altText) === true;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -347,7 +347,7 @@ describe('Property 8: Image Accessibility', () => {
         fc.property(invalidAltTextArbitrary(), altText => {
           return isMeaningfulAlt(altText) === false;
         }),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -360,7 +360,7 @@ describe('Property 8: Image Accessibility', () => {
   describe('Specific image validation', () => {
     test('Logo images SHALL have descriptive alt text', () => {
       const logoImages = imgElements.filter(
-        img => img.attributes.src && img.attributes.src.includes('logo')
+        img => img.attributes.src && img.attributes.src.includes('logo'),
       );
 
       logoImages.forEach(img => {
@@ -372,7 +372,8 @@ describe('Property 8: Image Accessibility', () => {
 
     test('Content images SHALL have descriptive alt text', () => {
       const contentImages = imgElements.filter(
-        img => !isDecorativeImage(img) && img.attributes.src && !img.attributes.src.includes('logo')
+        img =>
+          !isDecorativeImage(img) && img.attributes.src && !img.attributes.src.includes('logo'),
       );
 
       contentImages.forEach(img => {
