@@ -1,0 +1,29 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Deploy to Netlify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v3
+        with:
+          publish-dir: './lusk-cloud-landing-page'
+          production-branch: main
+          production-deploy: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+          deploy-message: "Deploy from GitHub Actions - ${{ github.event.head_commit.message }}"
+          enable-pull-request-comment: true
+          enable-commit-comment: false
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 5
