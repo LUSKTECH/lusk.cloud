@@ -167,7 +167,7 @@ describe('Animations Module', () => {
 
       expect(mockIntersectionObserver).toHaveBeenCalledWith(
         expect.any(Function),
-        expect.objectContaining({ threshold: 0.5 })
+        expect.objectContaining({ threshold: 0.5 }),
       );
     });
   });

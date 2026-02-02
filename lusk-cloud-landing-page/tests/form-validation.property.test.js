@@ -110,7 +110,7 @@ function invalidNameArbitrary() {
     // Too short (1 character after trim) - generate single non-whitespace char
     stringFromChars('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 1, 1),
     // Too long (101+ non-whitespace characters)
-    stringFromChars('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 101, 120)
+    stringFromChars('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 101, 120),
   );
 }
 
@@ -121,11 +121,11 @@ function invalidNameArbitrary() {
 function validEmailArbitrary() {
   // Generate valid email components
   const localPart = stringFromChars('abcdefghijklmnopqrstuvwxyz0123456789._+-', 1, 30).filter(
-    s => s.length > 0 && !s.includes(' ')
+    s => s.length > 0 && !s.includes(' '),
   );
 
   const domainPart = stringFromChars('abcdefghijklmnopqrstuvwxyz0123456789-', 1, 20).filter(
-    s => s.length > 0 && !s.startsWith('-') && !s.endsWith('-')
+    s => s.length > 0 && !s.startsWith('-') && !s.endsWith('-'),
   );
 
   const tld = fc.constantFrom('com', 'org', 'net', 'io', 'co', 'edu', 'gov');
@@ -165,13 +165,13 @@ function invalidEmailArbitrary() {
           .filter(s => s.trim().length > 0 && !s.includes('@')),
         fc
           .string({ minLength: 1, maxLength: 10 })
-          .filter(s => s.trim().length > 0 && !s.includes('.') && !s.includes('@'))
+          .filter(s => s.trim().length > 0 && !s.includes('.') && !s.includes('@')),
       )
       .map(([local, domain]) => `${local.trim()}@${domain.trim()}`),
     // Contains spaces
     fc.constant('test @example.com'),
     fc.constant('test@ example.com'),
-    fc.constant('test @ example.com')
+    fc.constant('test @ example.com'),
   );
 }
 
@@ -196,7 +196,7 @@ function invalidMessageArbitrary() {
     // Too short (1-9 non-whitespace characters)
     stringFromChars('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 1, 9),
     // Too long (1001+ non-whitespace characters)
-    stringFromChars('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 1001, 1050)
+    stringFromChars('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 1001, 1050),
   );
 }
 
@@ -258,7 +258,7 @@ function invalidFormDataArbitrary() {
       name: validNameArbitrary(),
       email: invalidEmailArbitrary(),
       message: invalidMessageArbitrary(),
-    })
+    }),
   );
 }
 
@@ -335,7 +335,7 @@ describe('Property 5: Form Validation Correctness', () => {
           // Property: Valid form data must be accepted
           return result.isValid === true;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -347,7 +347,7 @@ describe('Property 5: Form Validation Correctness', () => {
           // Property: Valid form data must have no errors
           return Object.keys(result.errors).length === 0;
         }),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -370,7 +370,7 @@ describe('Property 5: Form Validation Correctness', () => {
           // Property: Invalid form data must be rejected
           return result.isValid === false;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -387,9 +387,9 @@ describe('Property 5: Form Validation Correctness', () => {
 
             // Property: Invalid name must produce name error
             return result.errors.name !== undefined;
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -406,9 +406,9 @@ describe('Property 5: Form Validation Correctness', () => {
 
             // Property: Invalid email must produce email error
             return result.errors.email !== undefined;
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -425,9 +425,9 @@ describe('Property 5: Form Validation Correctness', () => {
 
             // Property: Invalid message must produce message error
             return result.errors.message !== undefined;
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -450,7 +450,7 @@ describe('Property 5: Form Validation Correctness', () => {
           // Property: Invalid name must have correct error message
           return !result.isValid && result.errorMessage === validationRules.name.errorMessage;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -462,7 +462,7 @@ describe('Property 5: Form Validation Correctness', () => {
           // Property: Invalid email must have correct error message
           return !result.isValid && result.errorMessage === validationRules.email.errorMessage;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -474,7 +474,7 @@ describe('Property 5: Form Validation Correctness', () => {
           // Property: Invalid message must have correct error message
           return !result.isValid && result.errorMessage === validationRules.message.errorMessage;
         }),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -498,7 +498,7 @@ describe('Property 5: Form Validation Correctness', () => {
           // Property: Form validity must match individual field validity
           return result.isValid === allFieldsValid;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -521,7 +521,7 @@ describe('Property 5: Form Validation Correctness', () => {
           // Property: Error count must match invalid field count
           return Object.keys(result.errors).length === expectedErrorCount;
         }),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -544,7 +544,7 @@ describe('Property 5: Form Validation Correctness', () => {
           // Property: Empty name must be rejected
           return result.isValid === false;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -556,7 +556,7 @@ describe('Property 5: Form Validation Correctness', () => {
           // Property: Empty email must be rejected
           return result.isValid === false;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -568,7 +568,7 @@ describe('Property 5: Form Validation Correctness', () => {
           // Property: Empty message must be rejected
           return result.isValid === false;
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -605,7 +605,7 @@ describe('Property 5: Form Validation Correctness', () => {
             JSON.stringify(result1.errors) === JSON.stringify(result2.errors)
           );
         }),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -622,9 +622,9 @@ describe('Property 5: Form Validation Correctness', () => {
             return (
               result1.isValid === result2.isValid && result1.errorMessage === result2.errorMessage
             );
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
   });
@@ -702,9 +702,9 @@ describe('Property 5: Form Validation Correctness', () => {
 
             // Property: Whitespace padding should not affect valid names
             return result.isValid === true;
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -720,9 +720,9 @@ describe('Property 5: Form Validation Correctness', () => {
 
             // Property: Whitespace padding should not affect valid emails
             return result.isValid === true;
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
 
@@ -738,9 +738,9 @@ describe('Property 5: Form Validation Correctness', () => {
 
             // Property: Whitespace padding should not affect valid messages
             return result.isValid === true;
-          }
+          },
         ),
-        fcConfig
+        fcConfig,
       );
     });
   });
