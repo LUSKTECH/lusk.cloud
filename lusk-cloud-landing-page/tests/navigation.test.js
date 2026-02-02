@@ -79,7 +79,7 @@ describe('Navigation Module', () => {
       loadModule();
 
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Required elements not found'),
+        expect.stringContaining('Required elements not found')
       );
       consoleSpy.mockRestore();
     });

@@ -111,7 +111,7 @@
         {
           threshold: config.threshold,
           rootMargin: config.rootMargin,
-        },
+        }
       );
 
       // Observe all elements with data-animate attribute

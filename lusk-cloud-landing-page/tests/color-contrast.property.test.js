@@ -237,7 +237,7 @@ describe('Property 1: Color Contrast Accessibility', () => {
           // Ratios should be equal regardless of order
           return Math.abs(ratio1 - ratio2) < 0.001;
         }),
-        fcConfig,
+        fcConfig
       );
     });
 
@@ -251,7 +251,7 @@ describe('Property 1: Color Contrast Accessibility', () => {
 
           return ratio >= 1 && ratio <= 21;
         }),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -278,9 +278,9 @@ describe('Property 1: Color Contrast Accessibility', () => {
 
             // Property: contrast ratio must meet WCAG AA for the text size
             return ratio >= requiredRatio;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
 
@@ -320,7 +320,7 @@ describe('Property 1: Color Contrast Accessibility', () => {
           // All text colors should meet normal text requirements
           return ratio >= WCAG_AA_NORMAL_TEXT;
         }),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -375,7 +375,7 @@ describe('Property 1: Color Contrast Accessibility', () => {
 
           return ratio >= requiredRatio;
         }),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -404,7 +404,7 @@ describe('Property 1: Color Contrast Accessibility', () => {
 
           return lum >= 0 && lum <= 1;
         }),
-        fcConfig,
+        fcConfig
       );
     });
 
@@ -454,7 +454,7 @@ describe('Property 1: Color Contrast Accessibility', () => {
             rgb.r >= 0 && rgb.r <= 255 && rgb.g >= 0 && rgb.g <= 255 && rgb.b >= 0 && rgb.b <= 255
           );
         }),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -470,7 +470,7 @@ describe('Property 1: Color Contrast Accessibility', () => {
         fc.property(fc.double({ min: 4.5, max: 21, noNaN: true }), ratio => {
           return meetsWcagAANormalText(ratio) === true;
         }),
-        fcConfig,
+        fcConfig
       );
     });
 
@@ -479,7 +479,7 @@ describe('Property 1: Color Contrast Accessibility', () => {
         fc.property(fc.double({ min: 1, max: 4.49, noNaN: true }), ratio => {
           return meetsWcagAANormalText(ratio) === false;
         }),
-        fcConfig,
+        fcConfig
       );
     });
 
@@ -488,7 +488,7 @@ describe('Property 1: Color Contrast Accessibility', () => {
         fc.property(fc.double({ min: 3.0, max: 21, noNaN: true }), ratio => {
           return meetsWcagAALargeText(ratio) === true;
         }),
-        fcConfig,
+        fcConfig
       );
     });
 
@@ -497,7 +497,7 @@ describe('Property 1: Color Contrast Accessibility', () => {
         fc.property(fc.double({ min: 1, max: 2.99, noNaN: true }), ratio => {
           return meetsWcagAALargeText(ratio) === false;
         }),
-        fcConfig,
+        fcConfig
       );
     });
   });

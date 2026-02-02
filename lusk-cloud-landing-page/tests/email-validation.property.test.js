@@ -105,7 +105,7 @@ function validEmailArbitrary() {
   const localPart = stringFromChars(localPartChars, 1, 30).filter(s => s.length > 0);
 
   const domainPart = stringFromChars(domainChars, 1, 20).filter(
-    s => s.length > 0 && !s.startsWith('-') && !s.endsWith('-'),
+    s => s.length > 0 && !s.startsWith('-') && !s.endsWith('-')
   );
 
   const tld = fc.constantFrom(...tlds);
@@ -139,7 +139,7 @@ function emailMultipleAtArbitrary() {
         .filter(s => s.trim().length > 0 && !s.includes('@')),
       fc
         .string({ minLength: 1, maxLength: 10 })
-        .filter(s => s.trim().length > 0 && !s.includes('@')),
+        .filter(s => s.trim().length > 0 && !s.includes('@'))
     )
     .map(([a, b, c]) => `${a.trim()}@${b.trim()}@${c.trim()}`);
 }
@@ -190,7 +190,7 @@ function emailWithSpacesArbitrary() {
     // Space around @
     fc.constant('test @example.com'),
     fc.constant('test@ example.com'),
-    fc.constant('test @ example.com'),
+    fc.constant('test @ example.com')
   );
 }
 
@@ -235,7 +235,7 @@ describe('Property 6: Email Format Validation', () => {
           // Property: Valid email format must be accepted
           return result === true;
         }),
-        fcConfig,
+        fcConfig
       );
     });
 
@@ -247,7 +247,7 @@ describe('Property 6: Email Format Validation', () => {
           // Property: Minimum valid email must be accepted
           return result === true;
         }),
-        fcConfig,
+        fcConfig
       );
     });
 
@@ -263,9 +263,9 @@ describe('Property 6: Email Format Validation', () => {
 
             // Property: Whitespace padding should not affect valid emails
             return result === true;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -288,7 +288,7 @@ describe('Property 6: Email Format Validation', () => {
           // Property: Email without @ must be rejected
           return result === false;
         }),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -306,7 +306,7 @@ describe('Property 6: Email Format Validation', () => {
           // Property: Email with multiple @ must be rejected
           return result === false;
         }),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -324,7 +324,7 @@ describe('Property 6: Email Format Validation', () => {
           // Property: Email without local part must be rejected
           return result === false;
         }),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -342,7 +342,7 @@ describe('Property 6: Email Format Validation', () => {
           // Property: Email without domain must be rejected
           return result === false;
         }),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -360,7 +360,7 @@ describe('Property 6: Email Format Validation', () => {
           // Property: Email without TLD (no dot) must be rejected
           return result === false;
         }),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -378,7 +378,7 @@ describe('Property 6: Email Format Validation', () => {
           // Property: Email with internal spaces must be rejected
           return result === false;
         }),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -396,7 +396,7 @@ describe('Property 6: Email Format Validation', () => {
           // Property: Empty or whitespace-only must be rejected
           return result === false;
         }),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -422,7 +422,7 @@ describe('Property 6: Email Format Validation', () => {
             emailMissingDomainArbitrary(),
             emailMissingTldArbitrary(),
             emptyOrWhitespaceArbitrary(),
-            fc.string({ minLength: 0, maxLength: 50 }),
+            fc.string({ minLength: 0, maxLength: 50 })
           ),
           email => {
             const validatorResult = window.FormValidator.validateEmail(email);
@@ -430,9 +430,9 @@ describe('Property 6: Email Format Validation', () => {
 
             // Property: Validator must match reference implementation
             return validatorResult === referenceResult;
-          },
+          }
         ),
-        fcConfig,
+        fcConfig
       );
     });
 
@@ -445,7 +445,7 @@ describe('Property 6: Email Format Validation', () => {
           // Property: Validator must match pattern-based validation
           return validatorResult === referenceResult;
         }),
-        fcConfig,
+        fcConfig
       );
     });
   });
@@ -469,7 +469,7 @@ describe('Property 6: Email Format Validation', () => {
           // Property: Same input must produce same output
           return result1 === result2;
         }),
-        fcConfig,
+        fcConfig
       );
     });
   });

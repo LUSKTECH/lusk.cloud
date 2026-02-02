@@ -519,7 +519,7 @@ describe('Form Validator Module', () => {
         Promise.resolve({
           ok: true,
           status: 200,
-        }),
+        })
       );
     });
 
@@ -577,7 +577,7 @@ describe('Form Validator Module', () => {
         Promise.resolve({
           ok: true,
           status: 200,
-        }),
+        })
       );
     });
 
@@ -689,7 +689,7 @@ describe('Additional Coverage Tests', () => {
         Promise.resolve({
           ok: false,
           status: 500,
-        }),
+        })
       );
 
       require('../js/form-validator.js');
@@ -758,7 +758,7 @@ describe('Additional Coverage Tests', () => {
         Promise.resolve({
           ok: true,
           status: 200,
-        }),
+        })
       );
 
       require('../js/form-validator.js');

@@ -156,7 +156,7 @@ describe('Smooth Scroll Module', () => {
 
       expect(result).toBe(false);
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Target element #nonexistent not found'),
+        expect.stringContaining('Target element #nonexistent not found')
       );
 
       consoleSpy.mockRestore();

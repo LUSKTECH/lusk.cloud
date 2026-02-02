@@ -95,6 +95,7 @@ jobs:
         with:
           token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
           files: lusk-cloud-landing-page/coverage/lcov.info
+          add-prefix: lusk-cloud-landing-page/
 
   sonarcloud:
     name: SonarCloud Analysis
