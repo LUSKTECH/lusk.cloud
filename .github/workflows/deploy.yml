@@ -3,13 +3,21 @@ name: Deploy
 on:
   push:
     branches: [main]
+    paths:
+      - 'lusk-cloud-landing-page/**'
+      - '.github/workflows/deploy.yml'
   pull_request:
     branches: [main]
+    paths:
+      - 'lusk-cloud-landing-page/**'
+      - '.github/workflows/deploy.yml'
 
 jobs:
   deploy:
     name: Deploy to Netlify
     runs-on: ubuntu-latest
+    # Skip on Dependabot PRs (no access to secrets)
+    if: github.actor != 'dependabot[bot]'
     steps:
       - uses: actions/checkout@v4
 

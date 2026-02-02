@@ -3,8 +3,14 @@ name: CI
 on:
   push:
     branches: [main]
+    paths:
+      - 'lusk-cloud-landing-page/**'
+      - '.github/workflows/ci.yml'
   pull_request:
     branches: [main]
+    paths:
+      - 'lusk-cloud-landing-page/**'
+      - '.github/workflows/ci.yml'
 
 jobs:
   test:
@@ -49,7 +55,7 @@ jobs:
 
       - name: Run ESLint
         working-directory: lusk-cloud-landing-page
-        run: npm run lint || true
+        run: npm run lint
 
       - name: Run Prettier check
         working-directory: lusk-cloud-landing-page
@@ -57,6 +63,8 @@ jobs:
 
   coverage:
     runs-on: ubuntu-latest
+    # Skip on Dependabot PRs (no access to secrets)
+    if: github.actor != 'dependabot[bot]'
     steps:
       - uses: actions/checkout@v4
 
@@ -91,6 +99,8 @@ jobs:
   sonarcloud:
     name: SonarCloud Analysis
     runs-on: ubuntu-latest
+    # Skip on Dependabot PRs (no access to secrets)
+    if: github.actor != 'dependabot[bot]'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -119,6 +129,8 @@ jobs:
   lighthouse:
     name: Lighthouse CI
     runs-on: ubuntu-latest
+    # Skip on Dependabot PRs (no access to secrets)
+    if: github.actor != 'dependabot[bot]'
     steps:
       - uses: actions/checkout@v4
 
