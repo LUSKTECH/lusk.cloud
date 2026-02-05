@@ -38,13 +38,12 @@ function loadCssContent() {
   let cssContent = '';
 
   function readCssFiles(dir) {
-    const files = fs.readdirSync(dir);
-    for (const file of files) {
-      const filePath = path.join(dir, file);
-      const stat = fs.statSync(filePath);
-      if (stat.isDirectory()) {
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const filePath = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
         readCssFiles(filePath);
-      } else if (file.endsWith('.css')) {
+      } else if (entry.name.endsWith('.css')) {
         cssContent += `${fs.readFileSync(filePath, 'utf8')}\n`;
       }
     }
