@@ -51,9 +51,11 @@ jobs:
         with:
           node-version: 22
           cache: 'npm'
+          cache-dependency-path: lusk-cloud-landing-page/package-lock.json
 
       - name: Install dependencies
         if: steps.check.outputs.skip != 'true'
+        working-directory: lusk-cloud-landing-page
         run: npm ci
 
       - name: Run Snyk
@@ -64,6 +66,8 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --severity-threshold=high
+          command: test
+          file: lusk-cloud-landing-page/package.json
 
   npm-audit:
     name: NPM Audit
@@ -75,10 +79,13 @@ jobs:
         with:
           node-version: 22
           cache: 'npm'
+          cache-dependency-path: lusk-cloud-landing-page/package-lock.json
 
       - name: Install dependencies
+        working-directory: lusk-cloud-landing-page
         run: npm ci
 
       - name: Run npm audit
+        working-directory: lusk-cloud-landing-page
         run: npm audit --audit-level=high
         continue-on-error: true
