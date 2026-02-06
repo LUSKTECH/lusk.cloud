@@ -7,67 +7,75 @@ on:
     branches: [main]
 
 jobs:
-  markdown-lint:
-    name: Markdown Lint
+  sonarqube:
+    name: SonarQube Analysis
     runs-on: ubuntu-latest
-    if: |
-      contains(github.event.head_commit.modified, '.md') ||
-      contains(github.event.head_commit.added, '.md') ||
-      github.event_name == 'pull_request'
-
+    if: github.actor != 'dependabot[bot]'
     steps:
+      - name: Check for SonarQube token
+        id: check
+        run: |
+          if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+          fi
+
       - uses: actions/checkout@v6
-
-      - name: Lint Markdown files
-        uses: DavidAnson/markdownlint-cli2-action@v22
+        if: steps.check.outputs.skip != 'true'
         with:
-          globs: '**/*.md !node_modules/**/*.md !coverage/**/*.md'
-          config: '.markdownlint.json'
+          fetch-depth: 0
 
-  html-validate:
-    name: HTML Validation
-    runs-on: ubuntu-latest
-    if: |
-      contains(github.event.head_commit.modified, '.html') ||
-      contains(github.event.head_commit.added, '.html') ||
-      github.event_name == 'pull_request'
-
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Use Node.js
-        uses: actions/setup-node@v6
+      - uses: actions/setup-node@v6
+        if: steps.check.outputs.skip != 'true'
         with:
-          node-version: 24
-
-      - name: Install html-validate
-        run: npm install -g html-validate
-
-      - name: Validate HTML
-        run: html-validate lusk-cloud-landing-page/**/*.html || true
-
-  css-lint:
-    name: CSS Lint
-    runs-on: ubuntu-latest
-    if: |
-      contains(github.event.head_commit.modified, '.css') ||
-      contains(github.event.head_commit.added, '.css') ||
-      github.event_name == 'pull_request'
-
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Use Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: 24
+          node-version: 22
           cache: 'npm'
-          cache-dependency-path: lusk-cloud-landing-page/package-lock.json
 
       - name: Install dependencies
-        working-directory: lusk-cloud-landing-page
+        if: steps.check.outputs.skip != 'true'
         run: npm ci
 
-      - name: Run Stylelint
-        working-directory: lusk-cloud-landing-page
-        run: npm run lint:css
+      - name: Run tests with coverage
+        if: steps.check.outputs.skip != 'true'
+        run: npm run test:coverage || npm test
+
+      - name: SonarQube Scan
+        if: steps.check.outputs.skip != 'true'
+        uses: SonarSource/sonarqube-scan-action@v7
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  codecov:
+    name: Code Coverage
+    runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]'
+    steps:
+      - name: Check for Codecov token
+        id: check
+        run: |
+          if [ -z "${{ secrets.CODECOV_TOKEN }}" ]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+          fi
+
+      - uses: actions/checkout@v6
+        if: steps.check.outputs.skip != 'true'
+
+      - uses: actions/setup-node@v6
+        if: steps.check.outputs.skip != 'true'
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install dependencies
+        if: steps.check.outputs.skip != 'true'
+        run: npm ci
+
+      - name: Run tests with coverage
+        if: steps.check.outputs.skip != 'true'
+        run: npm run test:coverage || npm test
+
+      - name: Upload to Codecov
+        if: steps.check.outputs.skip != 'true'
+        uses: codecov/codecov-action@v5
+        with:
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}

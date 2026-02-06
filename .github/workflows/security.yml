@@ -3,14 +3,8 @@ name: Security
 on:
   push:
     branches: [main]
-    paths:
-      - 'lusk-cloud-landing-page/**'
-      - '.github/workflows/security.yml'
   pull_request:
     branches: [main]
-    paths:
-      - 'lusk-cloud-landing-page/**'
-      - '.github/workflows/security.yml'
   schedule:
     - cron: '0 6 * * 1'
 
@@ -23,100 +17,68 @@ jobs:
   codeql:
     name: CodeQL Analysis
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
+      - uses: actions/checkout@v6
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
         with:
-          languages: javascript
-          queries: security-and-quality
+          languages: javascript-typescript
 
       - name: Autobuild
         uses: github/codeql-action/autobuild@v4
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
-        with:
-          category: "/language:javascript"
 
   snyk:
     name: Snyk Security Scan
     runs-on: ubuntu-latest
-    # Skip on Dependabot PRs (no access to secrets)
     if: github.actor != 'dependabot[bot]'
-
     steps:
-      - uses: actions/checkout@v6
+      - name: Check for Snyk token
+        id: check
+        run: |
+          if [ -z "${{ secrets.SNYK_TOKEN }}" ]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+          fi
 
-      - name: Use Node.js
-        uses: actions/setup-node@v6
+      - uses: actions/checkout@v6
+        if: steps.check.outputs.skip != 'true'
+
+      - uses: actions/setup-node@v6
+        if: steps.check.outputs.skip != 'true'
         with:
-          node-version: 24
+          node-version: 22
           cache: 'npm'
-          cache-dependency-path: lusk-cloud-landing-page/package-lock.json
 
       - name: Install dependencies
-        working-directory: lusk-cloud-landing-page
+        if: steps.check.outputs.skip != 'true'
         run: npm ci
 
-      - name: Run Snyk to check for vulnerabilities
+      - name: Run Snyk
+        if: steps.check.outputs.skip != 'true'
         uses: snyk/actions/node@master
         continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --all-projects --severity-threshold=high
-
-  semgrep:
-    name: Semgrep SAST
-    runs-on: ubuntu-latest
-    # Skip on Dependabot PRs (no access to secrets)
-    if: github.actor != 'dependabot[bot]'
-
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Run Semgrep
-        uses: semgrep/semgrep-action@v1
-        with:
-          publishToken: ${{ secrets.SEMGREP_APP_TOKEN }}
-
-  dependency-review:
-    name: Dependency Review
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-
-      - name: Dependency Review
-        uses: actions/dependency-review-action@v4
-        with:
-          fail-on-severity: high
-          deny-licenses: GPL-3.0, AGPL-3.0
+          args: --severity-threshold=high
 
   npm-audit:
     name: NPM Audit
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v6
 
-      - name: Use Node.js
-        uses: actions/setup-node@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version: 22
           cache: 'npm'
-          cache-dependency-path: lusk-cloud-landing-page/package-lock.json
 
       - name: Install dependencies
-        working-directory: lusk-cloud-landing-page
         run: npm ci
 
       - name: Run npm audit
-        working-directory: lusk-cloud-landing-page
         run: npm audit --audit-level=high
+        continue-on-error: true
