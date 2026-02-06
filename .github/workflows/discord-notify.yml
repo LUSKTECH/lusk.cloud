@@ -16,18 +16,6 @@ jobs:
 
   notify-failure:
     if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'failure'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Send Failure Notification
-        uses: sarisia/actions-status-discord@v1
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          status: failure
-          title: "❌ ${{ github.event.workflow_run.name }} Failed"
-          description: |
-            **Repository:** ${{ github.repository }}
-            **Branch:** ${{ github.event.workflow_run.head_branch }}
-            **Commit:** ${{ github.event.workflow_run.head_sha }}
-            **Triggered by:** ${{ github.event.workflow_run.actor.login }}
-          url: ${{ github.event.workflow_run.html_url }}
-          username: GitHub Actions
+    uses: LUSKTECH/.github/.github/workflows/discord-workflow-failure.yml@main
+    secrets:
+      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
