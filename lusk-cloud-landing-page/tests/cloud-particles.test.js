@@ -9,8 +9,6 @@
 
 describe('Cloud Particles Module', () => {
   let mockCtx;
-  let mockOffscreenCtx;
-  let mockCanvas;
   let observerCallback;
   let rafCallbacks;
 
@@ -38,7 +36,6 @@ describe('Cloud Particles Module', () => {
     observerCallback = null;
 
     mockCtx = createMockContext();
-    mockOffscreenCtx = createMockContext();
 
     // Track which canvas gets which context
     const originalCreateElement = document.createElement.bind(document);
@@ -49,7 +46,6 @@ describe('Cloud Particles Module', () => {
         canvasCount++;
         if (canvasCount === 1) {
           // Main canvas
-          mockCanvas = el;
           el.getContext = jest.fn(() => mockCtx);
         } else {
           // Offscreen texture canvases
