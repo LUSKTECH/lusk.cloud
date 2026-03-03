@@ -1,0 +1,105 @@
+/*
+ * Legal Page Styles
+ * Privacy Policy & Terms of Service
+ */
+
+.legal-section {
+  padding: calc(var(--spacing-3xl) + 80px) 0 var(--spacing-3xl);
+  min-height: 60vh;
+}
+
+.legal-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.legal-title {
+  font-family: var(--font-family-heading);
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  margin-bottom: var(--spacing-sm);
+}
+
+.legal-effective {
+  color: var(--color-text-light);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.legal-section h2 {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  margin-top: var(--spacing-xl);
+  margin-bottom: var(--spacing-sm);
+}
+
+.legal-section h3 {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-xs);
+}
+
+.legal-section p,
+.legal-section li {
+  color: var(--color-text-light);
+  font-size: var(--font-size-base);
+  line-height: 1.8;
+}
+
+.legal-section ul {
+  padding-left: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+}
+
+.legal-section li {
+  margin-bottom: var(--spacing-xs);
+}
+
+.legal-section a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.legal-section a:hover {
+  color: var(--color-primary-dark);
+}
+
+.legal-section a:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.legal-section address {
+  font-style: normal;
+  color: var(--color-text-light);
+  line-height: 1.8;
+  margin-top: var(--spacing-sm);
+}
+
+.legal-back {
+  margin-top: var(--spacing-2xl);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid rgb(14 165 233 / 0.2);
+}
+
+.legal-back a {
+  font-weight: var(--font-weight-medium);
+}
+
+@media (width <= 480px) {
+  .legal-section {
+    padding: calc(var(--spacing-2xl) + 60px) 0 var(--spacing-xl);
+  }
+
+  .legal-container {
+    padding: 0 var(--spacing-md);
+  }
+}

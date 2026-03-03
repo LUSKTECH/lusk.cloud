@@ -10,7 +10,7 @@
     "test:coverage": "jest --coverage --config jest.config.cjs",
     "lint": "oxlint js/ tests/",
     "lint:fix": "oxlint js/ tests/ --fix",
-    "lint:html": "html-validate index.html",
+    "lint:html": "html-validate index.html privacy.html terms.html",
     "lint:css": "stylelint css/**/*.css",
     "lint:css:fix": "stylelint css/**/*.css --fix",
     "format": "prettier --write .",
