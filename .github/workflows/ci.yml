@@ -57,6 +57,10 @@ jobs:
         working-directory: lusk-cloud-landing-page
         run: npm run lint
 
+      - name: Run html-validate
+        working-directory: lusk-cloud-landing-page
+        run: npm run lint:html
+
       - name: Run Prettier check
         working-directory: lusk-cloud-landing-page
         run: npm run format:check

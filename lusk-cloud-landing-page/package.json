@@ -10,6 +10,7 @@
     "test:coverage": "jest --coverage --config jest.config.cjs",
     "lint": "oxlint js/ tests/",
     "lint:fix": "oxlint js/ tests/ --fix",
+    "lint:html": "html-validate index.html",
     "lint:css": "stylelint css/**/*.css",
     "lint:css:fix": "stylelint css/**/*.css --fix",
     "format": "prettier --write .",
@@ -24,6 +25,7 @@
   "license": "MIT",
   "devDependencies": {
     "fast-check": "^4.5.0",
+    "html-validate": "^10.10.0",
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
     "oxlint": "^1.51.0",
