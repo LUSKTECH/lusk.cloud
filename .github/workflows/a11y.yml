@@ -1,0 +1,38 @@
+name: Accessibility
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'lusk-cloud-landing-page/**'
+      - '.github/workflows/a11y.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  a11y:
+    name: Accessibility Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: lusk-cloud-landing-page/package-lock.json
+
+      - run: npm ci
+        working-directory: lusk-cloud-landing-page
+
+      - name: Start server and run axe accessibility tests
+        working-directory: lusk-cloud-landing-page
+        run: |
+          npx http-server . -p 3000 &
+          npx wait-on http://localhost:3000 --timeout 30000
+          npx @axe-core/cli http://localhost:3000 --exit

@@ -12,143 +12,99 @@ on:
       - 'lusk-cloud-landing-page/**'
       - '.github/workflows/ci.yml'
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  check-secrets:
+    name: Check Secrets
+    runs-on: ubuntu-latest
+    outputs:
+      has-codecov: ${{ steps.codecov-check.outputs.defined }}
+    steps:
+      - name: Check CODECOV_TOKEN
+        id: codecov-check
+        shell: bash
+        run: |
+          if [ "${{ secrets.CODECOV_TOKEN }}" != '' ]; then
+            echo "defined=true" >> $GITHUB_OUTPUT
+          else
+            echo "defined=false" >> $GITHUB_OUTPUT
+          fi
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: lusk-cloud-landing-page/package-lock.json
+
+      - run: npm ci
+        working-directory: lusk-cloud-landing-page
+
+      - run: npm run lint
+        working-directory: lusk-cloud-landing-page
+
+      - run: npm run lint:html
+        working-directory: lusk-cloud-landing-page
+
+  format-check:
+    name: Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: lusk-cloud-landing-page/package-lock.json
+
+      - run: npm ci
+        working-directory: lusk-cloud-landing-page
+
+      - run: npm run format:check
+        working-directory: lusk-cloud-landing-page
+
   test:
+    name: Test
+    needs: [check-secrets]
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [22, 24]
-
     steps:
       - uses: actions/checkout@v6
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: npm
           cache-dependency-path: lusk-cloud-landing-page/package-lock.json
 
-      - name: Install dependencies
+      - run: npm ci
         working-directory: lusk-cloud-landing-page
-        run: npm ci
 
-      - name: Run tests
+      - run: npm run test:coverage
         working-directory: lusk-cloud-landing-page
-        run: npm test
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Use Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: 24
-          cache: 'npm'
-          cache-dependency-path: lusk-cloud-landing-page/package-lock.json
-
-      - name: Install dependencies
-        working-directory: lusk-cloud-landing-page
-        run: npm ci
-
-      - name: Run oxlint
-        working-directory: lusk-cloud-landing-page
-        run: npm run lint
-
-      - name: Run html-validate
-        working-directory: lusk-cloud-landing-page
-        run: npm run lint:html
-
-      - name: Run Prettier check
-        working-directory: lusk-cloud-landing-page
-        run: npm run format:check
-
-  coverage:
-    runs-on: ubuntu-latest
-    # Skip on Dependabot PRs (no access to secrets)
-    if: github.actor != 'dependabot[bot]'
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Use Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: 24
-          cache: 'npm'
-          cache-dependency-path: lusk-cloud-landing-page/package-lock.json
-
-      - name: Install dependencies
-        working-directory: lusk-cloud-landing-page
-        run: npm ci
-
-      - name: Run tests with coverage
-        working-directory: lusk-cloud-landing-page
-        run: npm run test:coverage
 
       - name: Upload coverage to Codecov
+        if: ${{ !cancelled() && matrix.node-version == 24 && needs.check-secrets.outputs.has-codecov == 'true' }}
         uses: codecov/codecov-action@v5
         with:
           directory: lusk-cloud-landing-page/coverage
-          fail_ci_if_error: false
           token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
 
-      - name: Upload coverage to Qlty
-        uses: qltysh/qlty-action/coverage@main
-        with:
-          token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
-          files: lusk-cloud-landing-page/coverage/lcov.info
-          add-prefix: lusk-cloud-landing-page/
-
-  sonarcloud:
-    name: SonarCloud Analysis
-    runs-on: ubuntu-latest
-    # Skip on Dependabot PRs (no access to secrets)
-    if: github.actor != 'dependabot[bot]'
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-
-      - name: Use Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: 24
-          cache: 'npm'
-          cache-dependency-path: lusk-cloud-landing-page/package-lock.json
-
-      - name: Install dependencies
-        working-directory: lusk-cloud-landing-page
-        run: npm ci
-
-      - name: Run tests with coverage
-        working-directory: lusk-cloud-landing-page
-        run: npm run test:coverage
-
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v7
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-  lighthouse:
-    name: Lighthouse CI
-    runs-on: ubuntu-latest
-    # Skip on Dependabot PRs (no access to secrets)
-    if: github.actor != 'dependabot[bot]'
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Use Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: 24
-
-      - name: Install Lighthouse CI
-        run: npm install -g @lhci/cli
-
-      - name: Run Lighthouse CI
-        working-directory: lusk-cloud-landing-page
-        run: lhci autorun
-        env:
-          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+      - name: Codecov skip notice
+        if: ${{ !cancelled() && matrix.node-version == 24 && needs.check-secrets.outputs.has-codecov != 'true' }}
+        run: echo "::notice::Codecov upload skipped — CODECOV_TOKEN secret is not configured."

@@ -7,6 +7,9 @@ on:
       - 'lusk-cloud-landing-page/**'
       - '.github/workflows/lighthouse.yml'
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true

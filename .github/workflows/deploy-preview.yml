@@ -1,0 +1,62 @@
+name: Deploy Preview
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'lusk-cloud-landing-page/**'
+      - '.github/workflows/deploy-preview.yml'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-secrets:
+    name: Check Secrets
+    runs-on: ubuntu-latest
+    outputs:
+      has-netlify: ${{ steps.netlify-check.outputs.defined }}
+    steps:
+      - name: Check NETLIFY_AUTH_TOKEN
+        id: netlify-check
+        shell: bash
+        run: |
+          if [ "${{ secrets.NETLIFY_AUTH_TOKEN }}" != '' ]; then
+            echo "defined=true" >> $GITHUB_OUTPUT
+          else
+            echo "defined=false" >> $GITHUB_OUTPUT
+          fi
+
+  netlify-preview:
+    name: Netlify Preview Deploy
+    needs: [check-secrets]
+    if: needs.check-secrets.outputs.has-netlify == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Deploy to Netlify (Preview)
+        uses: nwtgck/actions-netlify@v3
+        with:
+          publish-dir: ./lusk-cloud-landing-page
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: 'Preview deploy from PR #${{ github.event.pull_request.number }}'
+          enable-pull-request-comment: true
+          enable-commit-comment: false
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+  netlify-skip-notice:
+    name: Netlify Skip Notice
+    needs: [check-secrets]
+    if: needs.check-secrets.outputs.has-netlify != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::notice::Netlify preview deploy skipped — NETLIFY_AUTH_TOKEN secret is not configured."

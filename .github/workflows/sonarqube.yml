@@ -1,0 +1,75 @@
+name: SonarQube Analysis
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'lusk-cloud-landing-page/**'
+      - '.github/workflows/sonarqube.yml'
+      - 'sonar-project.properties'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'lusk-cloud-landing-page/**'
+      - '.github/workflows/sonarqube.yml'
+      - 'sonar-project.properties'
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-secrets:
+    name: Check Secrets
+    runs-on: ubuntu-latest
+    outputs:
+      has-sonar: ${{ steps.sonar-check.outputs.defined }}
+    steps:
+      - name: Check SONAR_TOKEN
+        id: sonar-check
+        shell: bash
+        run: |
+          if [ "${{ secrets.SONAR_TOKEN }}" != '' ]; then
+            echo "defined=true" >> $GITHUB_OUTPUT
+          else
+            echo "defined=false" >> $GITHUB_OUTPUT
+          fi
+
+  sonarqube:
+    name: SonarQube Scan
+    needs: [check-secrets]
+    if: needs.check-secrets.outputs.has-sonar == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: lusk-cloud-landing-page/package-lock.json
+
+      - run: npm ci
+        working-directory: lusk-cloud-landing-page
+
+      - run: npm run test:coverage
+        working-directory: lusk-cloud-landing-page
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v7
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  sonarqube-skip-notice:
+    name: SonarQube Skip Notice
+    needs: [check-secrets]
+    if: needs.check-secrets.outputs.has-sonar != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::notice::SonarQube analysis skipped — SONAR_TOKEN secret is not configured."

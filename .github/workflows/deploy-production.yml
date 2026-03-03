@@ -1,0 +1,61 @@
+name: Deploy Production
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'lusk-cloud-landing-page/**'
+      - '.github/workflows/deploy-production.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-secrets:
+    name: Check Secrets
+    runs-on: ubuntu-latest
+    outputs:
+      has-netlify: ${{ steps.netlify-check.outputs.defined }}
+    steps:
+      - name: Check NETLIFY_AUTH_TOKEN
+        id: netlify-check
+        shell: bash
+        run: |
+          if [ "${{ secrets.NETLIFY_AUTH_TOKEN }}" != '' ]; then
+            echo "defined=true" >> $GITHUB_OUTPUT
+          else
+            echo "defined=false" >> $GITHUB_OUTPUT
+          fi
+
+  netlify-production:
+    name: Netlify Production Deploy
+    needs: [check-secrets]
+    if: needs.check-secrets.outputs.has-netlify == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Deploy to Netlify (Production)
+        uses: nwtgck/actions-netlify@v3
+        with:
+          publish-dir: ./lusk-cloud-landing-page
+          production-deploy: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: 'Production deploy from ${{ github.sha }}'
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+  netlify-skip-notice:
+    name: Netlify Skip Notice
+    needs: [check-secrets]
+    if: needs.check-secrets.outputs.has-netlify != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::notice::Netlify production deploy skipped — NETLIFY_AUTH_TOKEN secret is not configured."
