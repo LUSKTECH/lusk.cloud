@@ -1,2 +1,6 @@
 {
+    "sonarlint.connectedMode.project": {
+        "connectionId": "lusktech",
+        "projectKey": "LUSKTECH_lusk.cloud"
+    }
 }

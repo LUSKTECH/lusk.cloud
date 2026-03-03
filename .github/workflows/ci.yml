@@ -53,7 +53,7 @@ jobs:
         working-directory: lusk-cloud-landing-page
         run: npm ci
 
-      - name: Run ESLint
+      - name: Run oxlint
         working-directory: lusk-cloud-landing-page
         run: npm run lint
 

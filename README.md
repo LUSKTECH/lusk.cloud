@@ -108,7 +108,7 @@ Built with these technologies:
 - [JavaScript (ES6+)](https://developer.mozilla.org/en-US/docs/Web/JavaScript) - Interactivity
 - [Jest](https://jestjs.io/) - Testing framework
 - [fast-check](https://fast-check.dev/) - Property-based testing
-- [ESLint](https://eslint.org/) - JavaScript linting
+- [oxlint](https://oxc.rs/docs/guide/usage/linter) - JavaScript linting
 - [Stylelint](https://stylelint.io/) - CSS linting
 - [Prettier](https://prettier.io/) - Code formatting
 - [GitHub Actions](https://github.com/features/actions) - CI/CD workflows

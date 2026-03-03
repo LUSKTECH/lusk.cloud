@@ -8,8 +8,8 @@
     "test": "jest --config jest.config.cjs",
     "test:watch": "jest --watch --config jest.config.cjs",
     "test:coverage": "jest --coverage --config jest.config.cjs",
-    "lint": "eslint js/ tests/",
-    "lint:fix": "eslint js/ tests/ --fix",
+    "lint": "oxlint js/ tests/",
+    "lint:fix": "oxlint js/ tests/ --fix",
     "lint:css": "stylelint css/**/*.css",
     "lint:css:fix": "stylelint css/**/*.css --fix",
     "format": "prettier --write .",
@@ -23,11 +23,10 @@
   "author": "Lusk Technologies, Inc.",
   "license": "MIT",
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "eslint": "^10.0.2",
     "fast-check": "^4.5.0",
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
+    "oxlint": "^1.51.0",
     "prettier": "^3.8.0",
     "stylelint": "^17.4.0",
     "stylelint-config-standard": "^40.0.0"
