@@ -1,9 +1,5 @@
 {
-  "extends": [
-    "html-validate:recommended",
-    "html-validate:document",
-    "html-validate:prettier"
-  ],
+  "extends": ["html-validate:recommended", "html-validate:document", "html-validate:prettier"],
   "rules": {
     "no-inline-style": "off",
     "no-autoplay": ["error", { "include": ["audio"] }],
