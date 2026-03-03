@@ -14,26 +14,29 @@
    * Configuration
    * ---------------------------------------------- */
   const CFG = {
-    /** Number of cloud puffs */
-    count: 60,
+    /** Number of clouds */
+    count: 25,
+    /** Lobes per cloud (overlapping circles that form the shape) */
+    lobesMin: 4,
+    lobesMax: 7,
     /** Base horizontal drift speed (px / frame) */
     driftSpeed: 0.3,
     /** Vertical wobble amplitude (px) */
     wobbleAmp: 0.15,
     /** Mouse influence radius (px) */
-    mouseRadius: 160,
-    /** How hard the mouse pushes particles */
-    mousePush: 6,
-    /** How quickly particles return to normal after push */
+    mouseRadius: 180,
+    /** How hard the mouse pushes clouds */
+    mousePush: 5,
+    /** How quickly clouds return to normal after push */
     friction: 0.94,
     /** Opacity recovery speed per frame */
     opacityRecovery: 0.003,
-    /** Min / max particle radius */
-    radiusMin: 30,
-    radiusMax: 100,
+    /** Min / max cloud base radius (lobes scatter around this) */
+    radiusMin: 40,
+    radiusMax: 110,
     /** Min / max base opacity */
-    opacityMin: 0.15,
-    opacityMax: 0.55,
+    opacityMin: 0.12,
+    opacityMax: 0.45,
   };
 
   /* ------------------------------------------------
@@ -51,17 +54,29 @@
   function createParticle(w, h, startOffscreen) {
     const r = CFG.radiusMin + Math.random() * (CFG.radiusMax - CFG.radiusMin);
     const baseOpacity = CFG.opacityMin + Math.random() * (CFG.opacityMax - CFG.opacityMin);
+    const lobeCount = CFG.lobesMin + Math.floor(Math.random() * (CFG.lobesMax - CFG.lobesMin + 1));
+
+    /* Pre-generate lobe offsets so each cloud keeps its shape */
+    const lobes = [];
+    for (let i = 0; i < lobeCount; i++) {
+      lobes.push({
+        /** Offset from cloud centre */
+        ox: (Math.random() - 0.5) * r * 1.2,
+        oy: (Math.random() - 0.5) * r * 0.6,
+        /** Each lobe has its own radius (50-90% of base) */
+        lr: r * (0.5 + Math.random() * 0.4),
+      });
+    }
+
     return {
       x: startOffscreen ? -r * 2 : Math.random() * (w + r * 2) - r,
       y: Math.random() * h,
       r,
+      lobes,
       baseOpacity,
       opacity: baseOpacity,
-      /** per-particle drift multiplier so they move at different speeds */
       speed: 0.5 + Math.random() * 1.0,
-      /** wobble phase offset */
       phase: Math.random() * Math.PI * 2,
-      /** velocity from mouse push */
       vx: 0,
       vy: 0,
     };
@@ -72,17 +87,25 @@
    * ---------------------------------------------- */
 
   /**
-   * Draw a single soft cloud puff using a radial gradient.
+   * Draw a cloud as a cluster of overlapping soft radial-gradient circles.
+   * This produces an organic, fluffy shape instead of a single ball.
    */
   function drawPuff(p) {
-    const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
-    grad.addColorStop(0, `rgba(255,255,255,${p.opacity})`);
-    grad.addColorStop(0.4, `rgba(255,255,255,${p.opacity * 0.6})`);
-    grad.addColorStop(1, 'rgba(255,255,255,0)');
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fill();
+    for (let i = 0; i < p.lobes.length; i++) {
+      const lobe = p.lobes[i];
+      const lx = p.x + lobe.ox;
+      const ly = p.y + lobe.oy;
+      const lr = lobe.lr;
+      const grad = ctx.createRadialGradient(lx, ly, 0, lx, ly, lr);
+      grad.addColorStop(0, `rgba(255,255,255,${p.opacity * 0.8})`);
+      grad.addColorStop(0.35, `rgba(255,255,255,${p.opacity * 0.45})`);
+      grad.addColorStop(0.7, `rgba(255,255,255,${p.opacity * 0.15})`);
+      grad.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(lx, ly, lr, 0, Math.PI * 2);
+      ctx.fill();
+    }
   }
 
   /* ------------------------------------------------
