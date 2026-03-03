@@ -19,3 +19,20 @@ jobs:
     uses: LUSKTECH/.github/.github/workflows/discord-workflow-failure.yml@main
     secrets:
       DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+
+  notify-deploy-success:
+    if: >-
+      github.event_name == 'workflow_run' &&
+      github.event.workflow_run.name == 'Deploy' &&
+      github.event.workflow_run.conclusion == 'success'
+    uses: LUSKTECH/.github/.github/workflows/discord-notify.yml@main
+    with:
+      status: success
+      title: '🚀 Deploy Successful'
+      description: |
+        **Repository:** ${{ github.repository }}
+        **Branch:** ${{ github.event.workflow_run.head_branch }}
+        **Triggered by:** ${{ github.event.workflow_run.actor.login }}
+      url: ${{ github.event.workflow_run.html_url }}
+    secrets:
+      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
