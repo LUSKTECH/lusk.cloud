@@ -2,8 +2,10 @@
  * Cloud Particles Module
  * Lusk.cloud Landing Page
  *
- * Canvas-based particle system that renders drifting cloud puffs.
- * Mouse interaction causes nearby particles to scatter and dissipate.
+ * Canvas-based particle system that renders drifting cloud shapes.
+ * Each cloud is pre-rendered as a blobby silhouette on an offscreen
+ * canvas so it reads as a fluffy cloud rather than a circle.
+ * Mouse interaction causes nearby clouds to scatter and dissipate.
  * Respects prefers-reduced-motion.
  */
 
@@ -15,14 +17,11 @@
    * ---------------------------------------------- */
   const CFG = {
     /** Number of clouds */
-    count: 25,
-    /** Lobes per cloud (overlapping circles that form the shape) */
-    lobesMin: 4,
-    lobesMax: 7,
+    count: 20,
     /** Base horizontal drift speed (px / frame) */
-    driftSpeed: 0.3,
+    driftSpeed: 0.25,
     /** Vertical wobble amplitude (px) */
-    wobbleAmp: 0.15,
+    wobbleAmp: 0.12,
     /** Mouse influence radius (px) */
     mouseRadius: 180,
     /** How hard the mouse pushes clouds */
@@ -31,51 +30,110 @@
     friction: 0.94,
     /** Opacity recovery speed per frame */
     opacityRecovery: 0.003,
-    /** Min / max cloud base radius (lobes scatter around this) */
-    radiusMin: 40,
-    radiusMax: 110,
+    /** Min / max cloud width */
+    widthMin: 120,
+    widthMax: 320,
     /** Min / max base opacity */
-    opacityMin: 0.12,
-    opacityMax: 0.45,
+    opacityMin: 0.1,
+    opacityMax: 0.4,
   };
 
   /* ------------------------------------------------
    * State
    * ---------------------------------------------- */
   let canvas, ctx;
-  const particles = [];
+  const clouds = [];
   const mouse = { x: -9999, y: -9999 };
   let animId = null;
   let paused = false;
+  let frame = 0;
 
   /* ------------------------------------------------
-   * Particle factory
+   * Offscreen cloud texture generator
+   *
+   * Builds a blobby cloud silhouette by drawing many
+   * overlapping ellipses onto a small offscreen canvas,
+   * then applying a heavy blur so the edges merge into
+   * one soft, organic shape.
    * ---------------------------------------------- */
-  function createParticle(w, h, startOffscreen) {
-    const r = CFG.radiusMin + Math.random() * (CFG.radiusMax - CFG.radiusMin);
-    const baseOpacity = CFG.opacityMin + Math.random() * (CFG.opacityMax - CFG.opacityMin);
-    const lobeCount = CFG.lobesMin + Math.floor(Math.random() * (CFG.lobesMax - CFG.lobesMin + 1));
+  function generateCloudTexture(cloudW) {
+    const cloudH = cloudW * 0.5;
+    const pad = 20;
+    const texW = cloudW + pad * 2;
+    const texH = cloudH + pad * 2;
+    const off = document.createElement('canvas');
+    off.width = texW;
+    off.height = texH;
+    const oc = off.getContext('2d');
 
-    /* Pre-generate lobe offsets so each cloud keeps its shape */
-    const lobes = [];
-    for (let i = 0; i < lobeCount; i++) {
-      lobes.push({
-        /** Offset from cloud centre */
-        ox: (Math.random() - 0.5) * r * 1.2,
-        oy: (Math.random() - 0.5) * r * 0.6,
-        /** Each lobe has its own radius (50-90% of base) */
-        lr: r * (0.5 + Math.random() * 0.4),
-      });
+    /* Centre of the texture */
+    const cx = texW / 2;
+    const cy = texH / 2;
+
+    /* Draw the solid cloud shape — a flat bottom row of
+       overlapping ellipses plus bumps on top */
+    oc.fillStyle = '#fff';
+
+    /* Base body — wide flat ellipse */
+    oc.beginPath();
+    oc.ellipse(cx, cy + cloudH * 0.1, cloudW * 0.42, cloudH * 0.28, 0, 0, Math.PI * 2);
+    oc.fill();
+
+    /* Bumps — 5-8 random ellipses clustered toward the top */
+    const bumps = 5 + Math.floor(Math.random() * 4);
+    for (let i = 0; i < bumps; i++) {
+      const bx = cx + (Math.random() - 0.5) * cloudW * 0.55;
+      /* Bias bumps upward */
+      const by = cy - Math.random() * cloudH * 0.35;
+      const bw = cloudW * (0.12 + Math.random() * 0.18);
+      const bh = bw * (0.6 + Math.random() * 0.4);
+      oc.beginPath();
+      oc.ellipse(bx, by, bw, bh, 0, 0, Math.PI * 2);
+      oc.fill();
     }
 
+    /* Heavy blur to merge everything into one soft shape */
+    oc.filter = 'blur(12px)';
+    oc.globalCompositeOperation = 'source-atop';
+    oc.drawImage(off, 0, 0);
+    oc.filter = 'none';
+    oc.globalCompositeOperation = 'source-over';
+
+    /* Second blur pass for extra softness */
+    oc.filter = 'blur(8px)';
+    oc.globalCompositeOperation = 'source-atop';
+    oc.drawImage(off, 0, 0);
+    oc.filter = 'none';
+    oc.globalCompositeOperation = 'source-over';
+
+    /* Apply radial fade so edges dissolve naturally */
+    const fadeGrad = oc.createRadialGradient(cx, cy, 0, cx, cy, Math.max(texW, texH) * 0.5);
+    fadeGrad.addColorStop(0, 'rgba(255,255,255,1)');
+    fadeGrad.addColorStop(0.6, 'rgba(255,255,255,1)');
+    fadeGrad.addColorStop(1, 'rgba(255,255,255,0)');
+    oc.globalCompositeOperation = 'destination-in';
+    oc.fillStyle = fadeGrad;
+    oc.fillRect(0, 0, texW, texH);
+    oc.globalCompositeOperation = 'source-over';
+
+    return { canvas: off, w: texW, h: texH };
+  }
+
+  /* ------------------------------------------------
+   * Cloud factory
+   * ---------------------------------------------- */
+  function createCloud(w, h, startOffscreen) {
+    const cloudW = CFG.widthMin + Math.random() * (CFG.widthMax - CFG.widthMin);
+    const tex = generateCloudTexture(cloudW);
+    const baseOpacity = CFG.opacityMin + Math.random() * (CFG.opacityMax - CFG.opacityMin);
+
     return {
-      x: startOffscreen ? -r * 2 : Math.random() * (w + r * 2) - r,
+      x: startOffscreen ? -tex.w : Math.random() * (w + tex.w) - tex.w * 0.5,
       y: Math.random() * h,
-      r,
-      lobes,
-      baseOpacity,
+      tex: tex,
+      baseOpacity: baseOpacity,
       opacity: baseOpacity,
-      speed: 0.5 + Math.random() * 1.0,
+      speed: 0.4 + Math.random() * 0.8,
       phase: Math.random() * Math.PI * 2,
       vx: 0,
       vy: 0,
@@ -83,76 +141,56 @@
   }
 
   /* ------------------------------------------------
-   * Drawing helpers
+   * Drawing
    * ---------------------------------------------- */
-
-  /**
-   * Draw a cloud as a cluster of overlapping soft radial-gradient circles.
-   * This produces an organic, fluffy shape instead of a single ball.
-   */
-  function drawPuff(p) {
-    for (let i = 0; i < p.lobes.length; i++) {
-      const lobe = p.lobes[i];
-      const lx = p.x + lobe.ox;
-      const ly = p.y + lobe.oy;
-      const lr = lobe.lr;
-      const grad = ctx.createRadialGradient(lx, ly, 0, lx, ly, lr);
-      grad.addColorStop(0, `rgba(255,255,255,${p.opacity * 0.8})`);
-      grad.addColorStop(0.35, `rgba(255,255,255,${p.opacity * 0.45})`);
-      grad.addColorStop(0.7, `rgba(255,255,255,${p.opacity * 0.15})`);
-      grad.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      ctx.arc(lx, ly, lr, 0, Math.PI * 2);
-      ctx.fill();
-    }
+  function drawCloud(c) {
+    ctx.globalAlpha = c.opacity;
+    ctx.drawImage(c.tex.canvas, c.x - c.tex.w * 0.5, c.y - c.tex.h * 0.5);
+    ctx.globalAlpha = 1;
   }
 
   /* ------------------------------------------------
    * Physics tick
    * ---------------------------------------------- */
-  let frame = 0;
-
   function tick() {
     const w = canvas.width;
     const h = canvas.height;
 
-    for (let i = 0; i < particles.length; i++) {
-      const p = particles[i];
+    for (let i = 0; i < clouds.length; i++) {
+      const c = clouds[i];
 
       /* --- mouse repulsion --- */
-      const dx = p.x - mouse.x;
-      const dy = p.y - mouse.y;
+      const dx = c.x - mouse.x;
+      const dy = c.y - mouse.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
 
       if (dist < CFG.mouseRadius && dist > 0) {
         const force = (1 - dist / CFG.mouseRadius) * CFG.mousePush;
-        p.vx += (dx / dist) * force;
-        p.vy += (dy / dist) * force;
-        /* fade out when pushed */
-        p.opacity = Math.max(0, p.opacity - 0.02);
+        c.vx += (dx / dist) * force;
+        c.vy += (dy / dist) * force;
+        c.opacity = Math.max(0, c.opacity - 0.02);
       }
 
       /* --- apply velocity with friction --- */
-      p.x += p.vx;
-      p.y += p.vy;
-      p.vx *= CFG.friction;
-      p.vy *= CFG.friction;
+      c.x += c.vx;
+      c.y += c.vy;
+      c.vx *= CFG.friction;
+      c.vy *= CFG.friction;
 
       /* --- drift & wobble --- */
-      p.x += CFG.driftSpeed * p.speed;
-      p.y += Math.sin(frame * 0.008 + p.phase) * CFG.wobbleAmp;
+      c.x += CFG.driftSpeed * c.speed;
+      c.y += Math.sin(frame * 0.008 + c.phase) * CFG.wobbleAmp;
 
       /* --- recover opacity --- */
-      if (p.opacity < p.baseOpacity) {
-        p.opacity = Math.min(p.baseOpacity, p.opacity + CFG.opacityRecovery);
+      if (c.opacity < c.baseOpacity) {
+        c.opacity = Math.min(c.baseOpacity, c.opacity + CFG.opacityRecovery);
       }
 
       /* --- wrap around right edge --- */
-      if (p.x - p.r > w) {
-        p.x = -p.r * 2;
-        p.y = Math.random() * h;
-        p.opacity = p.baseOpacity;
+      if (c.x - c.tex.w * 0.5 > w) {
+        c.x = -c.tex.w * 0.5;
+        c.y = Math.random() * h;
+        c.opacity = c.baseOpacity;
       }
     }
 
@@ -168,8 +206,8 @@
     }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     tick();
-    for (let i = 0; i < particles.length; i++) {
-      drawPuff(particles[i]);
+    for (let i = 0; i < clouds.length; i++) {
+      drawCloud(clouds[i]);
     }
     animId = requestAnimationFrame(render);
   }
@@ -222,7 +260,6 @@
    * Bootstrap
    * ---------------------------------------------- */
   function init() {
-    /* Respect reduced-motion */
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return;
     }
@@ -235,26 +272,23 @@
     canvas = document.createElement('canvas');
     canvas.className = 'cloud-canvas';
     canvas.setAttribute('aria-hidden', 'true');
-    /* Append to hero — z-index layering is handled entirely via CSS */
     hero.appendChild(canvas);
 
     ctx = canvas.getContext('2d');
 
-    /* Defer initial sizing to ensure the hero has fully laid out */
     requestAnimationFrame(function () {
       resize();
 
-      /* Seed particles only if canvas has dimensions */
       if (canvas.width > 0 && canvas.height > 0) {
         for (let i = 0; i < CFG.count; i++) {
-          particles.push(createParticle(canvas.width, canvas.height, false));
+          clouds.push(createCloud(canvas.width, canvas.height, false));
         }
       }
 
       initVisibilityObserver();
       render();
     });
-    /* Mouse tracking (relative to canvas) */
+
     hero.addEventListener('mousemove', function (e) {
       const rect = canvas.getBoundingClientRect();
       mouse.x = e.clientX - rect.left;
@@ -265,7 +299,6 @@
       mouse.y = -9999;
     });
 
-    /* Touch support */
     hero.addEventListener(
       'touchmove',
       function (e) {
