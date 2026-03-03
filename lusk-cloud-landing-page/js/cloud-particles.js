@@ -159,8 +159,12 @@
     if (!hero || !canvas) {
       return;
     }
-    canvas.width = hero.offsetWidth;
-    canvas.height = hero.offsetHeight;
+    const w = hero.offsetWidth;
+    const h = hero.offsetHeight;
+    if (w > 0 && h > 0) {
+      canvas.width = w;
+      canvas.height = h;
+    }
   }
 
   /* ------------------------------------------------
@@ -208,17 +212,25 @@
     canvas = document.createElement('canvas');
     canvas.className = 'cloud-canvas';
     canvas.setAttribute('aria-hidden', 'true');
-    /* Insert after the overlay (z-index handled via CSS) */
-    hero.insertBefore(canvas, hero.querySelector('.hero-content'));
+    /* Append to hero — z-index layering is handled entirely via CSS */
+    hero.appendChild(canvas);
 
     ctx = canvas.getContext('2d');
-    resize();
 
-    /* Seed particles */
-    for (let i = 0; i < CFG.count; i++) {
-      particles.push(createParticle(canvas.width, canvas.height, false));
-    }
+    /* Defer initial sizing to ensure the hero has fully laid out */
+    requestAnimationFrame(function () {
+      resize();
 
+      /* Seed particles only if canvas has dimensions */
+      if (canvas.width > 0 && canvas.height > 0) {
+        for (let i = 0; i < CFG.count; i++) {
+          particles.push(createParticle(canvas.width, canvas.height, false));
+        }
+      }
+
+      initVisibilityObserver();
+      render();
+    });
     /* Mouse tracking (relative to canvas) */
     hero.addEventListener('mousemove', function (e) {
       const rect = canvas.getBoundingClientRect();
@@ -246,8 +258,6 @@
     });
 
     window.addEventListener('resize', resize);
-    initVisibilityObserver();
-    render();
   }
 
   if (document.readyState === 'loading') {
