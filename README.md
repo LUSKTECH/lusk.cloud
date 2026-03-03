@@ -113,3 +113,7 @@ Built with these technologies:
 - [Prettier](https://prettier.io/) - Code formatting
 - [GitHub Actions](https://github.com/features/actions) - CI/CD workflows
 - [Netlify](https://netlify.com) - Hosting and form handling
+
+## AI Usage Disclaimer
+
+Portions of this codebase were generated with the assistance of Large Language Models (LLMs). All AI-generated code has been reviewed and tested to ensure quality and correctness.
