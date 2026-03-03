@@ -1,7 +1,7 @@
 # Lusk Cloud Landing Page
 
 [![CI](https://github.com/LUSKTECH/lusk.cloud/actions/workflows/ci.yml/badge.svg)](https://github.com/LUSKTECH/lusk.cloud/actions/workflows/ci.yml)
-[![Security](https://github.com/LUSKTECH/lusk.cloud/actions/workflows/security.yml/badge.svg)](https://github.com/LUSKTECH/lusk.cloud/actions/workflows/security.yml)
+[![Security](https://github.com/LUSKTECH/lusk.cloud/actions/workflows/security.yml/badge.svg)](https://github.com/LUSKTECH/lusk.cloud/actions/workflows/security.yml) [![Netlify Status](https://api.netlify.com/api/v1/badges/454f4e3a-73ef-4373-9e6f-c66bd268e5bd/deploy-status)](https://app.netlify.com/projects/luskcloud/deploys)
 [![codecov](https://codecov.io/gh/LUSKTECH/lusk.cloud/branch/main/graph/badge.svg)](https://codecov.io/gh/LUSKTECH/lusk.cloud) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.cloud&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.cloud)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.cloud&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.cloud)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.cloud&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.cloud)
