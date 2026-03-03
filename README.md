@@ -25,7 +25,6 @@ A modern, sky/cloud-themed landing page for Lusk.cloud - a web management consul
 ![Netlify](https://img.shields.io/badge/Netlify-00C7B7?logo=netlify&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?logo=githubactions&logoColor=white)
 
-
 - 🌤️ Beautiful cloud-themed design with smooth animations
 - 📱 Fully responsive across all devices
 - ♿ WCAG 2.1 AA accessibility compliant
