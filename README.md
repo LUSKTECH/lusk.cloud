@@ -2,18 +2,18 @@
 
 [![CI](https://github.com/LUSKTECH/lusk.cloud/actions/workflows/ci.yml/badge.svg)](https://github.com/LUSKTECH/lusk.cloud/actions/workflows/ci.yml)
 [![Security](https://github.com/LUSKTECH/lusk.cloud/actions/workflows/security.yml/badge.svg)](https://github.com/LUSKTECH/lusk.cloud/actions/workflows/security.yml)
-[![codecov](https://codecov.io/gh/LUSKTECH/lusk.cloud/branch/main/graph/badge.svg)](https://codecov.io/gh/LUSKTECH/lusk.cloud)
-
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.cloud&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.cloud)
+[![codecov](https://codecov.io/gh/LUSKTECH/lusk.cloud/branch/main/graph/badge.svg)](https://codecov.io/gh/LUSKTECH/lusk.cloud) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.cloud&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.cloud)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.cloud&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.cloud)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.cloud&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.cloud)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.cloud&metric=bugs)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.cloud)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.cloud&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.cloud)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.cloud&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.cloud)
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.cloud&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.cloud) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.cloud&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.cloud)
 ![Uptime Robot status](https://img.shields.io/uptimerobot/status/m802465771-d937468e1c283e30712a0982)
+
+A modern, sky/cloud-themed landing page for Lusk.cloud - a web management consultancy.
+
+## Features
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
@@ -25,9 +25,6 @@
 ![Netlify](https://img.shields.io/badge/Netlify-00C7B7?logo=netlify&logoColor=white)
 ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?logo=githubactions&logoColor=white)
 
-A modern, sky/cloud-themed landing page for Lusk.cloud - a web management consultancy.
-
-## Features
 
 - 🌤️ Beautiful cloud-themed design with smooth animations
 - 📱 Fully responsive across all devices
