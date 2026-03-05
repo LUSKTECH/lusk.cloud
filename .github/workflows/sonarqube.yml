@@ -4,13 +4,17 @@ on:
   push:
     branches: [main]
     paths:
-      - 'lusk-cloud-landing-page/**'
+      - 'js/**'
+      - 'css/**'
+      - 'tests/**'
       - '.github/workflows/sonarqube.yml'
       - 'sonar-project.properties'
   pull_request:
     branches: [main]
     paths:
-      - 'lusk-cloud-landing-page/**'
+      - 'js/**'
+      - 'css/**'
+      - 'tests/**'
       - '.github/workflows/sonarqube.yml'
       - 'sonar-project.properties'
 
@@ -53,13 +57,11 @@ jobs:
         with:
           node-version: 24
           cache: npm
-          cache-dependency-path: lusk-cloud-landing-page/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - run: npm ci
-        working-directory: lusk-cloud-landing-page
 
       - run: npm run test:coverage
-        working-directory: lusk-cloud-landing-page
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v7

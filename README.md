@@ -46,7 +46,6 @@ git clone https://github.com/LUSKTECH/lusk.cloud.git
 cd lusk.cloud
 
 # Install dependencies
-cd lusk-cloud-landing-page
 npm install
 ```
 
@@ -69,7 +68,6 @@ npm run format
 ### Project Structure
 
 ```text
-lusk-cloud-landing-page/
 ├── assets/
 │   ├── images/          # SVG icons and graphics
 │   └── videos/          # Video assets
@@ -93,7 +91,7 @@ lusk-cloud-landing-page/
 This site is configured for [Netlify](https://netlify.com) deployment:
 
 1. Connect your GitHub repository to Netlify
-2. Set the publish directory to `lusk-cloud-landing-page`
+2. Set the publish directory to `.` (root)
 3. Deploy
 
 The contact form uses Netlify Forms for email notifications. After deployment, configure email

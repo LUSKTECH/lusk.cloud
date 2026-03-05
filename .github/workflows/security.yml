@@ -85,15 +85,14 @@ jobs:
         with:
           node-version: 24
           cache: npm
-          cache-dependency-path: lusk-cloud-landing-page/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - run: npm ci
-        working-directory: lusk-cloud-landing-page
 
       - name: Run Snyk test
         uses: snyk/actions/node@v1.0.0
         with:
-          args: --severity-threshold=high --file=lusk-cloud-landing-page/package.json
+          args: --severity-threshold=high --file=package.json
 
   snyk-skip-notice:
     name: Snyk Skip Notice
@@ -113,12 +112,10 @@ jobs:
         with:
           node-version: 24
           cache: npm
-          cache-dependency-path: lusk-cloud-landing-page/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - run: npm ci
-        working-directory: lusk-cloud-landing-page
 
       - name: Run npm audit
-        working-directory: lusk-cloud-landing-page
         run: npm audit --audit-level=high
         continue-on-error: true

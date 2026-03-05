@@ -4,7 +4,9 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - 'lusk-cloud-landing-page/**'
+      - 'js/**'
+      - 'css/**'
+      - 'tests/**'
       - '.github/workflows/qlty.yml'
 
 permissions:
@@ -45,19 +47,17 @@ jobs:
         with:
           node-version: 24
           cache: npm
-          cache-dependency-path: lusk-cloud-landing-page/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - run: npm ci
-        working-directory: lusk-cloud-landing-page
 
       - run: npm run test:coverage
-        working-directory: lusk-cloud-landing-page
 
       - name: Install qlty CLI
         uses: qltysh/qlty-action/install@main
 
       - name: Upload coverage to qlty
-        run: qlty coverage publish lusk-cloud-landing-page/coverage/lcov.info
+        run: qlty coverage publish coverage/lcov.info
         env:
           QLTY_COVERAGE_TOKEN: ${{ secrets.QLTY_TOKEN }}
 

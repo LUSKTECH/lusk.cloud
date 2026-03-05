@@ -4,12 +4,22 @@ on:
   push:
     branches: [main]
     paths:
-      - 'lusk-cloud-landing-page/**'
+      - 'js/**'
+      - 'css/**'
+      - 'tests/**'
+      - '*.html'
+      - 'package.json'
+      - 'package-lock.json'
       - '.github/workflows/ci.yml'
   pull_request:
     branches: [main]
     paths:
-      - 'lusk-cloud-landing-page/**'
+      - 'js/**'
+      - 'css/**'
+      - 'tests/**'
+      - '*.html'
+      - 'package.json'
+      - 'package-lock.json'
       - '.github/workflows/ci.yml'
 
 permissions:
@@ -46,16 +56,13 @@ jobs:
         with:
           node-version: 24
           cache: npm
-          cache-dependency-path: lusk-cloud-landing-page/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - run: npm ci
-        working-directory: lusk-cloud-landing-page
 
       - run: npm run lint
-        working-directory: lusk-cloud-landing-page
 
       - run: npm run lint:html
-        working-directory: lusk-cloud-landing-page
 
   format-check:
     name: Format Check
@@ -67,13 +74,11 @@ jobs:
         with:
           node-version: 24
           cache: npm
-          cache-dependency-path: lusk-cloud-landing-page/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - run: npm ci
-        working-directory: lusk-cloud-landing-page
 
       - run: npm run format:check
-        working-directory: lusk-cloud-landing-page
 
   test:
     name: Test
@@ -89,19 +94,17 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: npm
-          cache-dependency-path: lusk-cloud-landing-page/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - run: npm ci
-        working-directory: lusk-cloud-landing-page
 
       - run: npm run test:coverage
-        working-directory: lusk-cloud-landing-page
 
       - name: Upload coverage to Codecov
         if: ${{ !cancelled() && matrix.node-version == 24 && needs.check-secrets.outputs.has-codecov == 'true' }}
         uses: codecov/codecov-action@v5
         with:
-          directory: lusk-cloud-landing-page/coverage
+          directory: coverage
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
 

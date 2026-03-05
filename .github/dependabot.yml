@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    directory: "/lusk-cloud-landing-page"
+    directory: "/"
     schedule:
       interval: "weekly"
       day: "monday"

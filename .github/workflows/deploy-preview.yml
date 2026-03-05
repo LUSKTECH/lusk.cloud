@@ -4,7 +4,11 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - 'lusk-cloud-landing-page/**'
+      - 'js/**'
+      - 'css/**'
+      - 'assets/**'
+      - '*.html'
+      - 'netlify.toml'
       - '.github/workflows/deploy-preview.yml'
 
 permissions:
@@ -43,7 +47,7 @@ jobs:
       - name: Deploy to Netlify (Preview)
         uses: nwtgck/actions-netlify@v3
         with:
-          publish-dir: ./lusk-cloud-landing-page
+          publish-dir: .
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: 'Preview deploy from PR #${{ github.event.pull_request.number }}'
           enable-pull-request-comment: true
