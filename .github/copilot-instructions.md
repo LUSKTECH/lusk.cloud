@@ -13,7 +13,7 @@
 - `js/` — JavaScript files for interactivity.
 - `assets/` — Images and other static assets.
 - `tests/` — Jest test files.
-- `jest.config.js` — Jest configuration.
+- `jest.config.cjs` — Jest configuration.
 - `package.json` — Project metadata, dependencies, and scripts.
 - `node_modules/` — Installed dependencies (auto-generated).
 
