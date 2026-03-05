@@ -1,13 +1,16 @@
 # Lusk Cloud Landing Page
 
 [![CI](https://github.com/LUSKTECH/lusk.cloud/actions/workflows/ci.yml/badge.svg)](https://github.com/LUSKTECH/lusk.cloud/actions/workflows/ci.yml)
-[![Security](https://github.com/LUSKTECH/lusk.cloud/actions/workflows/security.yml/badge.svg)](https://github.com/LUSKTECH/lusk.cloud/actions/workflows/security.yml) [![Netlify Status](https://api.netlify.com/api/v1/badges/454f4e3a-73ef-4373-9e6f-c66bd268e5bd/deploy-status)](https://app.netlify.com/projects/luskcloud/deploys)
-[![codecov](https://codecov.io/gh/LUSKTECH/lusk.cloud/branch/main/graph/badge.svg)](https://codecov.io/gh/LUSKTECH/lusk.cloud) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.cloud&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.cloud)
+[![Security](https://github.com/LUSKTECH/lusk.cloud/actions/workflows/security.yml/badge.svg)](https://github.com/LUSKTECH/lusk.cloud/actions/workflows/security.yml)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/454f4e3a-73ef-4373-9e6f-c66bd268e5bd/deploy-status)](https://app.netlify.com/projects/luskcloud/deploys)
+[![codecov](https://codecov.io/gh/LUSKTECH/lusk.cloud/branch/main/graph/badge.svg)](https://codecov.io/gh/LUSKTECH/lusk.cloud)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.cloud&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.cloud)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.cloud&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.cloud)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.cloud&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.cloud)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.cloud&metric=bugs)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.cloud)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.cloud&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.cloud)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.cloud&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.cloud) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.cloud&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.cloud)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=LUSKTECH_lusk.cloud&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=LUSKTECH_lusk.cloud)
 ![Uptime Robot status](https://img.shields.io/uptimerobot/status/m802465771-d937468e1c283e30712a0982)
 
