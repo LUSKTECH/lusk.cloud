@@ -103,7 +103,7 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: ${{ !cancelled() && matrix.node-version == 24 && needs.check-secrets.outputs.has-codecov == 'true' }}
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           directory: coverage
           token: ${{ secrets.CODECOV_TOKEN }}
