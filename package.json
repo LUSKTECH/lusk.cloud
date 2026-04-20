@@ -24,13 +24,13 @@
   "author": "Lusk Technologies, Inc.",
   "license": "MIT",
   "devDependencies": {
-    "fast-check": "^4.6.0",
-    "html-validate": "^10.12.1",
+    "fast-check": "^4.7.0",
+    "html-validate": "^10.13.1",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
-    "oxlint": "^1.59.0",
-    "prettier": "^3.8.2",
-    "stylelint": "^17.7.0",
+    "oxlint": "^1.60.0",
+    "prettier": "^3.8.3",
+    "stylelint": "^17.8.0",
     "stylelint-config-standard": "^40.0.0"
   }
 }
