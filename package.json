@@ -25,12 +25,12 @@
   "license": "MIT",
   "devDependencies": {
     "fast-check": "^4.7.0",
-    "html-validate": "^10.13.1",
+    "html-validate": "^10.15.0",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
-    "oxlint": "^1.61.0",
+    "oxlint": "^1.62.0",
     "prettier": "^3.8.3",
-    "stylelint": "^17.9.0",
+    "stylelint": "^17.10.0",
     "stylelint-config-standard": "^40.0.0"
   }
 }
