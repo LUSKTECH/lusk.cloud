@@ -44,7 +44,7 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Deploy to Netlify (Production)
-        uses: nwtgck/actions-netlify@v3
+        uses: nwtgck/actions-netlify@v4
         with:
           publish-dir: .
           production-deploy: true
