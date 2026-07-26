@@ -188,16 +188,21 @@
 
 /* Primary CTA - Solid sky blue background */
 .cta-primary {
-  background-color: var(--color-primary);
-  color: var(--color-white);
-  border: 2px solid var(--color-primary);
+  background-color: #0369a1; /* fallback for when CSS vars unavailable — 5.38:1 contrast on white */
+  background-color: var(--color-primary-dark, #0369a1);
+  color: #fff; /* fallback */
+  color: var(--color-white, #fff);
+  border: 2px solid #0369a1;
+  border-color: var(--color-primary-dark, #0369a1);
   box-shadow: 0 4px 14px rgb(14, 165, 233, 0.4);
 }
 
 .cta-primary:hover {
-  background-color: var(--color-primary-dark);
-  border-color: var(--color-primary-dark);
-  color: var(--color-white);
+  background-color: #075985; /* fallback for when CSS vars unavailable */
+  background-color: var(--color-primary-darker, #075985);
+  border-color: var(--color-primary-darker, #075985);
+  color: #fff;
+  color: var(--color-white, #fff);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgb(14, 165, 233, 0.5);
 }

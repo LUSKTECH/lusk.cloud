@@ -130,8 +130,9 @@
 }
 
 .about-description strong {
-  color: var(--color-primary);
-  font-weight: var(--font-weight-semibold);
+  color: #0369a1; /* fallback for when CSS vars unavailable — 5.38:1 on white */
+  color: var(--color-primary-dark, #0369a1);
+  font-weight: var(--font-weight-semibold, 600);
 }
 
 /* ========================================
@@ -183,8 +184,9 @@
 .highlight-number {
   font-family: var(--font-family-heading);
   font-size: var(--font-size-3xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
+  font-weight: var(--font-weight-bold, 700);
+  color: #0369a1; /* fallback for when CSS vars unavailable — 5.38:1 on white */
+  color: var(--color-primary-dark, #0369a1);
   line-height: 1;
   margin-bottom: var(--spacing-xs);
 }
