@@ -130,7 +130,7 @@
 }
 
 .about-description strong {
-  color: var(--color-primary);
+  color: var(--color-primary-dark);
   font-weight: var(--font-weight-semibold);
 }
 
@@ -184,7 +184,7 @@
   font-family: var(--font-family-heading);
   font-size: var(--font-size-3xl);
   font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
+  color: var(--color-primary-dark);
   line-height: 1;
   margin-bottom: var(--spacing-xs);
 }

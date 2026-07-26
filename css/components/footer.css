@@ -197,7 +197,7 @@
 }
 
 .footer-copyright a {
-  color: var(--color-primary);
+  color: var(--color-primary-dark);
   text-decoration: none;
   font-weight: var(--font-weight-medium);
 }
