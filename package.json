@@ -23,6 +23,11 @@
   ],
   "author": "Lusk Technologies, Inc.",
   "license": "MIT",
+  "overrides": {
+    "brace-expansion": "^5.0.9",
+    "js-yaml": "^5.3.0",
+    "nanoid": "^3.3.18"
+  },
   "devDependencies": {
     "fast-check": "^4.8.0",
     "html-validate": "^11.6.2",
