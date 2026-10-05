@@ -30,12 +30,12 @@
   },
   "devDependencies": {
     "fast-check": "^4.10.2",
-    "html-validate": "^11.16.0",
+    "html-validate": "^11.16.1",
     "jest": "^30.5.2",
     "jest-environment-jsdom": "^30.5.2",
-    "oxlint": "^1.85.0",
+    "oxlint": "^1.86.0",
     "prettier": "^3.9.9",
-    "stylelint": "^17.15.0",
+    "stylelint": "^17.16.0",
     "stylelint-config-standard": "^40.0.0"
   }
 }
